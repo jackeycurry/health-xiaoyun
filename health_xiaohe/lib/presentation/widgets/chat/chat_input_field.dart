@@ -33,7 +33,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 20,
+        horizontal: 12,
         vertical: 12,
       ),
       decoration: const BoxDecoration(
@@ -48,13 +48,14 @@ class _ChatInputFieldState extends State<ChatInputField> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 // Health record quick add button
                 GestureDetector(
                   onTap: widget.onHealthRecordPressed,
                   child: Container(
-                    width: 44,
-                    height: 44,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
@@ -63,18 +64,18 @@ class _ChatInputFieldState extends State<ChatInputField> {
                     child: const Icon(
                       Icons.favorite_outline,
                       color: AppColors.primary,
-                      size: 22,
+                      size: 20,
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
                 // Text input
                 Expanded(
                   child: Container(
-                    height: 48,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: AppColors.inputBg,
-                      borderRadius: BorderRadius.circular(24),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     child: TextField(
                       controller: _controller,
@@ -93,7 +94,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
                           child: Container(
                             width: 36,
                             height: 36,
-                            margin: const EdgeInsets.only(right: 6),
+                            margin: const EdgeInsets.only(right: 4),
                             decoration: BoxDecoration(
                               color: _isRecording ? AppColors.danger : AppColors.primary,
                               shape: BoxShape.circle,
@@ -101,7 +102,7 @@ class _ChatInputFieldState extends State<ChatInputField> {
                             child: Icon(
                               _isRecording ? Icons.stop : Icons.mic,
                               color: Colors.white,
-                              size: 18,
+                              size: 16,
                             ),
                           ),
                         ),
@@ -111,53 +112,39 @@ class _ChatInputFieldState extends State<ChatInputField> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 // Send button
                 GestureDetector(
                   onTap: () => _sendMessage(_controller.text),
                   child: Container(
-                    width: 48,
-                    height: 48,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: AppColors.primary,
                       shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.primary.withOpacity(0.3),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
                     ),
                     child: const Icon(
                       Icons.arrow_upward,
                       color: Colors.white,
-                      size: 20,
+                      size: 18,
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: 6),
                 // Call button
                 GestureDetector(
                   onTap: widget.onCallPressed,
                   child: Container(
-                    width: 48,
-                    height: 48,
+                    width: 40,
+                    height: 40,
                     decoration: BoxDecoration(
                       color: AppColors.success,
                       shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColors.success.withOpacity(0.3),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
                     ),
                     child: const Icon(
                       Icons.call,
                       color: Colors.white,
-                      size: 22,
+                      size: 20,
                     ),
                   ),
                 ),

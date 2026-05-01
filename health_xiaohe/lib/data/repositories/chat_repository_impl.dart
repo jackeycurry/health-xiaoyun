@@ -29,21 +29,23 @@ class ChatRepositoryImpl implements ChatRepository {
     final tokenValue = token.toString().replaceFirst('Bearer ', '');
     final baseUrl = _apiClient.dio.options.baseUrl;
 
-    // 构建 SSE URL
+    // 构建 SSE URL，使用 query parameter 传递 token
     final sseUrl = '$baseUrl/api/consult/chat/stream';
 
     try {
-      // 在 web 上使用 Dio 的 stream 模式
+      // 在 web 上使用 Dio 的 stream 模式，通过 query 参数传递 token
       final response = await Dio().post(
         sseUrl,
         data: {'messages': apiMessages},
         options: Options(
           responseType: ResponseType.stream,
           headers: {
-            'Authorization': 'Bearer $tokenValue',
             'Content-Type': 'application/json',
           },
         ),
+        queryParameters: {
+          'token': tokenValue,
+        },
       );
 
       final stream = response.data as Stream<List<int>>;
