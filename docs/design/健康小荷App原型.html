@@ -1,0 +1,2420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>健康小荷 - AI健康管家</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4ECDC4;
+            --primary-dark: #3DBDB5;
+            --primary-light: #E8F8F7;
+            --secondary: #2D9CDB;
+            --accent: #FFB800;
+            --danger: #FF4D4F;
+            --success: #52C41A;
+            --bg-start: #E8F8F7;
+            --bg-end: #FFFFFF;
+            --text-primary: #1A1A1A;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --border: #E0E0E0;
+            --ai-bubble: #F0FAFB;
+            --ai-border: #E0F4F3;
+            --user-bubble: #4ECDC4;
+            --input-bg: #F5F5F5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+        }
+
+        /* SVG Icons */
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: currentColor;
+        }
+        .icon-lg { width: 40px; height: 40px; }
+        .icon-xl { width: 48px; height: 48px; }
+        .icon-sm { width: 18px; height: 18px; }
+
+        /* 手机模拟器 */
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            margin: 20px auto;
+            background: #fff;
+            border-radius: 40px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.15), 0 0 0 12px #1a1a1a;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .phone-screen::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 页面容器 */
+        .page {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .page.active {
+            display: flex;
+        }
+
+        /* 启动页 */
+        .splash-page {
+            background: linear-gradient(135deg, #E8F8F7 0%, #D4F4F1 50%, #C5EDE9 100%);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .splash-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 20px 60px rgba(78, 205, 196, 0.4);
+            animation: float 3s ease-in-out infinite, scaleIn 0.6s ease-out;
+        }
+
+        .splash-logo svg {
+            width: 60px;
+            height: 60px;
+        }
+
+        .splash-title {
+            margin-top: 24px;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            animation: slideUp 0.8s ease-out 0.3s both;
+        }
+
+        .splash-subtitle {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            animation: slideUp 0.8s ease-out 0.5s both;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* 登录页 */
+        .login-page {
+            background: linear-gradient(180deg, var(--bg-start) 0%, var(--bg-end) 30%);
+        }
+
+        .login-header {
+            padding: 60px 30px 40px;
+            text-align: center;
+        }
+
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(78, 205, 196, 0.3);
+        }
+
+        .login-logo svg {
+            width: 40px;
+            height: 40px;
+            fill: #fff;
+        }
+
+        .login-title {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .login-form {
+            padding: 0 30px;
+            flex: 1;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .input-field {
+            flex: 1;
+            height: 52px;
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 0 18px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.15);
+        }
+
+        .verify-btn {
+            width: 120px;
+            height: 52px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .verify-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .verify-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .login-btn {
+            width: 100%;
+            height: 52px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 24px;
+            box-shadow: 0 8px 30px rgba(78, 205, 196, 0.35);
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(78, 205, 196, 0.45);
+        }
+
+        .login-tip {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* 顶部导航栏 */
+        .nav-bar {
+            height: 72px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+
+        .nav-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .nav-menu-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-light);
+            border: none;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .nav-menu-btn:hover {
+            background: #d4f0ee;
+        }
+
+        .nav-menu-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--primary);
+        }
+
+        /* 消息列表 */
+        .message-list {
+            flex: 1;
+            padding: 16px 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 欢迎消息 */
+        .welcome-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #3DBDB5 100%);
+            border-radius: 20px;
+            padding: 20px;
+            color: #fff;
+            margin-bottom: 8px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .welcome-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .welcome-avatar {
+            width: 48px;
+            height: 48px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .welcome-avatar svg {
+            width: 28px;
+            height: 28px;
+            fill: #fff;
+        }
+
+        .welcome-info h3 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .welcome-info p {
+            font-size: 13px;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .welcome-tips {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* 消息气泡 */
+        .message {
+            display: flex;
+            gap: 10px;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .message.ai .message-avatar {
+            background: var(--primary-light);
+        }
+
+        .message.user .message-avatar {
+            background: var(--primary);
+        }
+
+        .message-avatar svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .message.ai .message-avatar svg {
+            fill: var(--primary);
+        }
+
+        .message.user .message-avatar svg {
+            fill: #fff;
+        }
+
+        .message-content {
+            max-width: 75%;
+        }
+
+        .message-bubble {
+            padding: 14px 18px;
+            border-radius: 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        .message.ai .message-bubble {
+            background: var(--ai-bubble);
+            border: 1px solid var(--ai-border);
+            border-top-left-radius: 6px;
+            color: var(--text-primary);
+        }
+
+        .message.user .message-bubble {
+            background: var(--user-bubble);
+            border-top-right-radius: 6px;
+            color: #fff;
+        }
+
+        /* Markdown 样式 */
+        .message-bubble h1, .message-bubble h2, .message-bubble h3 {
+            margin: 0.5em 0 0.3em;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .message-bubble h1 { font-size: 1.1em; }
+        .message-bubble h2 { font-size: 1em; }
+        .message-bubble h3 { font-size: 0.95em; }
+        .message-bubble p {
+            margin: 0.4em 0;
+        }
+        .message-bubble ul, .message-bubble ol {
+            margin: 0.5em 0;
+            padding-left: 1.5em;
+        }
+        .message-bubble li {
+            margin: 0.25em 0;
+        }
+        .message-bubble strong {
+            font-weight: 600;
+            color: #2D9CDB;
+        }
+        .message-bubble em {
+            font-style: italic;
+        }
+        .message-bubble code {
+            background: rgba(0,0,0,0.06);
+            padding: 0.15em 0.4em;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        .message-bubble hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 0.8em 0;
+        }
+        .message-bubble blockquote {
+            margin: 0.5em 0;
+            padding: 0.3em 0.8em;
+            border-left: 3px solid var(--primary);
+            background: rgba(78, 205, 196, 0.1);
+            border-radius: 0 8px 8px 0;
+        }
+        .message-bubble .warning {
+            background: #FFF7E6;
+            border: 1px solid #FFE58F;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 0.5em 0;
+            font-size: 0.9em;
+        }
+        .message-bubble .divider {
+            text-align: center;
+            color: var(--text-muted);
+            margin: 0.5em 0;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            padding: 0 6px;
+        }
+
+        .message.user .message-time {
+            text-align: right;
+        }
+
+        /* 底部输入区 */
+        .input-area {
+            padding: 12px 20px 20px;
+            background: #fff;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .input-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .record-btn {
+            width: 44px;
+            height: 44px;
+            background: #fff;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .record-btn:hover {
+            background: var(--primary-light);
+        }
+
+        .record-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--primary);
+        }
+
+        .text-input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .text-input {
+            width: 100%;
+            height: 48px;
+            background: var(--input-bg);
+            border: none;
+            border-radius: 24px;
+            padding: 0 50px 0 20px;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .text-input:focus {
+            outline: none;
+            background: #fff;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .text-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .voice-btn {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .voice-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .voice-btn.recording {
+            background: var(--danger);
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.1); }
+        }
+
+        .voice-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: #fff;
+        }
+
+        .send-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .send-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+        }
+
+        .call-btn {
+            width: 48px;
+            height: 48px;
+            background: var(--success);
+            border: none;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .call-btn:hover {
+            background: #3ba810;
+            transform: scale(1.05);
+        }
+
+        .call-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+
+        /* 语音通话页面 */
+        .call-page {
+            background: linear-gradient(135deg, #1a2a3a 0%, #0d1520 100%);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .call-status {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 40px;
+        }
+
+        .call-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: callPulse 2s ease-in-out infinite;
+        }
+
+        .call-avatar svg {
+            width: 60px;
+            height: 60px;
+            fill: #fff;
+        }
+
+        @keyframes callPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(78, 205, 196, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 0 0 20px rgba(78, 205, 196, 0); }
+        }
+
+        .call-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .call-info {
+            font-size: 16px;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .call-timer {
+            font-size: 48px;
+            font-weight: 300;
+            color: #fff;
+            margin: 20px 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .call-controls {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .call-control-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .call-control-btn svg {
+            width: 28px;
+            height: 28px;
+        }
+
+        .call-control-btn.mute {
+            background: rgba(255,255,255,0.15);
+        }
+        .call-control-btn.mute svg {
+            fill: #fff;
+        }
+        .call-control-btn.mute:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .call-control-btn.mute.active {
+            background: rgba(255,77,79,0.8);
+        }
+
+        .call-control-btn.speaker {
+            background: rgba(255,255,255,0.15);
+        }
+        .call-control-btn.speaker svg {
+            fill: #fff;
+        }
+        .call-control-btn.speaker:hover {
+            background: rgba(255,255,255,0.25);
+        }
+        .call-control-btn.speaker.active {
+            background: rgba(78,205,196,0.8);
+        }
+
+        .call-control-btn.end-call {
+            width: 72px;
+            height: 72px;
+            background: var(--danger);
+        }
+        .call-control-btn.end-call svg {
+            fill: #fff;
+        }
+        .call-control-btn.end-call:hover {
+            background: #e63c3f;
+            transform: scale(1.05);
+        }
+
+        /* 快捷功能提示 */
+        .quick-tips {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+
+        .quick-tip {
+            padding: 8px 14px;
+            background: var(--primary-light);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--primary-dark);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .quick-tip:hover {
+            background: #d4f0ee;
+        }
+
+        /* 侧边菜单 */
+        .side-menu {
+            position: absolute;
+            top: 0;
+            right: -280px;
+            width: 280px;
+            height: 100%;
+            background: #fff;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 100;
+        }
+
+        .side-menu.open {
+            right: 0;
+        }
+
+        .side-menu-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .side-menu.open + .side-menu-overlay {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-menu-header {
+            padding: 50px 24px 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #fff;
+        }
+
+        .side-menu-avatar {
+            width: 64px;
+            height: 64px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .side-menu-avatar svg {
+            width: 32px;
+            height: 32px;
+            fill: #fff;
+        }
+
+        .side-menu-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .side-menu-phone {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .side-menu-items {
+            padding: 16px 0;
+        }
+
+        .side-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 24px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .side-menu-item:hover {
+            background: var(--primary-light);
+        }
+
+        .side-menu-item svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--primary);
+        }
+
+        .side-menu-item span:last-child {
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        /* 健康记录页 */
+        .health-records-page {
+            background: var(--bg-end);
+        }
+
+        .page-header {
+            height: 72px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .back-btn {
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+        }
+
+        .back-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-primary);
+        }
+
+        .page-title {
+            flex: 1;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            margin-right: 40px;
+        }
+
+        .records-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .record-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            border: 1px solid #f0f0f0;
+        }
+
+        .record-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .record-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .record-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .record-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .record-icon.blood-pressure {
+            background: #FFF1F0;
+        }
+        .record-icon.blood-pressure svg { fill: #FF4D4F; }
+
+        .record-icon.heart-rate {
+            background: #FFF7E6;
+        }
+        .record-icon.heart-rate svg { fill: #FF4D4F; }
+
+        .record-icon.blood-sugar {
+            background: #F6FFED;
+        }
+        .record-icon.blood-sugar svg { fill: #52C41A; }
+
+        .record-icon.weight {
+            background: #F0F5FF;
+        }
+        .record-icon.weight svg { fill: #2D9CDB; }
+
+        .record-type-name {
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .record-date {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .record-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .record-unit {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-left: 4px;
+        }
+
+        .record-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .record-status.normal {
+            background: #F6FFED;
+            color: var(--success);
+        }
+
+        .record-status.warning {
+            background: #FFF7E6;
+            color: var(--accent);
+        }
+
+        .record-status.danger {
+            background: #FFF1F0;
+            color: var(--danger);
+        }
+
+        .add-record-btn {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 8px 30px rgba(78, 205, 196, 0.4);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-record-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .add-record-btn svg {
+            width: 28px;
+            height: 28px;
+            fill: #fff;
+        }
+
+        /* 历史记录页 */
+        .history-page {
+            background: var(--bg-end);
+        }
+
+        .history-list {
+            padding: 16px 20px;
+        }
+
+        .history-date {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 16px 0 8px;
+        }
+
+        .history-item {
+            background: #fff;
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            gap: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .history-item:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .history-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-light);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .history-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary);
+        }
+
+        .history-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .history-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-preview {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .history-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 6px;
+        }
+
+        /* 个人中心页 */
+        .profile-page {
+            background: var(--bg-end);
+        }
+
+        .profile-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 30px 20px 50px;
+            color: #fff;
+        }
+
+        .profile-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-avatar svg {
+            width: 36px;
+            height: 36px;
+            fill: #fff;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .profile-phone {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .profile-content {
+            margin-top: -30px;
+            padding: 0 20px;
+        }
+
+        .profile-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .profile-menu-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+
+        .profile-menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .profile-menu-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .profile-menu-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-menu-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .profile-menu-icon.setting { background: #F0F5FF; }
+        .profile-menu-icon.setting svg { fill: #2D9CDB; }
+
+        .profile-menu-icon.security { background: #FFF7E6; }
+        .profile-menu-icon.security svg { fill: #FFB800; }
+
+        .profile-menu-icon.about { background: #F6FFED; }
+        .profile-menu-icon.about svg { fill: #52C41A; }
+
+        .profile-menu-icon.help { background: #FFF1F0; }
+        .profile-menu-icon.help svg { fill: #FF4D4F; }
+
+        .profile-menu-text {
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+
+        .profile-menu-arrow {
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        .logout-btn {
+            width: 100%;
+            height: 52px;
+            background: #fff;
+            border: 2px solid var(--danger);
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--danger);
+            cursor: pointer;
+            margin-top: 8px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        /* 页面切换动画 */
+        .page {
+            animation: pageIn 0.3s ease-out;
+        }
+
+        @keyframes pageIn {
+            0% { opacity: 0; transform: translateX(20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        /* 响应式 */
+        @media (max-width: 420px) {
+            .phone-frame {
+                margin: 0;
+                border-radius: 0;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- SVG 图标定义 -->
+    <svg style="display:none">
+        <!-- 小荷 Logo (荷叶) -->
+        <symbol id="icon-lotus" viewBox="0 0 64 64">
+            <path d="M32 8c-8 0-16 8-16 20 0 8 4 14 8 18 2-6 6-12 12-16 4-2 8-4 12-4-4 4-8 10-8 18 4-2 8-6 12-10 4-4 8-10 8-16 0-12-8-20-16-20-4 8-8 16-12 16V8z"/>
+            <circle cx="32" cy="32" r="8" fill-opacity="0.3"/>
+        </symbol>
+
+        <!-- 发送箭头 -->
+        <symbol id="icon-send" viewBox="0 0 24 24">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+        </symbol>
+
+        <!-- 麦克风 -->
+        <symbol id="icon-mic" viewBox="0 0 24 24">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V21c0 .55.45 1 1 1s1-.45 1-1v-3.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/>
+        </symbol>
+
+        <!-- 菜单 -->
+        <symbol id="icon-menu" viewBox="0 0 24 24">
+            <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+        </symbol>
+
+        <!-- 返回 -->
+        <symbol id="icon-back" viewBox="0 0 24 24">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+        </symbol>
+
+        <!-- 用户头像 -->
+        <symbol id="icon-user" viewBox="0 0 24 24">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+        </symbol>
+
+        <!-- 聊天 -->
+        <symbol id="icon-chat" viewBox="0 0 24 24">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+        </symbol>
+
+        <!-- 心率/健康 -->
+        <symbol id="icon-heart" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </symbol>
+
+        <!-- 血压 -->
+        <symbol id="icon-blood" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </symbol>
+
+        <!-- 血糖 -->
+        <symbol id="icon-glucose" viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/>
+        </symbol>
+
+        <!-- 体重 -->
+        <symbol id="icon-scale" viewBox="0 0 24 24">
+            <path d="M12 3L4 9v12h16V9l-8-6zm0 2.5L18 10v9H6v-9l6-4.5zM12 12c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+        </symbol>
+
+        <!-- 记录 -->
+        <symbol id="icon-record" viewBox="0 0 24 24">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/>
+            <circle cx="12" cy="11" r="3"/>
+        </symbol>
+
+        <!-- 历史 -->
+        <symbol id="icon-history" viewBox="0 0 24 24">
+            <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+        </symbol>
+
+        <!-- 设置 -->
+        <symbol id="icon-setting" viewBox="0 0 24 24">
+            <path d="M19.14 12.94c.04-.31.06-.63.06-.94 0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+        </symbol>
+
+        <!-- 安全 -->
+        <symbol id="icon-security" viewBox="0 0 24 24">
+            <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
+        </symbol>
+
+        <!-- 关于 -->
+        <symbol id="icon-about" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+        </symbol>
+
+        <!-- 帮助 -->
+        <symbol id="icon-help" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+        </symbol>
+
+        <!-- 加号 -->
+        <symbol id="icon-plus" viewBox="0 0 24 24">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+        </symbol>
+
+        <!-- 语音通话 -->
+        <symbol id="icon-call" viewBox="0 0 24 24">
+            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+        </symbol>
+
+        <!-- 挂断 - 标准Material电话挂断 -->
+        <symbol id="icon-call-end" viewBox="0 0 24 24">
+            <path d="M23 7l-7 5 7 5V7z"/>
+            <rect x="1" y="5" width="14" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>
+            <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" stroke-width="2"/>
+        </symbol>
+
+        <!-- 麦克风静音 -->
+        <symbol id="icon-mic-off" viewBox="0 0 24 24">
+            <path d="M19 11h-1.7c0 .74-.16 1.44-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28zm-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18l5.98 5.99zM4.27 3L3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73 4.27 3z"/>
+        </symbol>
+
+        <!-- 扬声器 -->
+        <symbol id="icon-speaker" viewBox="0 0 24 24">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </symbol>
+
+        <!-- 小荷 (叶子形状) -->
+        <symbol id="icon-leaf" viewBox="0 0 48 48">
+            <path fill="#4ECDC4" d="M24 4C14 4 6 14 6 26c0 8 4 14 10 18l8-12 8 12c6-4 10-10 10-18 0-12-8-22-18-22z"/>
+            <path fill="#3DBDB5" d="M24 12c-6 0-12 6-12 14 0 4 2 8 6 10l6-9 6 9c4-2 6-6 6-10 0-8-6-14-12-14z"/>
+            <ellipse fill="#fff" fill-opacity="0.3" cx="24" cy="24" rx="4" ry="6"/>
+        </symbol>
+    </svg>
+
+    <div class="phone-frame">
+        <div class="phone-screen">
+            <!-- 启动页 -->
+            <div class="page splash-page active" id="splashPage">
+                <div class="splash-logo">
+                    <svg class="icon-lg"><use href="#icon-lotus"/></svg>
+                </div>
+                <h1 class="splash-title">健康小荷</h1>
+                <p class="splash-subtitle">您的 AI 健康管家</p>
+            </div>
+
+            <!-- 登录页 -->
+            <div class="page login-page" id="loginPage">
+                <div class="login-header">
+                    <div class="login-logo">
+                        <svg class="icon"><use href="#icon-lotus"/></svg>
+                    </div>
+                    <h1 class="login-title">健康小荷</h1>
+                </div>
+                <div class="login-form">
+                    <div class="input-group">
+                        <label class="input-label">手机号</label>
+                        <input type="text" class="input-field" placeholder="请输入用户名" id="usernameInput">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">密码</label>
+                        <input type="password" class="input-field" placeholder="请输入密码" id="passwordInput">
+                    </div>
+                    <button class="login-btn" id="loginBtn">登录 / 注册</button>
+                    <p class="login-tip">登录即表示同意《用户协议》和《隐私政策》</p>
+                </div>
+            </div>
+
+            <!-- 聊天首页 -->
+            <div class="page chat-page" id="chatPage">
+                <div class="nav-bar">
+                    <div class="nav-brand">
+                        <div class="nav-logo">
+                            <svg class="icon"><use href="#icon-lotus"/></svg>
+                        </div>
+                        <span class="nav-title">健康小荷</span>
+                    </div>
+                    <button class="nav-menu-btn" onclick="toggleMenu()">
+                        <svg class="icon"><use href="#icon-menu"/></svg>
+                    </button>
+                </div>
+
+                <div class="message-list" id="messageList">
+                    <div class="welcome-card">
+                        <div class="welcome-card-header">
+                            <div class="welcome-avatar">
+                                <svg class="icon"><use href="#icon-lotus"/></svg>
+                            </div>
+                            <div class="welcome-info">
+                                <h3>你好！我是健康小荷</h3>
+                                <p>您的专属 AI 健康管家</p>
+                            </div>
+                        </div>
+                        <div class="welcome-tips">
+                            我可以帮你：解答健康问题、分析症状、提供养生建议。如有严重不适，请及时就医哦！
+                        </div>
+                    </div>
+
+                    <div class="message ai">
+                        <div class="message-avatar">
+                            <svg class="icon"><use href="#icon-lotus"/></svg>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">你好！我是健康小荷，你的专属 AI 健康管家~ 有什么健康问题可以问我哦！</div>
+                            <div class="message-time">10:30</div>
+                        </div>
+                    </div>
+
+                    <div class="message user">
+                        <div class="message-avatar">
+                            <svg class="icon"><use href="#icon-user"/></svg>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">最近总是头痛，是什么原因呢？</div>
+                            <div class="message-time">10:31</div>
+                        </div>
+                    </div>
+
+                    <div class="message ai">
+                        <div class="message-avatar">
+                            <svg class="icon"><use href="#icon-lotus"/></svg>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-bubble">引起头痛的原因有很多，常见的有：<br><br>• 睡眠不足或熬夜<br>• 精神压力过大<br>• 长时间看电子屏幕<br>• 血压异常<br><br>你的头痛是持续性的还是阵发性的？有没有其他症状伴随？这样我可以给你更准确的建议~</div>
+                            <div class="message-time">10:32</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-area">
+                    <div class="input-row">
+                        <button class="record-btn" onclick="showToast('选择健康记录类型')">
+                            <svg class="icon"><use href="#icon-heart"/></svg>
+                        </button>
+                        <div class="text-input-wrapper">
+                            <input type="text" class="text-input" placeholder="请输入您的健康问题..." id="chatInput">
+                            <button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">
+                                <svg class="icon"><use href="#icon-mic"/></svg>
+                            </button>
+                        </div>
+                        <button class="send-btn" onclick="sendMessage()">
+                            <svg class="icon"><use href="#icon-send"/></svg>
+                        </button>
+                        <button class="call-btn" onclick="startCall()">
+                            <svg class="icon"><use href="#icon-call"/></svg>
+                        </button>
+                    </div>
+                    <div class="quick-tips">
+                        <div class="quick-tip" onclick="quickQuestion('最近总是失眠怎么办？')">失眠怎么办</div>
+                        <div class="quick-tip" onclick="quickQuestion('血压正常值是多少？')">血压正常值</div>
+                        <div class="quick-tip" onclick="quickQuestion('春季养生小知识')">春季养生</div>
+                    </div>
+                </div>
+
+                <!-- 侧边菜单 -->
+                <div class="side-menu" id="sideMenu">
+                    <div class="side-menu-header">
+                        <div class="side-menu-avatar">
+                            <svg class="icon"><use href="#icon-user"/></svg>
+                        </div>
+                        <div class="side-menu-name">小明</div>
+                        <div class="side-menu-phone">138****8888</div>
+                    </div>
+                    <div class="side-menu-items">
+                        <div class="side-menu-item" onclick="switchPage('chatPage')">
+                            <svg class="icon"><use href="#icon-chat"/></svg>
+                            <span>AI 健康咨询</span>
+                        </div>
+                        <div class="side-menu-item" onclick="switchPage('recordsPage')">
+                            <svg class="icon"><use href="#icon-heart"/></svg>
+                            <span>健康记录</span>
+                        </div>
+                        <div class="side-menu-item" onclick="switchPage('historyPage')">
+                            <svg class="icon"><use href="#icon-history"/></svg>
+                            <span>咨询历史</span>
+                        </div>
+                        <div class="side-menu-item" onclick="switchPage('profilePage')">
+                            <svg class="icon"><use href="#icon-user"/></svg>
+                            <span>个人中心</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="side-menu-overlay" onclick="toggleMenu()"></div>
+            </div>
+
+            <!-- 语音通话页 -->
+            <div class="page call-page" id="callPage">
+                <div class="call-status" id="callStatus">
+                    <div class="call-avatar">
+                        <svg class="icon-lg"><use href="#icon-lotus"/></svg>
+                    </div>
+                    <div class="call-name">健康小荷</div>
+                    <div class="call-info" id="callInfo">等待接听...</div>
+                </div>
+                <div class="call-timer" id="callTimer" style="display:none;">00:00</div>
+                <div class="call-controls">
+                    <button class="call-control-btn mute" id="muteBtn" onclick="toggleMute()">
+                        <svg class="icon"><use href="#icon-mic-off"/></svg>
+                    </button>
+                    <button class="call-control-btn end-call" onclick="endCall()">
+                        <svg class="icon"><use href="#icon-call-end"/></svg>
+                    </button>
+                    <button class="call-control-btn speaker" id="speakerBtn" onclick="toggleSpeaker()">
+                        <svg class="icon"><use href="#icon-speaker"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 健康记录页 -->
+            <div class="page health-records-page" id="recordsPage">
+                <div class="page-header">
+                    <button class="back-btn" onclick="switchPage('chatPage')">
+                        <svg class="icon"><use href="#icon-back"/></svg>
+                    </button>
+                    <h2 class="page-title">健康记录</h2>
+                </div>
+                <div class="records-content">
+                    <div class="record-card">
+                        <div class="record-card-header">
+                            <div class="record-type">
+                                <div class="record-icon blood-pressure">
+                                    <svg class="icon"><use href="#icon-blood"/></svg>
+                                </div>
+                                <div>
+                                    <div class="record-type-name">血压</div>
+                                    <div class="record-date">2026-04-30 09:30</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="record-value">120 <span class="record-unit">mmHg</span> / 80 <span class="record-unit">mmHg</span></div>
+                        <span class="record-status normal">正常</span>
+                    </div>
+
+                    <div class="record-card">
+                        <div class="record-card-header">
+                            <div class="record-type">
+                                <div class="record-icon heart-rate">
+                                    <svg class="icon"><use href="#icon-heart"/></svg>
+                                </div>
+                                <div>
+                                    <div class="record-type-name">心率</div>
+                                    <div class="record-date">2026-04-30 09:30</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="record-value">72 <span class="record-unit">次/分</span></div>
+                        <span class="record-status normal">正常</span>
+                    </div>
+
+                    <div class="record-card">
+                        <div class="record-card-header">
+                            <div class="record-type">
+                                <div class="record-icon blood-sugar">
+                                    <svg class="icon"><use href="#icon-glucose"/></svg>
+                                </div>
+                                <div>
+                                    <div class="record-type-name">血糖</div>
+                                    <div class="record-date">2026-04-29 08:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="record-value">5.6 <span class="record-unit">mmol/L</span></div>
+                        <span class="record-status warning">偏高</span>
+                    </div>
+
+                    <div class="record-card">
+                        <div class="record-card-header">
+                            <div class="record-type">
+                                <div class="record-icon weight">
+                                    <svg class="icon"><use href="#icon-scale"/></svg>
+                                </div>
+                                <div>
+                                    <div class="record-type-name">体重</div>
+                                    <div class="record-date">2026-04-28 08:00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="record-value">65 <span class="record-unit">kg</span></div>
+                        <span class="record-status normal">正常</span>
+                    </div>
+                </div>
+                <button class="add-record-btn">
+                    <svg class="icon"><use href="#icon-plus"/></svg>
+                </button>
+            </div>
+
+            <!-- 历史记录页 -->
+            <div class="page history-page" id="historyPage">
+                <div class="page-header">
+                    <button class="back-btn" onclick="switchPage('chatPage')">
+                        <svg class="icon"><use href="#icon-back"/></svg>
+                    </button>
+                    <h2 class="page-title">咨询历史</h2>
+                </div>
+                <div class="history-list">
+                    <div class="history-date">今天</div>
+                    <div class="history-item" onclick="switchPage('chatPage')">
+                        <div class="history-icon">
+                            <svg class="icon"><use href="#icon-chat"/></svg>
+                        </div>
+                        <div class="history-info">
+                            <div class="history-title">关于头痛的咨询</div>
+                            <div class="history-preview">最近总是头痛，是什么原因呢？...</div>
+                            <div class="history-time">10:31</div>
+                        </div>
+                    </div>
+                    <div class="history-item" onclick="switchPage('chatPage')">
+                        <div class="history-icon">
+                            <svg class="icon"><use href="#icon-chat"/></svg>
+                        </div>
+                        <div class="history-info">
+                            <div class="history-title">血压正常值咨询</div>
+                            <div class="history-preview">血压正常值是多少？怎么判断高血压？...</div>
+                            <div class="history-time">09:15</div>
+                        </div>
+                    </div>
+
+                    <div class="history-date">昨天</div>
+                    <div class="history-item" onclick="switchPage('chatPage')">
+                        <div class="history-icon">
+                            <svg class="icon"><use href="#icon-chat"/></svg>
+                        </div>
+                        <div class="history-info">
+                            <div class="history-title">春季养生建议</div>
+                            <div class="history-preview">春季养生有什么小知识吗？...</div>
+                            <div class="history-time">14:22</div>
+                        </div>
+                    </div>
+                    <div class="history-item" onclick="switchPage('chatPage')">
+                        <div class="history-icon">
+                            <svg class="icon"><use href="#icon-chat"/></svg>
+                        </div>
+                        <div class="history-info">
+                            <div class="history-title">失眠怎么办</div>
+                            <div class="history-preview">最近总是失眠怎么办？有什么改善方法吗？...</div>
+                            <div class="history-time">11:08</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 个人中心页 -->
+            <div class="page profile-page" id="profilePage">
+                <div class="profile-header">
+                    <div class="profile-user">
+                        <div class="profile-avatar">
+                            <svg class="icon"><use href="#icon-user"/></svg>
+                        </div>
+                        <div>
+                            <div class="profile-name">小明</div>
+                            <div class="profile-phone">138****8888</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-card">
+                        <div class="profile-menu-item">
+                            <div class="profile-menu-left">
+                                <div class="profile-menu-icon setting">
+                                    <svg class="icon"><use href="#icon-setting"/></svg>
+                                </div>
+                                <span class="profile-menu-text">设置</span>
+                            </div>
+                            <span class="profile-menu-arrow">›</span>
+                        </div>
+                        <div class="profile-menu-item">
+                            <div class="profile-menu-left">
+                                <div class="profile-menu-icon security">
+                                    <svg class="icon"><use href="#icon-security"/></svg>
+                                </div>
+                                <span class="profile-menu-text">账号安全</span>
+                            </div>
+                            <span class="profile-menu-arrow">›</span>
+                        </div>
+                    </div>
+                    <div class="profile-card">
+                        <div class="profile-menu-item">
+                            <div class="profile-menu-left">
+                                <div class="profile-menu-icon about">
+                                    <svg class="icon"><use href="#icon-about"/></svg>
+                                </div>
+                                <span class="profile-menu-text">关于我们</span>
+                            </div>
+                            <span class="profile-menu-arrow">›</span>
+                        </div>
+                        <div class="profile-menu-item">
+                            <div class="profile-menu-left">
+                                <div class="profile-menu-icon help">
+                                    <svg class="icon"><use href="#icon-help"/></svg>
+                                </div>
+                                <span class="profile-menu-text">帮助与反馈</span>
+                            </div>
+                            <span class="profile-menu-arrow">›</span>
+                        </div>
+                    </div>
+                    <button class="logout-btn" onclick="logout()">退出登录</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 页面切换
+        function switchPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            closeMenu();
+        }
+
+        // 侧边菜单
+        function toggleMenu() {
+            document.getElementById('sideMenu').classList.toggle('open');
+        }
+
+        function closeMenu() {
+            document.getElementById('sideMenu').classList.remove('open');
+        }
+
+        // 启动页自动跳转
+        setTimeout(() => {
+            switchPage('loginPage');
+        }, 2000);
+
+        // API 配置
+        const API_BASE = 'http://localhost:8002';
+        let authToken = localStorage.getItem('auth_token') || '';
+        let currentUser = JSON.parse(localStorage.getItem('user') || '{}');
+
+        // 更新侧边栏用户信息
+        if (currentUser.nickname) {
+            document.querySelector('.side-menu-name').textContent = currentUser.nickname;
+        }
+
+        // 如果已登录，直接跳转聊天页
+        if (authToken) {
+            setTimeout(() => switchPage('chatPage'), 1000);
+        }
+
+        // 加载健康记录
+        async function loadHealthRecords() {
+            if (!authToken) return [];
+
+            try {
+                const res = await fetch(`${API_BASE}/api/health/records`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                if (res.ok) {
+                    return await res.json();
+                }
+            } catch (err) {
+                console.error('加载健康记录失败', err);
+            }
+            return [];
+        }
+
+        // 登录/注册
+        document.getElementById('loginBtn').addEventListener('click', async function() {
+            const phone = document.getElementById('usernameInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+
+            if (!phone || !password) {
+                showToast('请输入手机号和密码');
+                return;
+            }
+
+            this.textContent = '登录中...';
+            this.disabled = true;
+
+            try {
+                // 先尝试登录
+                const loginRes = await fetch(`${API_BASE}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, password })
+                });
+
+                if (loginRes.ok) {
+                    const tokenData = await loginRes.json();
+                    authToken = tokenData.access_token;
+                    localStorage.setItem('auth_token', authToken);
+
+                    // 获取用户信息
+                    const meRes = await fetch(`${API_BASE}/api/auth/me`, {
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    });
+                    if (meRes.ok) {
+                        currentUser = await meRes.json();
+                        localStorage.setItem('user', JSON.stringify(currentUser));
+                        document.querySelector('.side-menu-name').textContent = currentUser.nickname;
+                    }
+
+                    switchPage('chatPage');
+                } else if (loginRes.status === 401) {
+                    // 登录失败，尝试注册
+                    const registerRes = await fetch(`${API_BASE}/api/auth/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ phone, password })
+                    });
+
+                    if (registerRes.ok) {
+                        // 注册成功后再登录
+                        const tokenData = await registerRes.json();
+                        authToken = tokenData.access_token;
+                        localStorage.setItem('auth_token', authToken);
+
+                        const meRes = await fetch(`${API_BASE}/api/auth/me`, {
+                            headers: { 'Authorization': `Bearer ${authToken}` }
+                        });
+                        if (meRes.ok) {
+                            currentUser = await meRes.json();
+                            localStorage.setItem('user', JSON.stringify(currentUser));
+                            document.querySelector('.side-menu-name').textContent = currentUser.nickname;
+                        }
+
+                        showToast('注册成功');
+                        switchPage('chatPage');
+                    } else {
+                        const err = await registerRes.json();
+                        showToast(err.detail || '注册失败');
+                    }
+                } else {
+                    showToast('登录失败');
+                }
+            } catch (err) {
+                showToast('网络错误，请检查后端服务是否启动');
+                console.error(err);
+            } finally {
+                this.textContent = '登录 / 注册';
+                this.disabled = false;
+            }
+        });
+
+        // 发送消息
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            if (!authToken) {
+                showToast('请先登录');
+                switchPage('loginPage');
+                return;
+            }
+
+            const list = document.getElementById('messageList');
+            const time = new Date().toLocaleTimeString('zh-CN', {hour: '2-digit', minute:'2-digit'});
+
+            // 添加用户消息
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user';
+            userMsg.innerHTML = `
+                <div class="message-avatar"><svg class="icon"><use href="#icon-user"/></svg></div>
+                <div class="message-content">
+                    <div class="message-bubble">${escapeHtml(message)}</div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            list.appendChild(userMsg);
+            input.value = '';
+
+            // 创建 AI 消息气泡
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'message ai';
+            aiMsg.innerHTML = `
+                <div class="message-avatar"><svg class="icon"><use href="#icon-lotus"/></svg></div>
+                <div class="message-content">
+                    <div class="message-bubble" id="aiResponse"></div>
+                    <div class="message-time">${time}</div>
+                </div>
+            `;
+            list.appendChild(aiMsg);
+            list.scrollTop = list.scrollHeight;
+
+            const responseDiv = aiMsg.querySelector('#aiResponse');
+            let fullResponse = '';
+
+            try {
+                // 调用流式 API
+                const response = await fetch(`${API_BASE}/api/consult/chat/stream`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        messages: [{ role: 'user', content: message }]
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('请求失败');
+                }
+
+                // 处理 SSE 流
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            if (data === '[DONE]') break;
+
+                            try {
+                                const parsed = JSON.parse(data);
+                                if (parsed.content) {
+                                    fullResponse += parsed.content;
+                                    responseDiv.innerHTML = parseMarkdown(fullResponse);
+                                    list.scrollTop = list.scrollHeight;
+                                }
+                            } catch (e) {
+                                // 忽略解析错误
+                            }
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+                responseDiv.textContent = '抱歉，AI 服务暂时不可用，请稍后再试。';
+                showToast('AI 服务连接失败');
+            }
+        }
+
+        // HTML 转义
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // 简易 Markdown 解析
+        function parseMarkdown(text) {
+            // 先 HTML 转义
+            let html = escapeHtml(text);
+
+            // 代码块
+            html = html.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+            // 行内代码
+            html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+            // 标题 (# ## ###)
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+
+            // 加粗 **text**
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+            // 斜体 *text*
+            html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+            // 水平线 --- or ***
+            html = html.replace(/^(\*{3,}|-{3,})$/gm, '<hr/>');
+
+            // 列表项 (- 或 • 开头)
+            html = html.replace(/^[\-\•] (.+)$/gm, '<li>$1</li>');
+            html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+
+            // 数字列表
+            html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+
+            // 引用 > text
+            html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
+
+            // 换行处理 - 保留段落分隔
+            html = html.replace(/\n\n/g, '</p><p>');
+            html = html.replace(/\n/g, '<br>');
+
+            // 包裹在段落中
+            if (!html.startsWith('<')) {
+                html = '<p>' + html + '</p>';
+            }
+
+            // 清理空段落
+            html = html.replace(/<p><\/p>/g, '');
+            html = html.replace(/<p>(<h[1-3]>)/g, '$1');
+            html = html.replace(/(<\/h[1-3]>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<ul>)/g, '$1');
+            html = html.replace(/(<\/ul>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<blockquote>)/g, '$1');
+            html = html.replace(/(<\/blockquote>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<pre>)/g, '$1');
+            html = html.replace(/(<\/pre>)<\/p>/g, '$1');
+            html = html.replace(/<p>(<hr\/>)/g, '$1');
+            html = html.replace(/(<hr\/>)<\/p>/g, '$1');
+
+            return html;
+        }
+
+        // 快捷问题
+        function quickQuestion(question) {
+            document.getElementById('chatInput').value = question;
+            sendMessage();
+        }
+
+        // 语音录制
+        let isRecording = false;
+        function toggleVoice() {
+            const btn = document.getElementById('voiceBtn');
+            isRecording = !isRecording;
+            if (isRecording) {
+                btn.classList.add('recording');
+                showToast('正在录音...');
+            } else {
+                btn.classList.remove('recording');
+                showToast('录音结束');
+            }
+        }
+
+        // 语音通话相关
+        let callTimerInterval;
+        let callDuration = 0;
+        let isMuted = false;
+        let isSpeakerOn = false;
+        let callWs = null;
+        let callMediaRecorder = null;
+        let callAudioContext = null;
+        let callAudioChunks = [];
+        let callIsConnected = false;
+        let callAudioQueue = [];
+
+        async function startCall() {
+            switchPage('callPage');
+            document.getElementById('callInfo').textContent = '正在连接...';
+            document.getElementById('callTimer').style.display = 'none';
+
+            try {
+                // 获取用户token
+                const authToken = localStorage.getItem('auth_token');
+                if (!authToken) {
+                    showToast('请先登录');
+                    switchPage('loginPage');
+                    return;
+                }
+
+                // 连接 WebSocket
+                const wsUrl = `ws://localhost:8002/api/consult/voice/ws?token=${authToken}`;
+                callWs = new WebSocket(wsUrl);
+
+                callWs.onopen = async () => {
+                    console.log('[Call] WebSocket connected');
+                    document.getElementById('callInfo').textContent = '正在连接...';
+
+                    // 发送 session 配置
+                    const sessionConfig = {
+                        type: 'session.update',
+                        session: {
+                            modalities: ['text', 'audio'],
+                            voice: 'akura',
+                            input_audio_format: 'pcm',
+                            output_audio_format: 'pcm',
+                            instructions: '你是健康小荷，你的职责是提供健康建议。请用简短温暖的语言回复，每次不超过50字。',
+                            turn_detection: {
+                                type: 'semantic_vad',
+                                threshold: 0.5,
+                                silence_duration_ms: 800
+                            }
+                        }
+                    };
+                    callWs.send(JSON.stringify(sessionConfig));
+                };
+
+                callWs.onmessage = async (event) => {
+                    try {
+                        const data = JSON.parse(event.data);
+                        console.log('[Call] Received:', data.type);
+
+                        if (data.type === 'session.updated') {
+                            document.getElementById('callInfo').textContent = '已接听';
+                            document.getElementById('callTimer').style.display = 'block';
+                            callDuration = 0;
+                            callTimerInterval = setInterval(() => {
+                                callDuration++;
+                                const mins = Math.floor(callDuration / 60).toString().padStart(2, '0');
+                                const secs = (callDuration % 60).toString().padStart(2, '0');
+                                document.getElementById('callTimer').textContent = `${mins}:${secs}`;
+                            }, 1000);
+
+                            // 开始录音
+                            await startAudioRecording();
+                            callIsConnected = true;
+                        } else if (data.type === 'text' || data.type === 'response.text.delta') {
+                            // 显示 AI 说的话
+                            const text = data.data || data.transcript || '';
+                            if (text) {
+                                document.getElementById('callInfo').textContent = '健康小荷: ' + text;
+                            }
+                        } else if (data.type === 'audio' || data.type === 'response.audio.delta') {
+                            // 播放音频
+                            const audioBase64 = data.data;
+                            if (audioBase64) {
+                                await playAudioChunk(audioBase64);
+                            }
+                        } else if (data.type === 'done') {
+                            console.log('[Call] Response done');
+                        } else if (data.type === 'error') {
+                            console.error('[Call] Error:', data.message);
+                            showToast('通话出错: ' + (data.message || '未知错误'));
+                        }
+                    } catch (e) {
+                        console.error('[Call] Parse error:', e);
+                    }
+                };
+
+                callWs.onerror = (error) => {
+                    console.error('[Call] WebSocket error:', error);
+                    showToast('通话连接失败');
+                };
+
+                callWs.onclose = () => {
+                    console.log('[Call] WebSocket closed');
+                    stopAudioRecording();
+                    callIsConnected = false;
+                };
+
+            } catch (err) {
+                console.error('[Call] Start call error:', err);
+                showToast('启动通话失败: ' + err.message);
+                switchPage('chatPage');
+            }
+        }
+
+        async function startAudioRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                callMediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+                callAudioChunks = [];
+
+                callMediaRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        callAudioChunks.push(event.data);
+                    }
+                };
+
+                callMediaRecorder.onstop = async () => {
+                    // 将 audio/webm 转换为 PCM
+                    const audioBlob = new Blob(callAudioChunks, { type: 'audio/webm' });
+                    const arrayBuffer = await audioBlob.arrayBuffer();
+
+                    // 如果 WebSocket 已连接且有音频数据，发送
+                    if (callWs && callWs.readyState === WebSocket.OPEN && arrayBuffer.byteLength > 0) {
+                        // 发送二进制音频数据
+                        callWs.send(arrayBuffer);
+                    }
+                };
+
+                // 每 1 秒发送一次录音数据
+                callMediaRecorder.start(1000);
+
+                // 设置音频上下文用于播放
+                callAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            } catch (err) {
+                console.error('[Call] Recording error:', err);
+                showToast('无法访问麦克风');
+            }
+        }
+
+        function stopAudioRecording() {
+            if (callMediaRecorder && callMediaRecorder.state !== 'inactive') {
+                callMediaRecorder.stop();
+                callMediaRecorder.stream.getTracks().forEach(track => track.stop());
+            }
+        }
+
+        async function playAudioChunk(base64Data) {
+            try {
+                // 解码 base64 为二进制
+                const binaryString = atob(base64Data);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+
+                // 转换为音频并播放
+                if (!callAudioContext) {
+                    callAudioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+
+                const audioBuffer = await callAudioContext.decodeAudioData(bytes.buffer);
+                const source = callAudioContext.createBufferSource();
+                source.buffer = audioBuffer;
+                source.connect(callAudioContext.destination);
+
+                if (isSpeakerOn) {
+                    // 扬声器模式暂不处理
+                }
+
+                source.start(0);
+            } catch (err) {
+                console.error('[Call] Play audio error:', err);
+            }
+        }
+
+        function endCall() {
+            clearInterval(callTimerInterval);
+            stopAudioRecording();
+
+            if (callWs) {
+                callWs.close();
+                callWs = null;
+            }
+
+            if (callAudioContext) {
+                callAudioContext.close();
+                callAudioContext = null;
+            }
+
+            isMuted = false;
+            isSpeakerOn = false;
+            document.getElementById('muteBtn').classList.remove('active');
+            document.getElementById('speakerBtn').classList.remove('active');
+            document.getElementById('callInfo').textContent = '通话结束';
+            document.getElementById('callTimer').style.display = 'none';
+
+            setTimeout(() => {
+                switchPage('chatPage');
+            }, 1000);
+        }
+
+        function toggleMute() {
+            isMuted = !isMuted;
+            const btn = document.getElementById('muteBtn');
+            if (isMuted) {
+                btn.classList.add('active');
+                showToast('已静音');
+                // 静音：停止发送音频但保持连接
+                if (callMediaRecorder && callMediaRecorder.state === 'recording') {
+                    callMediaRecorder.stop();
+                }
+            } else {
+                btn.classList.remove('active');
+                showToast('已取消静音');
+                // 取消静音：重新开始录音
+                if (callIsConnected) {
+                    startAudioRecording();
+                }
+            }
+        }
+
+        function toggleSpeaker() {
+            isSpeakerOn = !isSpeakerOn;
+            const btn = document.getElementById('speakerBtn');
+            if (isSpeakerOn) {
+                btn.classList.add('active');
+                showToast('已开启扬声器');
+            } else {
+                btn.classList.remove('active');
+                showToast('已关闭扬声器');
+            }
+        }
+
+        // 退出登录
+        function logout() {
+            authToken = '';
+            currentUser = {};
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('user');
+            switchPage('loginPage');
+            document.getElementById('usernameInput').value = '';
+            document.getElementById('passwordInput').value = '';
+        }
+
+        // Toast 提示
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0,0,0,0.75);
+                color: #fff;
+                padding: 14px 28px;
+                border-radius: 10px;
+                font-size: 15px;
+                z-index: 9999;
+                animation: fadeIn 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.animation = 'fadeIn 0.3s ease reverse';
+                setTimeout(() => toast.remove(), 300);
+            }, 2000);
+        }
+
+        // 回车发送
+        document.getElementById('chatInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
