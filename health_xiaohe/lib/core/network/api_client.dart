@@ -86,6 +86,15 @@ class ApiClient {
     });
   }
 
+  // Conversation endpoints
+  Future<Response> getConversations() async {
+    return _dio.get(ApiEndpoints.conversations);
+  }
+
+  Future<Response> getConversationDetail(String id) async {
+    return _dio.get(ApiEndpoints.conversationDetail(id));
+  }
+
   // Voice chat (base64 audio)
   Future<Response> voiceChat(String base64Audio) async {
     return _dio.post(ApiEndpoints.voiceChat, data: {

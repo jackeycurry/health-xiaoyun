@@ -44,111 +44,105 @@ class _ChatInputFieldState extends State<ChatInputField> {
       ),
       child: SafeArea(
         top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+        child: Row(
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Health record quick add button
-                GestureDetector(
-                  onTap: widget.onHealthRecordPressed,
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(color: AppColors.primary, width: 2),
-                    ),
-                    child: const Icon(
-                      Icons.favorite_outline,
-                      color: AppColors.primary,
-                      size: 20,
-                    ),
-                  ),
+            // Health record quick add button
+            GestureDetector(
+              onTap: widget.onHealthRecordPressed,
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.primary, width: 2),
                 ),
-                const SizedBox(width: 8),
-                // Text input
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: AppColors.inputBg,
-                      borderRadius: BorderRadius.circular(20),
+                child: const Icon(
+                  Icons.favorite_outline,
+                  color: AppColors.primary,
+                  size: 18,
+                ),
+              ),
+            ),
+            const SizedBox(width: 6),
+            // Text input
+            Expanded(
+              child: Container(
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.inputBg,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: TextField(
+                  controller: _controller,
+                  decoration: InputDecoration(
+                    hintText: '请输入您的健康问题...',
+                    hintStyle: const TextStyle(color: AppColors.textMuted),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 14,
                     ),
-                    child: TextField(
-                      controller: _controller,
-                      decoration: InputDecoration(
-                        hintText: '请输入您的健康问题...',
-                        hintStyle: const TextStyle(color: AppColors.textMuted),
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 14,
+                    suffixIcon: GestureDetector(
+                      onTapDown: (_) => _startRecording(),
+                      onTapUp: (_) => _stopRecording(),
+                      onTapCancel: () => _stopRecording(),
+                      child: Container(
+                        width: 36,
+                        height: 36,
+                        margin: const EdgeInsets.only(right: 4),
+                        decoration: BoxDecoration(
+                          color: _isRecording ? AppColors.danger : AppColors.primary,
+                          shape: BoxShape.circle,
                         ),
-                        suffixIcon: GestureDetector(
-                          onTapDown: (_) => _startRecording(),
-                          onTapUp: (_) => _stopRecording(),
-                          onTapCancel: () => _stopRecording(),
-                          child: Container(
-                            width: 36,
-                            height: 36,
-                            margin: const EdgeInsets.only(right: 4),
-                            decoration: BoxDecoration(
-                              color: _isRecording ? AppColors.danger : AppColors.primary,
-                              shape: BoxShape.circle,
-                            ),
-                            child: Icon(
-                              _isRecording ? Icons.stop : Icons.mic,
-                              color: Colors.white,
-                              size: 16,
-                            ),
-                          ),
+                        child: Icon(
+                          _isRecording ? Icons.stop : Icons.mic,
+                          color: Colors.white,
+                          size: 16,
                         ),
                       ),
-                      textInputAction: TextInputAction.send,
-                      onSubmitted: _sendMessage,
                     ),
                   ),
+                  textInputAction: TextInputAction.send,
+                  onSubmitted: _sendMessage,
                 ),
-                const SizedBox(width: 6),
-                // Send button
-                GestureDetector(
-                  onTap: () => _sendMessage(_controller.text),
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.arrow_upward,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                  ),
+              ),
+            ),
+            const SizedBox(width: 4),
+            // Send button
+            GestureDetector(
+              onTap: () => _sendMessage(_controller.text),
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  shape: BoxShape.circle,
                 ),
-                const SizedBox(width: 6),
-                // Call button
-                GestureDetector(
-                  onTap: widget.onCallPressed,
-                  child: Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: AppColors.success,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.call,
-                      color: Colors.white,
-                      size: 20,
-                    ),
-                  ),
+                child: const Icon(
+                  Icons.arrow_upward,
+                  color: Colors.white,
+                  size: 18,
                 ),
-              ],
+              ),
+            ),
+            const SizedBox(width: 4),
+            // Call button
+            GestureDetector(
+              onTap: widget.onCallPressed,
+              child: Container(
+                width: 36,
+                height: 36,
+                decoration: BoxDecoration(
+                  color: AppColors.success,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.call,
+                  color: Colors.white,
+                  size: 18,
+                ),
+              ),
             ),
           ],
         ),

@@ -1,9 +1,13 @@
 import 'dart:async';
 import 'package:health_xiaohe/data/models/chat_message_model.dart';
+import 'package:health_xiaohe/data/models/conversation_model.dart';
+import 'package:health_xiaohe/data/models/sse_chunk.dart';
 
 abstract class ChatRepository {
-  Stream<String> getChatStream(List<ChatMessageModel> messages);
+  Stream<SseChunk> getChatStream(List<ChatMessageModel> messages, {String? conversationId});
   Future<ChatResult<ChatMessageModel>> sendMessage(List<ChatMessageModel> messages);
+  Future<ChatResult<List<ConversationItemModel>>> getConversations();
+  Future<ChatResult<ConversationDetailModel>> getConversationDetail(String id);
 }
 
 class ChatResult<T> {

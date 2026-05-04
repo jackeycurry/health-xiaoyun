@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:health_xiaohe/data/models/sse_chunk.dart';
 
 abstract class ChatEvent extends Equatable {
   const ChatEvent();
@@ -17,7 +18,7 @@ class ChatSendMessage extends ChatEvent {
 }
 
 class ChatReceiveStreamChunk extends ChatEvent {
-  final String chunk;
+  final SseChunk chunk;
 
   const ChatReceiveStreamChunk(this.chunk);
 
@@ -39,3 +40,14 @@ class ChatStreamError extends ChatEvent {
 class ChatClearMessages extends ChatEvent {}
 
 class ChatInitialize extends ChatEvent {}
+
+class ChatNewConversation extends ChatEvent {}
+
+class ChatLoadConversation extends ChatEvent {
+  final String conversationId;
+
+  const ChatLoadConversation(this.conversationId);
+
+  @override
+  List<Object?> get props => [conversationId];
+}

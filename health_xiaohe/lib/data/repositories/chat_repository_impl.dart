@@ -1,9 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:get_it/get_it.dart';
 import 'package:health_xiaohe/core/network/api_client.dart';
+import 'package:health_xiaohe/core/network/sse_client_stub.dart'
+    if (dart.library.html) 'package:health_xiaohe/core/network/sse_client_web.dart';
+import 'package:health_xiaohe/core/storage/local_storage.dart';
 import 'package:health_xiaohe/data/models/chat_message_model.dart';
+import 'package:health_xiaohe/data/models/conversation_model.dart';
+import 'package:health_xiaohe/data/models/sse_chunk.dart';
 import 'package:health_xiaohe/domain/repositories/chat_repository.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
@@ -12,121 +17,53 @@ class ChatRepositoryImpl implements ChatRepository {
   ChatRepositoryImpl(this._apiClient);
 
   @override
-  Stream<String> getChatStream(List<ChatMessageModel> messages) async* {
+  Stream<SseChunk> getChatStream(List<ChatMessageModel> messages, {String? conversationId}) async* {
     final apiMessages = messages.map((m) => m.toApiFormat()).toList();
+    final body = <String, dynamic>{
+      'messages': apiMessages,
+      if (conversationId != null) 'conversation_id': conversationId,
+    };
 
     if (kIsWeb) {
-      // Web 平台
-      yield* _getChatStreamWeb(apiMessages);
+      final localStorage = GetIt.instance<LocalStorage>();
+      final tokenValue = localStorage.getJwtToken() ?? '';
+      final baseUrl = _apiClient.dio.options.baseUrl;
+      final sseUrl =
+          '$baseUrl/api/consult/chat/stream?token=${Uri.encodeComponent(tokenValue)}';
+      yield* fetchSseStream(path: sseUrl, body: body);
     } else {
-      // 其他平台
-      yield* _getChatStreamNative(apiMessages);
+      yield* fetchSseStream(path: '/api/consult/chat/stream', body: body);
     }
   }
 
-  Stream<String> _getChatStreamWeb(List<Map<String, String>> apiMessages) async* {
-    final token = _apiClient.dio.options.headers['Authorization'] ?? '';
-    final tokenValue = token.toString().replaceFirst('Bearer ', '');
-    final baseUrl = _apiClient.dio.options.baseUrl;
-
-    // 构建 SSE URL，使用 query parameter 传递 token
-    final sseUrl = '$baseUrl/api/consult/chat/stream';
-
+  @override
+  Future<ChatResult<List<ConversationItemModel>>> getConversations() async {
     try {
-      // 在 web 上使用 Dio 的 stream 模式，通过 query 参数传递 token
-      final response = await Dio().post(
-        sseUrl,
-        data: {'messages': apiMessages},
-        options: Options(
-          responseType: ResponseType.stream,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        ),
-        queryParameters: {
-          'token': tokenValue,
-        },
-      );
-
-      final stream = response.data as Stream<List<int>>;
-      String buffer = '';
-
-      await for (final chunk in stream) {
-        buffer += utf8.decode(chunk, allowMalformed: true);
-        final lines = buffer.split('\n');
-        buffer = lines.removeLast();
-
-        for (final line in lines) {
-          if (line.startsWith('data: ')) {
-            final data = line.substring(6);
-            if (data == '[DONE]') {
-              return;
-            }
-            try {
-              final json = jsonDecode(data);
-              final content = json['content'];
-              if (content != null && content.toString().isNotEmpty) {
-                yield content.toString();
-              }
-            } catch (_) {
-              // Skip invalid JSON
-            }
-          }
-        }
-      }
-    } catch (e) {
-      yield* Stream.error(e);
-    }
-  }
-
-  Stream<String> _getChatStreamNative(List<Map<String, String>> apiMessages) async* {
-    final controller = StreamController<String>();
-
-    try {
-      final response = await _apiClient.dio.post(
-        '/api/consult/chat/stream',
-        data: {'messages': apiMessages},
-        options: Options(
-          responseType: ResponseType.stream,
-        ),
-      );
-
-      response.data.stream.listen(
-        (chunk) {
-          final lines = utf8.decode(chunk, allowMalformed: true).split('\n');
-          for (final line in lines) {
-            if (line.startsWith('data: ')) {
-              final data = line.substring(6);
-              if (data == '[DONE]') {
-                controller.close();
-                return;
-              }
-              try {
-                final json = jsonDecode(data);
-                final content = json['content'];
-                if (content != null && content.toString().isNotEmpty) {
-                  controller.add(content.toString());
-                }
-              } catch (_) {
-                // Skip invalid JSON
-              }
-            }
-          }
-        },
-        onError: (error) {
-          controller.addError(error);
-          controller.close();
-        },
-        onDone: () {
-          controller.close();
-        },
-      );
+      final response = await _apiClient.getConversations();
+      final list = (response.data['conversations'] as List)
+          .map((item) => ConversationItemModel.fromJson(item))
+          .toList();
+      return ChatResult.success(list);
     } on DioException catch (e) {
-      controller.addError(Exception(e.response?.data?['detail'] ?? '发送消息失败'));
-      controller.close();
+      final message = e.response?.data?['detail'] ?? '获取对话列表失败';
+      return ChatResult.failure(message.toString());
+    } catch (e) {
+      return ChatResult.failure('获取对话列表失败: $e');
     }
+  }
 
-    yield* controller.stream;
+  @override
+  Future<ChatResult<ConversationDetailModel>> getConversationDetail(String id) async {
+    try {
+      final response = await _apiClient.getConversationDetail(id);
+      final detail = ConversationDetailModel.fromJson(response.data);
+      return ChatResult.success(detail);
+    } on DioException catch (e) {
+      final message = e.response?.data?['detail'] ?? '获取对话详情失败';
+      return ChatResult.failure(message.toString());
+    } catch (e) {
+      return ChatResult.failure('获取对话详情失败: $e');
+    }
   }
 
   @override

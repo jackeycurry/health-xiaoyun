@@ -21,6 +21,8 @@ class ApiEndpoints {
   static const String chat = '/api/consult/chat';
   static const String chatStream = '/api/consult/chat/stream';
   static const String chatHistory = '/api/consult/chat/history';
+  static const String conversations = '/api/consult/conversations';
+  static String conversationDetail(String id) => '/api/consult/conversations/$id';
 
   // Voice
   static const String voiceChat = '/api/consult/voice/chat';

@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_xiaohe/data/models/chat_message_model.dart';
+import 'package:health_xiaohe/data/models/sse_chunk.dart';
 import 'package:health_xiaohe/domain/repositories/chat_repository.dart';
 import 'chat_event.dart';
 import 'chat_state.dart';
 
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatRepository _chatRepository;
-  StreamSubscription<String>? _streamSubscription;
+  StreamSubscription<SseChunk>? _streamSubscription;
 
   ChatBloc(this._chatRepository) : super(const ChatState()) {
     on<ChatInitialize>(_onInitialize);
@@ -16,6 +17,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     on<ChatStreamCompleted>(_onStreamCompleted);
     on<ChatStreamError>(_onStreamError);
     on<ChatClearMessages>(_onClearMessages);
+    on<ChatNewConversation>(_onNewConversation);
+    on<ChatLoadConversation>(_onLoadConversation);
   }
 
   void _onInitialize(ChatInitialize event, Emitter<ChatState> emit) {
@@ -31,18 +34,19 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     ChatSendMessage event,
     Emitter<ChatState> emit,
   ) async {
-    // Add user message
     final userMsg = ChatMessageModel.user(event.message);
     final updatedMessages = [...state.messages, userMsg];
     emit(state.copyWith(messages: updatedMessages, isLoading: true, error: null));
 
-    // Create assistant message placeholder
     final assistantMsg = ChatMessageModel.assistant('');
     final messagesWithAssistant = [...updatedMessages, assistantMsg];
     emit(state.copyWith(messages: messagesWithAssistant));
 
     try {
-      final stream = _chatRepository.getChatStream(updatedMessages);
+      final stream = _chatRepository.getChatStream(
+        updatedMessages,
+        conversationId: state.conversationId,
+      );
 
       _streamSubscription?.cancel();
       _streamSubscription = stream.listen(
@@ -66,19 +70,26 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void _onReceiveChunk(ChatReceiveStreamChunk event, Emitter<ChatState> emit) {
-    final updatedMessages = [...state.messages];
+    final chunk = event.chunk;
 
-    if (updatedMessages.isNotEmpty && updatedMessages.last.isAssistant) {
-      // Append to last assistant message
-      final lastMsg = updatedMessages.removeLast();
-      final updatedContent = lastMsg.content + event.chunk;
-      updatedMessages.add(lastMsg.copyWith(content: updatedContent));
-    } else if (event.chunk.isNotEmpty) {
-      // Create new assistant message
-      updatedMessages.add(ChatMessageModel.assistant(event.chunk));
+    // 处理 conversation_id
+    if (chunk.hasConversationId && chunk.conversationId != null) {
+      emit(state.copyWith(conversationId: chunk.conversationId));
+      return;
     }
 
-    emit(state.copyWith(messages: updatedMessages, isLoading: false));
+    // 处理内容追加
+    if (chunk.hasContent) {
+      final content = chunk.content!;
+      final updatedMessages = [...state.messages];
+      if (updatedMessages.isNotEmpty && updatedMessages.last.isAssistant) {
+        final lastMsg = updatedMessages.removeLast();
+        updatedMessages.add(lastMsg.copyWith(content: lastMsg.content + content));
+      } else {
+        updatedMessages.add(ChatMessageModel.assistant(content));
+      }
+      emit(state.copyWith(messages: updatedMessages, isLoading: false));
+    }
   }
 
   void _onStreamCompleted(ChatStreamCompleted event, Emitter<ChatState> emit) {
@@ -86,7 +97,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void _onStreamError(ChatStreamError event, Emitter<ChatState> emit) {
-    // Remove the empty assistant message if there's an error
     final messages = [...state.messages];
     if (messages.isNotEmpty && messages.last.isAssistant && messages.last.content.isEmpty) {
       messages.removeLast();
@@ -99,6 +109,40 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       '你好！我是健康小荷，你的健康管家~ 有什么健康问题可以问我哦！',
     );
     emit(ChatState(messages: [welcomeMessage]));
+  }
+
+  void _onNewConversation(ChatNewConversation event, Emitter<ChatState> emit) {
+    final welcomeMessage = ChatMessageModel.assistant(
+      '你好！我是健康小荷，你的健康管家~ 有什么健康问题可以问我哦！',
+    );
+    emit(ChatState(messages: [welcomeMessage]));
+  }
+
+  Future<void> _onLoadConversation(
+    ChatLoadConversation event,
+    Emitter<ChatState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await _chatRepository.getConversationDetail(event.conversationId);
+    if (result.success) {
+      final detail = result.data!;
+      final messages = detail.messages.map((m) {
+        return ChatMessageModel(
+          role: m.role,
+          content: m.content,
+          timestamp: m.createdAt,
+        );
+      }).toList();
+      emit(ChatState(
+        messages: messages,
+        conversationId: event.conversationId,
+      ));
+    } else {
+      emit(state.copyWith(
+        isLoading: false,
+        error: result.error,
+      ));
+    }
   }
 
   @override

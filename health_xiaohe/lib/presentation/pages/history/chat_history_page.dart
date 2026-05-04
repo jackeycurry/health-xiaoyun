@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:health_xiaohe/core/constants/app_colors.dart';
-import 'package:health_xiaohe/core/constants/app_strings.dart';
+import 'package:health_xiaohe/presentation/blocs/chat_history/chat_history_bloc.dart';
+import 'package:health_xiaohe/presentation/blocs/chat_history/chat_history_event.dart';
+import 'package:health_xiaohe/presentation/blocs/chat_history/chat_history_state.dart';
 
-class ChatHistoryPage extends StatelessWidget {
+class ChatHistoryPage extends StatefulWidget {
   const ChatHistoryPage({super.key});
+
+  @override
+  State<ChatHistoryPage> createState() => _ChatHistoryPageState();
+}
+
+class _ChatHistoryPageState extends State<ChatHistoryPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<ChatHistoryBloc>().add(ChatHistoryLoadConversations());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +28,7 @@ class ChatHistoryPage extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         title: const Text(
-          AppStrings.history,
+          '咨询历史',
           style: TextStyle(
             color: AppColors.textPrimary,
             fontSize: 18,
@@ -33,41 +48,170 @@ class ChatHistoryPage extends StatelessWidget {
             colors: [AppColors.backgroundStart, AppColors.backgroundEnd],
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: AppColors.primaryLight,
-                  borderRadius: BorderRadius.circular(20),
+        child: BlocBuilder<ChatHistoryBloc, ChatHistoryState>(
+          builder: (context, state) {
+            if (state.status == ChatHistoryStatus.loading &&
+                state.conversations.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state.status == ChatHistoryStatus.error &&
+                state.conversations.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryLight,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Center(
+                        child: Icon(Icons.error_outline,
+                            color: AppColors.danger, size: 40),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      state.error ?? '加载失败',
+                      style: const TextStyle(
+                          color: AppColors.textTertiary, fontSize: 14),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => context
+                          .read<ChatHistoryBloc>()
+                          .add(ChatHistoryLoadConversations()),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                      ),
+                      child: const Text('重试',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
                 ),
-                child: const Center(
-                  child: Text('💬', style: TextStyle(fontSize: 40)),
+              );
+            }
+
+            if (state.conversations.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryLight,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Center(
+                        child: Text('💬', style: TextStyle(fontSize: 40)),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      '暂无咨询历史',
+                      style: TextStyle(
+                        color: AppColors.textPrimary,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    const Text(
+                      '与健康小荷的对话将显示在这里',
+                      style: TextStyle(
+                        color: AppColors.textTertiary,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
                 ),
+              );
+            }
+
+            return RefreshIndicator(
+              onRefresh: () async {
+                context
+                    .read<ChatHistoryBloc>()
+                    .add(ChatHistoryLoadConversations());
+                // Wait for the state to update
+                await Future.delayed(const Duration(milliseconds: 500));
+              },
+              child: ListView.separated(
+                padding: const EdgeInsets.all(16),
+                itemCount: state.conversations.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 8),
+                itemBuilder: (context, index) {
+                  final conv = state.conversations[index];
+                  return _buildConversationCard(conv);
+                },
               ),
-              const SizedBox(height: 20),
-              const Text(
-                '暂无咨询历史',
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                '与健康小荷的对话将显示在这里',
-                style: TextStyle(
-                  color: AppColors.textTertiary,
-                  fontSize: 14,
-                ),
-              ),
-            ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildConversationCard(dynamic conv) {
+    final dateStr = DateFormat('MM/dd HH:mm').format(conv.createdAt);
+
+    return Card(
+      elevation: 0,
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: const BorderSide(color: AppColors.divider, width: 0.5),
+      ),
+      child: ListTile(
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        leading: Container(
+          width: 44,
+          height: 44,
+          decoration: BoxDecoration(
+            color: AppColors.primaryLight,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Center(
+            child: Text('🌿', style: TextStyle(fontSize: 20)),
           ),
         ),
+        title: Text(
+          conv.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        subtitle: Text(
+          dateStr,
+          style: const TextStyle(
+            fontSize: 12,
+            color: AppColors.textTertiary,
+          ),
+        ),
+        trailing: TextButton.icon(
+          onPressed: () {
+            context.go('/chat?conversationId=${conv.id}');
+          },
+          icon: const Icon(Icons.chat_outlined, size: 16),
+          label: const Text('继续', style: TextStyle(fontSize: 13)),
+          style: TextButton.styleFrom(
+            foregroundColor: AppColors.primary,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+          ),
+        ),
+        onTap: () {
+          context.push('/chat-history/${conv.id}');
+        },
       ),
     );
   }

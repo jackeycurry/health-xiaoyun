@@ -8,6 +8,7 @@ import 'package:health_xiaohe/presentation/pages/chat/call_page.dart';
 import 'package:health_xiaohe/presentation/pages/chat/chat_home_page.dart';
 import 'package:health_xiaohe/presentation/pages/health/health_records_page.dart';
 import 'package:health_xiaohe/presentation/pages/history/chat_history_page.dart';
+import 'package:health_xiaohe/presentation/pages/history/conversation_detail_page.dart';
 import 'package:health_xiaohe/presentation/pages/profile/personal_center_page.dart';
 import 'package:health_xiaohe/core/constants/app_colors.dart';
 
@@ -15,6 +16,7 @@ class AppRouter {
   static const String splash = '/';
   static const String login = '/login';
   static const String chatHome = '/chat';
+  static String chatWithConversation(String id) => '/chat?conversationId=$id';
   static const String healthRecords = '/health-records';
   static const String chatHistory = '/chat-history';
   static const String personalCenter = '/profile';
@@ -34,6 +36,13 @@ class AppRouter {
       GoRoute(
         path: call,
         builder: (context, state) => const CallPage(),
+      ),
+      GoRoute(
+        path: '/chat-history/:conversationId',
+        builder: (context, state) {
+          final id = state.pathParameters['conversationId']!;
+          return ConversationDetailPage(conversationId: id);
+        },
       ),
       ShellRoute(
         builder: (context, state, child) => MainShell(child: child),

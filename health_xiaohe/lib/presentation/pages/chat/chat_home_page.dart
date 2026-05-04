@@ -25,8 +25,18 @@ class _ChatHomePageState extends State<ChatHomePage> {
   @override
   void initState() {
     super.initState();
-    // Initialize chat with welcome message
-    context.read<ChatBloc>().add(ChatInitialize());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _initChat());
+  }
+
+  void _initChat() {
+    if (!mounted) return;
+    final routerState = GoRouterState.of(context);
+    final convId = routerState.uri.queryParameters['conversationId'];
+    if (convId != null && convId.isNotEmpty) {
+      context.read<ChatBloc>().add(ChatLoadConversation(convId));
+    } else {
+      context.read<ChatBloc>().add(ChatInitialize());
+    }
   }
 
   @override
@@ -89,6 +99,22 @@ class _ChatHomePageState extends State<ChatHomePage> {
             ],
           ),
         ),
+        actions: [
+          BlocBuilder<ChatBloc, ChatState>(
+            builder: (context, state) {
+              if (state.conversationId != null) {
+                return IconButton(
+                  icon: const Icon(Icons.add_comment, color: AppColors.primary),
+                  tooltip: '新建对话',
+                  onPressed: () {
+                    context.read<ChatBloc>().add(ChatNewConversation());
+                  },
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -96,6 +122,15 @@ class _ChatHomePageState extends State<ChatHomePage> {
           Expanded(
             child: BlocConsumer<ChatBloc, ChatState>(
               listener: (context, state) {
+                if (state.error != null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.error!),
+                      backgroundColor: AppColors.danger,
+                      duration: const Duration(seconds: 3),
+                    ),
+                  );
+                }
                 if (state.messages.isNotEmpty) {
                   _scrollToBottom();
                 }

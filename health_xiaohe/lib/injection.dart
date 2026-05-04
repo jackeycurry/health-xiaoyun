@@ -10,6 +10,7 @@ import 'package:health_xiaohe/domain/repositories/health_repository.dart';
 import 'package:health_xiaohe/domain/repositories/chat_repository.dart';
 import 'package:health_xiaohe/presentation/blocs/auth/auth_bloc.dart';
 import 'package:health_xiaohe/presentation/blocs/chat/chat_bloc.dart';
+import 'package:health_xiaohe/presentation/blocs/chat_history/chat_history_bloc.dart';
 import 'package:health_xiaohe/presentation/blocs/health/health_bloc.dart';
 import 'package:health_xiaohe/presentation/blocs/voice/voice_bloc.dart';
 
@@ -41,6 +42,7 @@ Future<void> initDependencies() async {
   // BLoCs
   getIt.registerFactory<AuthBloc>(() => AuthBloc(getIt<AuthRepository>()));
   getIt.registerFactory<ChatBloc>(() => ChatBloc(getIt<ChatRepository>()));
+  getIt.registerFactory<ChatHistoryBloc>(() => ChatHistoryBloc(getIt<ChatRepository>()));
   getIt.registerFactory<HealthBloc>(() => HealthBloc(getIt<HealthRepository>()));
   getIt.registerFactory<VoiceBloc>(() => VoiceBloc(getIt<WebSocketClient>()));
 }

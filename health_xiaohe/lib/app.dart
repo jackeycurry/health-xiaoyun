@@ -5,6 +5,7 @@ import 'package:health_xiaohe/injection.dart';
 import 'package:health_xiaohe/presentation/blocs/auth/auth_bloc.dart';
 import 'package:health_xiaohe/presentation/blocs/auth/auth_event.dart';
 import 'package:health_xiaohe/presentation/blocs/chat/chat_bloc.dart';
+import 'package:health_xiaohe/presentation/blocs/chat_history/chat_history_bloc.dart';
 import 'package:health_xiaohe/presentation/blocs/health/health_bloc.dart';
 import 'package:health_xiaohe/presentation/blocs/voice/voice_bloc.dart';
 import 'package:health_xiaohe/presentation/router/app_router.dart';
@@ -21,6 +22,9 @@ class HealthXiaoheApp extends StatelessWidget {
         ),
         BlocProvider<ChatBloc>(
           create: (_) => getIt<ChatBloc>(),
+        ),
+        BlocProvider<ChatHistoryBloc>(
+          create: (_) => getIt<ChatHistoryBloc>(),
         ),
         BlocProvider<HealthBloc>(
           create: (_) => getIt<HealthBloc>(),
