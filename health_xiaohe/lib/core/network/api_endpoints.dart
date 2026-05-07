@@ -3,8 +3,7 @@ class ApiEndpoints {
 
   // Base URL - use localhost for web, 10.0.2.2 for Android emulator
   static String get baseUrl {
-    // Simple platform detection
-    return 'http://localhost:8000';
+    return 'http://localhost:8002';
   }
 
   // Auth

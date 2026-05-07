@@ -1,0 +1,65 @@
+// Web 平台 PCM 音频播放器 — 24kHz Int16 little-endian → Float32 → AudioContext
+// 与 voice_test.html playAudio() 完全一致的实现
+import 'dart:js' as js;
+import 'audio_player_base.dart';
+
+class AudioPlayer extends AudioPlayerBase {
+  bool _initialized = false;
+
+  void _ensureInit() {
+    if (_initialized) return;
+    _initialized = true;
+    js.context.callMethod('eval', ['''
+window.__playAudioCtx = new (window.AudioContext||window.webkitAudioContext)({sampleRate: 24000});
+window.__playNextTime = 0;
+window.__playAudio = function(b64) {
+  if (!b64) return;
+  try {
+    var ctx = window.__playAudioCtx;
+    // base64 → bytes
+    var binary = atob(b64);
+    var bytes = new Uint8Array(binary.length);
+    for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    // Int16 → Float32
+    var samples = bytes.length / 2;
+    var buf = ctx.createBuffer(1, samples, 24000);
+    var channel = buf.getChannelData(0);
+    var view = new DataView(bytes.buffer);
+    for (var i = 0; i < samples; i++) {
+      channel[i] = view.getInt16(i * 2, true) / 32768;
+    }
+    var src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    var now = ctx.currentTime;
+    var startTime = Math.max(now, window.__playNextTime);
+    src.start(startTime);
+    window.__playNextTime = startTime + buf.duration;
+  } catch(e) { console.error('[AudioPlayer] play error:', e); }
+};
+''']);
+  }
+
+  @override
+  Future<void> play(String base64Pcm) async {
+    _ensureInit();
+    js.context.callMethod('eval', ['window.__playAudio("$base64Pcm")']);
+  }
+
+  @override
+  void stop() {
+    js.context.callMethod('eval', ['window.__playNextTime = 0']);
+  }
+
+  @override
+  void dispose() {
+    stop();
+    js.context.callMethod('eval', ['''
+try { window.__playAudioCtx?.close(); } catch(e) {}
+delete window.__playAudioCtx;
+delete window.__playNextTime;
+delete window.__playAudio;
+''']);
+    _initialized = false;
+  }
+}

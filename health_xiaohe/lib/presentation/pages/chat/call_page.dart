@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:get_it/get_it.dart';
 import 'package:health_xiaohe/core/audio/audio_recorder_stub.dart'
     if (dart.library.html) 'package:health_xiaohe/core/audio/audio_recorder_web.dart';
+import 'package:health_xiaohe/core/audio/audio_player_stub.dart'
+    if (dart.library.html) 'package:health_xiaohe/core/audio/audio_player_web.dart';
 import 'package:health_xiaohe/core/constants/app_colors.dart';
 import 'package:health_xiaohe/core/storage/local_storage.dart';
 import 'package:health_xiaohe/presentation/blocs/voice/voice_bloc.dart';
@@ -20,6 +22,7 @@ class CallPage extends StatefulWidget {
 
 class _CallPageState extends State<CallPage> {
   final _audioRecorder = AudioRecorder();
+  final _audioPlayer = AudioPlayer();
   bool _isMuted = false;
   bool _isSpeakerOn = false;
   bool _callStarted = false;
@@ -32,6 +35,7 @@ class _CallPageState extends State<CallPage> {
   void initState() {
     super.initState();
     _voiceBloc = context.read<VoiceBloc>();
+    _initRecording(); // 必须在用户手势有效时初始化 AudioContext
     _startCall();
   }
 
@@ -55,19 +59,17 @@ class _CallPageState extends State<CallPage> {
     _timer = null;
   }
 
-  Future<void> _startRecording() async {
-    debugPrint('[CALL] _startRecording enter');
+  Future<void> _initRecording() async {
+    debugPrint('[CALL] _initRecording enter (user gesture active)');
     try {
-      debugPrint('[CALL] checking permission...');
       final hasPermission = await _audioRecorder.hasPermission();
       debugPrint('[CALL] hasPermission=$hasPermission');
       if (!hasPermission) {
-        debugPrint('[CALL] permission denied, ending call');
+        debugPrint('[CALL] permission denied');
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('请允许麦克风权限')),
           );
-          _endCall();
         }
         return;
       }
@@ -76,13 +78,14 @@ class _CallPageState extends State<CallPage> {
       await _audioRecorder.startRecording((base64) {
         chunkCount++;
         if (chunkCount <= 5) debugPrint('[CALL] audio chunk #$chunkCount len=${base64.length}');
-        if (!_isMuted) {
+        // 只在 WebSocket 就绪后发送，避免 AudioContext 在 suspended 状态下产生零值
+        if (_callStarted && !_isMuted) {
           _voiceBloc?.add(VoiceSendAudioChunk(base64));
         }
       });
       debugPrint('[CALL] startRecording completed');
     } catch (e) {
-      debugPrint('[CALL] startRecording error: $e');
+      debugPrint('[CALL] initRecording error: $e');
     }
   }
 
@@ -96,6 +99,7 @@ class _CallPageState extends State<CallPage> {
   void dispose() {
     _stopTimer();
     _audioRecorder.dispose();
+    _audioPlayer.dispose();
     _voiceBloc?.add(VoiceDisconnect());
     super.dispose();
   }
@@ -103,74 +107,80 @@ class _CallPageState extends State<CallPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF1A2A3A),
-              Color(0xFF0d1520),
-            ],
+      body: SizedBox(
+        width: double.infinity,
+        height: double.infinity,
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF1A2A3A),
+                Color(0xFF0d1520),
+              ],
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: BlocConsumer<VoiceBloc, VoiceState>(
-            listener: (context, state) {
-              if (state is VoiceConnected && !_callStarted) {
-                _callStarted = true;
-                _startTimer();
-                _startRecording();
-              } else if (state is VoiceReceivingText) {
-                setState(() => _aiText = state.text);
-              } else if (state is VoiceDone) {
-                _endCall();
-              } else if (state is VoiceErrorState) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: AppColors.danger,
-                  ),
+          child: SafeArea(
+            child: BlocConsumer<VoiceBloc, VoiceState>(
+              listener: (context, state) {
+                if (state is VoiceConnected && !_callStarted) {
+                  _callStarted = true;
+                  _startTimer();
+                  // 录音已在 initState 中启动 (保留用户手势), 这里只开启数据发送
+                } else if (state is VoiceReceivingText) {
+                  setState(() => _aiText = state.text);
+                } else if (state is VoiceReceivingAudio) {
+                  _audioPlayer.play(state.audioData);
+                } else if (state is VoiceDone) {
+                  _endCall();
+                } else if (state is VoiceErrorState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: AppColors.danger,
+                    ),
+                  );
+                  _endCall();
+                }
+              },
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    const Spacer(),
+                    _buildCallStatus(state),
+                    const SizedBox(height: 24),
+                    if (_aiText.isNotEmpty)
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 32),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          _aiText,
+                          style: const TextStyle(color: Colors.white70, fontSize: 14),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    const SizedBox(height: 16),
+                    if (state is VoiceConnected)
+                      Text(
+                        _formatDuration(_callDuration),
+                        style: const TextStyle(
+                          fontSize: 48,
+                          fontWeight: FontWeight.w300,
+                          color: Colors.white,
+                        ),
+                      ),
+                    const Spacer(),
+                    _buildControlButtons(context, state),
+                    const SizedBox(height: 40),
+                  ],
                 );
-                _endCall();
-              }
-            },
-            builder: (context, state) {
-              return Column(
-                children: [
-                  const Spacer(),
-                  _buildCallStatus(state),
-                  const SizedBox(height: 24),
-                  if (_aiText.isNotEmpty)
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 32),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        _aiText,
-                        style: const TextStyle(color: Colors.white70, fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  const SizedBox(height: 16),
-                  if (state is VoiceConnected)
-                    Text(
-                      _formatDuration(_callDuration),
-                      style: const TextStyle(
-                        fontSize: 48,
-                        fontWeight: FontWeight.w300,
-                        color: Colors.white,
-                      ),
-                    ),
-                  const Spacer(),
-                  _buildControlButtons(context, state),
-                  const SizedBox(height: 40),
-                ],
-              );
-            },
+              },
+            ),
           ),
         ),
       ),
@@ -182,7 +192,7 @@ class _CallPageState extends State<CallPage> {
 
     if (state is VoiceConnected) {
       statusText = _aiText.isNotEmpty ? '已接听' : '已接通，请说话...';
-    } else if (state is VoiceReceivingText) {
+    } else if (state is VoiceReceivingText || state is VoiceReceivingAudio) {
       statusText = '正在回复...';
     } else if (state is VoiceConnecting) {
       statusText = '正在连接...';
@@ -303,6 +313,7 @@ class _CallPageState extends State<CallPage> {
     _stopTimer();
     _callStarted = false;
     _audioRecorder.dispose();
+    _audioPlayer.stop();
     _voiceBloc?.add(VoiceDisconnect());
     if (mounted) {
       context.go('/chat');

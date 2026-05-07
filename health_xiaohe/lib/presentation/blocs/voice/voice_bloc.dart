@@ -101,7 +101,10 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
         break;
 
       case 'audio':
-        // PCM 音频数据，由 VoiceBloc 接收后播放
+        final audioData = message['data'] as String? ?? '';
+        if (audioData.isNotEmpty) {
+          emit(VoiceReceivingAudio(audioData));
+        }
         break;
 
       case 'done':

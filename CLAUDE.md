@@ -14,12 +14,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **依赖注入**: get_it
 - **路由**: go_router
 - **本地存储**: shared_preferences
+- **Markdown渲染**: flutter_markdown
 
 ### Python Backend (backend/)
 - **框架**: FastAPI + uvicorn
-- **数据库**: PostgreSQL + SQLAlchemy
-- **认证**: JWT (python-jose)
-- **AI模型**: 阿里云百炼 qwen3-omni-flash
+- **数据库**: PostgreSQL + SQLAlchemy (测试用SQLite)
+- **认证**: JWT (python-jose + bcrypt)
+- **AI模型**: 阿里云百炼 qwen3-omni-flash (文本), qwen3.5-omni-plus-realtime (语音实时通话)
+- **实时通信**: websockets (语音通话桥接)
 
 ## 目录结构
 
@@ -27,21 +29,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 app/
 ├── health_xiaohe/          # Flutter应用
 │   └── lib/
-│       ├── core/           # 核心模块 (constants, network, storage, theme)
-│       ├── data/          # 数据层 (models, repositories impl)
-│       ├── domain/        # 领域层 (repositories接口)
-│       ├── presentation/  # 表现层 (blocs, pages, widgets)
-│       ├── app.dart       # 应用入口 widget
-│       ├── injection.dart # 依赖注入配置
-│       └── main.dart      # main函数
+│       ├── core/           # 基础设施: constants, network, storage, theme, audio
+│       ├── data/           # 数据层: models, repositories impl
+│       ├── domain/         # 领域层: repositories接口(抽象)
+│       ├── presentation/   # 表现层: blocs, pages, widgets, router
+│       ├── app.dart        # 应用入口 widget (MultiBlocProvider)
+│       ├── injection.dart  # 依赖注入配置 (get_it)
+│       └── main.dart       # main函数
 ├── backend/               # Python后端
-│   ├── models/            # SQLAlchemy模型
-│   ├── routers/           # API路由
+│   ├── models/            # SQLAlchemy模型 (User, HealthRecord, Conversation, Message)
+│   ├── routers/           # API路由 (auth, health, consult, voice)
 │   ├── schemas/           # Pydantic schemas
-│   ├── services/          # 业务逻辑
-│   ├── utils/             # 工具函数
+│   ├── services/          # 业务逻辑 (auth_service, health_service, ai_service)
+│   ├── utils/             # 工具函数 (security, deps)
+│   ├── tests/             # pytest测试 (SQLite隔离)
 │   ├── main.py            # FastAPI入口
-│   └── database.py        # 数据库配置
+│   ├── database.py        # 数据库配置 (SessionLocal, engine, Base)
+│   └── config.py          # pydantic-settings, 从.env读取
 └── docs/                  # 设计文档
 ```
 
@@ -51,8 +55,8 @@ app/
 ```bash
 cd health_xiaohe
 
-# 运行
-flutter run
+# 运行 (Web平台)
+flutter run -d chrome
 
 # 构建Web
 flutter build web
@@ -77,58 +81,119 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 # 生产环境启动
 uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
 
-# 运行测试
+# 运行测试 (自动使用SQLite隔离环境)
 pytest tests/ -v
+
+# 运行单测试文件
+pytest tests/test_auth.py -v
 ```
+
+## 环境配置
+
+Backend通过 `backend/.env` 文件配置，由 `config.py` 的 `pydantic-settings` 读取。需要配置的环境变量：
+
+| 变量 | 说明 | 默认值 |
+|------|------|--------|
+| `DATABASE_URL` | PostgreSQL连接字符串 | `postgresql://user:password@localhost:5432/health_app` |
+| `SECRET_KEY` | JWT签名密钥 | 生产环境必须更改 |
+| `DASHSCOPE_API_KEY` | 阿里云百炼API密钥 | `sk-xxxxxxxxxxxx` |
+| `AI_MODEL` | 文本对话模型 | `qwen3-omni-flash` |
+
+测试自动使用SQLite (`sqlite:///./test_isolated.db`)，无需额外配置。`conftest.py` 在导入前设置 `DATABASE_URL` 环境变量并覆盖数据库引擎。
 
 ## API端点
 
 ### 认证 (prefix: /api/auth)
-- `POST /api/auth/register` - 用户注册
-- `POST /api/auth/login` - 用户登录
-- `GET /api/auth/me` - 获取当前用户
+- `POST /api/auth/register` - 用户注册 (phone + password)
+- `POST /api/auth/login` - 用户登录，返回JWT token
+- `GET /api/auth/me` - 获取当前用户信息
 
 ### 健康记录 (prefix: /api/health)
-- `POST /api/health/records` - 创建记录
-- `GET /api/health/records` - 获取记录列表
-- `GET /api/health/records/latest` - 获取最新记录
+- `POST /api/health/records` - 创建健康记录
+- `GET /api/health/records` - 获取记录列表 (支持record_type, limit, offset)
+- `GET /api/health/records/latest` - 获取各类型最新记录
 - `DELETE /api/health/records/{id}` - 删除记录
 
 ### AI咨询 (prefix: /api/consult)
-- `POST /api/consult/chat` - AI对话
-- `POST /api/consult/chat/stream` - AI对话(流式)
-- `GET /api/consult/chat/history` - 获取历史
+- `POST /api/consult/chat` - AI对话 (非流式)
+- `POST /api/consult/chat/stream` - AI对话 (SSE流式)
+- `GET /api/consult/chat/history` - 获取对话历史 (已废弃，用conversations替代)
+- `GET /api/consult/conversations` - 获取对话列表
+- `GET /api/consult/conversations/{id}` - 获取对话详情(含消息列表)
+
+### 语音通话 (prefix: /api/consult/voice)
+- `POST /api/consult/voice/chat` - 单轮语音对话 (base64音频 → 文本回复)
+- `POST /api/consult/voice/chat/stream` - 语音对话流式
+- `WS /api/consult/voice/ws` - 实时语音通话WebSocket (需token参数认证)
 
 ## 架构说明
 
 ### Flutter Clean Architecture
-- **core/**: 基础设施常量、网络客户端、存储
-- **data/**: 数据模型和仓库实现
+- **core/**: 基础设施 — 常量(app_colors, app_spacing, app_strings)、网络客户端(api_client, websocket_client, sse_client)、本地存储、主题、音频录制
+- **data/**: 数据模型(models)和仓库实现(repositories impl)
 - **domain/**: 仓库接口定义(抽象)
-- **presentation/**: BLoC状态管理 + UI (pages/widgets)
+- **presentation/**: BLoC状态管理 + UI页面 + 路由 + widgets
 
-### BLoC结构
-每个功能模块包含:
-- `*_bloc.dart` - 业务逻辑
-- `*_event.dart` - 事件定义
-- `*_state.dart` - 状态定义
+### BLoC 模块
+
+| BLoC | 职责 |
+|------|------|
+| AuthBloc | 登录/注册/认证状态检查 |
+| ChatBloc | AI对话，SSE流式接收 |
+| ChatHistoryBloc | 对话列表加载和管理 |
+| HealthBloc | 健康记录CRUD |
+| VoiceBloc | 语音通话状态、WebSocket连接管理 |
+
+每个BLoC模块包含 `*_bloc.dart` (逻辑)、`*_event.dart` (事件)、`*_state.dart` (状态)。
+
+### 流式输出架构 (SSE)
+
+AI对话流式输出通过Flutter端的 `sse_client_web.dart` (web平台EventSource) 和 `sse_client_stub.dart` (非web平台存根) 实现。后端 `/api/consult/chat/stream` 使用FastAPI `StreamingResponse` 以SSE格式推送 `data: {json}\n\n` 块，最后发送 `data: [DONE]\n\n`。
+
+### 语音通话架构
+
+```
+Flutter → HTTP POST /consult/voice/ws?token=xxx (升级为WebSocket)
+       ↕ JSON消息 (type: audio/commit)
+FastAPI voice.py → WebSocket转发 → DashScope Realtime API
+       ↕
+DashScope → type: response.audio.delta / response.text.delta / response.done
+```
+
+Flutter端 `VoiceBloc` 通过 `WebSocketClient` 管理连接，`audio_recorder_web.dart` 负责浏览器音频采集(PCM编码)。WebSocket消息类型:
+- Flutter→Backend: `audio` (base64 PCM), `commit` (提交缓冲区), `stop`
+- Backend→Flutter: `connected`, `text`, `audio`, `done`, `error`
+
+### 对话持久化
+
+`consult.py` 的 `_save_chat_messages()` 在每次AI回复后自动持久化。支持两种模式:
+- **新对话**: 不传 `conversation_id`，自动创建Conversation
+- **继续对话**: 传 `conversation_id`，追加新消息到已有对话
+
+流式接口在生成完所有内容后，通过SSE返回 `conversation_id` 供前端后续使用。
+
+## 路由与导航
+
+Flutter使用 `go_router` 和 `ShellRoute` 实现底部导航栏:
+
+```
+/ (启动页) → /login (登录) → /chat (聊天首页)
+                             ├── /health-records (健康记录)
+                             ├── /chat-history (对话历史列表)
+                             ├── /profile (个人中心)
+                             ├── /call (语音通话)
+                             └── /chat-history/:conversationId (对话详情)
+```
+
+底部导航栏4个tab: 咨询、记录、历史、我的。
 
 ## 设计规范
 
-参考 `docs/design/健康小荷App原型.html` (手机模拟器原型):
+参考 `docs/design/健康小荷App原型.html`:
 - 品牌色: `#4ECDC4` (蓝绿)
 - 辅助色: `#2D9CDB` (深蓝)
 - 背景渐变: `#E8F8F7` → `#FFFFFF`
 - 间距系统: 8pt网格
-
-### 原型页面结构
-
-```
-启动页 → 登录页 → 聊天首页
-                   ├── 侧边菜单 → 健康记录/历史记录/个人中心
-                   ├── 语音通话页
-                   └── 健康记录页(浮动添加按钮)
-```
 
 ### 关键UI组件
 
@@ -142,4 +207,4 @@ pytest tests/ -v
 | 记录卡片 | 圆角16px, 阴影, 状态标签(正常/偏高/危险) |
 
 ### API 端口
-- 开发环境: `http://localhost:8002`
+- 开发环境: `http://localhost:8000` (Flutter `ApiEndpoints.baseUrl` 和 uvicorn 默认端口一致)
