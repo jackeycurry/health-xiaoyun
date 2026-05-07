@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_xiaohe/core/network/websocket_client.dart';
 import 'voice_event.dart';
@@ -31,6 +32,8 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
 
   void _onConnect(VoiceConnect event, Emitter<VoiceState> emit) {
     emit(VoiceConnecting());
+    debugPrint('[VOICE_BLOC] connecting...');
+    _accumulatedText = '';
 
     _webSocketClient.connect(event.token);
 
@@ -40,7 +43,11 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
         add(VoiceReceiveMessage(message));
       },
       onError: (error) {
+        debugPrint('[VOICE_BLOC] message error: $error');
         add(VoiceError(error.toString()));
+      },
+      onDone: () {
+        debugPrint('[VOICE_BLOC] message stream done');
       },
     );
 
@@ -50,18 +57,10 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
         add(VoiceReceiveBinary(data));
       },
     );
-
-    // Send session update configuration
-    _webSocketClient.sendSessionUpdate(
-      modalities: ['text', 'audio'],
-      voice: 'akura',
-      instructions: _healthInstructions,
-    );
-
-    emit(VoiceConnected());
   }
 
   void _onDisconnect(VoiceDisconnect event, Emitter<VoiceState> emit) {
+    debugPrint('[VOICE_BLOC] disconnect');
     _messageSubscription?.cancel();
     _binarySubscription?.cancel();
     _webSocketClient.disconnect();
@@ -70,7 +69,11 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
   }
 
   void _onSendAudioChunk(VoiceSendAudioChunk event, Emitter<VoiceState> emit) {
-    _webSocketClient.sendAudioChunk(event.base64Audio);
+    // 发送 {type: audio, data: b64}，与 voice_test.html 和 backend forward_audio 保持一致
+    _webSocketClient.send({
+      'type': 'audio',
+      'data': event.base64Audio,
+    });
   }
 
   void _onCommitAudio(VoiceCommitAudio event, Emitter<VoiceState> emit) {
@@ -82,31 +85,33 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
   void _onReceiveMessage(VoiceReceiveMessage event, Emitter<VoiceState> emit) {
     final message = event.message;
     final type = message['type'] as String?;
+    debugPrint('[VOICE_BLOC] receive: type=$type');
 
     switch (type) {
-      case 'session.updated':
-        // Session confirmed, ready for audio
+      case 'connected':
+        // 后端 DashScope 就绪后才开始录音
+        debugPrint('[VOICE_BLOC] backend ready, starting voice session');
+        emit(VoiceConnected());
         break;
 
-      case 'response.text.delta':
-        final text = message['text'] as String? ?? '';
+      case 'text':
+        final text = message['data'] as String? ?? '';
         _accumulatedText += text;
         emit(VoiceReceivingText(_accumulatedText));
         break;
 
-      case 'response.audio.delta':
-        final audio = message['audio'] as String? ?? '';
-        emit(VoiceReceivingAudio(audio));
+      case 'audio':
+        // PCM 音频数据，由 VoiceBloc 接收后播放
         break;
 
-      case 'response.done':
-        emit(VoiceDone());
+      case 'done':
         _accumulatedText = '';
+        emit(VoiceConnected());
         break;
 
       case 'error':
-        final error = message['message'] ?? message.toString();
-        add(VoiceError(error.toString()));
+        final error = message['data']?.toString() ?? message.toString();
+        add(VoiceError(error));
         break;
     }
   }
