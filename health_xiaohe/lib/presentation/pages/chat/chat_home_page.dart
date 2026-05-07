@@ -88,12 +88,15 @@ class _ChatHomePageState extends State<ChatHomePage> {
                 ),
               ),
               const SizedBox(width: 10),
-              const Text(
-                AppStrings.chatHomeTitle,
-                style: TextStyle(
-                  color: AppColors.textPrimary,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+              const Expanded(
+                child: Text(
+                  AppStrings.chatHomeTitle,
+                  style: TextStyle(
+                    color: AppColors.textPrimary,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
