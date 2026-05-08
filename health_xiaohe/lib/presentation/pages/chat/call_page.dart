@@ -7,6 +7,8 @@ import 'package:health_xiaohe/core/audio/audio_recorder_stub.dart'
     if (dart.library.html) 'package:health_xiaohe/core/audio/audio_recorder_web.dart';
 import 'package:health_xiaohe/core/audio/audio_player_stub.dart'
     if (dart.library.html) 'package:health_xiaohe/core/audio/audio_player_web.dart';
+import 'package:health_xiaohe/core/camera/camera_capture_stub.dart'
+    if (dart.library.html) 'package:health_xiaohe/core/camera/camera_capture_web.dart';
 import 'package:health_xiaohe/core/constants/app_colors.dart';
 import 'package:health_xiaohe/core/storage/local_storage.dart';
 import 'package:health_xiaohe/presentation/blocs/voice/voice_bloc.dart';
@@ -23,8 +25,10 @@ class CallPage extends StatefulWidget {
 class _CallPageState extends State<CallPage> {
   final _audioRecorder = AudioRecorder();
   final _audioPlayer = AudioPlayer();
+  final _cameraCapture = CameraCapture();
   bool _isMuted = false;
   bool _isSpeakerOn = false;
+  bool _videoEnabled = false;
   bool _callStarted = false;
   int _callDuration = 0;
   Timer? _timer;
@@ -91,6 +95,30 @@ class _CallPageState extends State<CallPage> {
     }
   }
 
+  Future<void> _startVideo() async {
+    try {
+      final hasPermission = await _cameraCapture.hasPermission();
+      if (!hasPermission) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('请允许摄像头权限')),
+          );
+        }
+        return;
+      }
+      await _cameraCapture.startCapture((base64Jpeg) {
+        _voiceBloc?.add(VoiceSendImageChunk(base64Jpeg));
+      });
+      debugPrint('[CALL] video capture started');
+    } catch (e) {
+      debugPrint('[CALL] startVideo error: $e');
+    }
+  }
+
+  void _stopVideo() {
+    _cameraCapture.stopCapture();
+  }
+
   String _formatDuration(int seconds) {
     final mins = (seconds ~/ 60).toString().padLeft(2, '0');
     final secs = (seconds % 60).toString().padLeft(2, '0');
@@ -102,6 +130,7 @@ class _CallPageState extends State<CallPage> {
     _stopTimer();
     _audioRecorder.dispose();
     _audioPlayer.dispose();
+    _cameraCapture.dispose();
     _voiceBloc?.add(VoiceDisconnect());
     super.dispose();
   }
@@ -109,20 +138,23 @@ class _CallPageState extends State<CallPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: _videoEnabled ? Colors.transparent : null,
       body: SizedBox(
         width: double.infinity,
         height: double.infinity,
         child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF1A2A3A),
-                Color(0xFF0d1520),
-              ],
-            ),
-          ),
+          decoration: _videoEnabled
+              ? const BoxDecoration()
+              : const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFF1A2A3A),
+                      Color(0xFF0d1520),
+                    ],
+                  ),
+                ),
           child: SafeArea(
             child: BlocConsumer<VoiceBloc, VoiceState>(
               listener: (context, state) {
@@ -298,7 +330,24 @@ class _CallPageState extends State<CallPage> {
                 setState(() => _isMuted = !_isMuted);
               },
             ),
-            const SizedBox(width: 30),
+            const SizedBox(width: 24),
+            _buildControlButton(
+              icon: _videoEnabled ? Icons.videocam : Icons.videocam_off,
+              backgroundColor: _videoEnabled
+                  ? AppColors.primary.withOpacity(0.8)
+                  : Colors.white.withOpacity(0.15),
+              onTap: () {
+                setState(() {
+                  _videoEnabled = !_videoEnabled;
+                  if (_videoEnabled) {
+                    _startVideo();
+                  } else {
+                    _stopVideo();
+                  }
+                });
+              },
+            ),
+            const SizedBox(width: 24),
             _buildControlButton(
               icon: Icons.call_end,
               backgroundColor: AppColors.danger,
@@ -352,6 +401,7 @@ class _CallPageState extends State<CallPage> {
     _callStarted = false;
     _audioRecorder.dispose();
     _audioPlayer.stop();
+    _cameraCapture.dispose();
     _voiceBloc?.add(VoiceDisconnect());
     if (mounted) {
       if (_conversationId != null) {

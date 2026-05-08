@@ -56,6 +56,13 @@ class VoiceError extends VoiceEvent {
   List<Object?> get props => [error];
 }
 
+class VoiceSendImageChunk extends VoiceEvent {
+  final String base64Jpeg;
+  const VoiceSendImageChunk(this.base64Jpeg);
+  @override
+  List<Object?> get props => [base64Jpeg];
+}
+
 class VoiceStartRecording extends VoiceEvent {}
 
 class VoiceStopRecording extends VoiceEvent {}

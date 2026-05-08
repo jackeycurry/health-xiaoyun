@@ -26,6 +26,7 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
     on<VoiceDisconnect>(_onDisconnect);
     on<VoiceSendAudioChunk>(_onSendAudioChunk);
     on<VoiceCommitAudio>(_onCommitAudio);
+    on<VoiceSendImageChunk>(_onSendImageChunk);
     on<VoiceReceiveMessage>(_onReceiveMessage);
     on<VoiceReceiveBinary>(_onReceiveBinary);
     on<VoiceError>(_onError);
@@ -81,6 +82,13 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
     _webSocketClient.commitAudioBuffer();
     _webSocketClient.createResponse();
     emit(VoiceProcessing());
+  }
+
+  void _onSendImageChunk(VoiceSendImageChunk event, Emitter<VoiceState> emit) {
+    _webSocketClient.send({
+      'type': 'image',
+      'data': event.base64Jpeg,
+    });
   }
 
   void _onReceiveMessage(VoiceReceiveMessage event, Emitter<VoiceState> emit) {
