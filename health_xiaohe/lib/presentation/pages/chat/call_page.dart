@@ -132,6 +132,9 @@ class _CallPageState extends State<CallPage> {
                   setState(() => _aiText = state.text);
                 } else if (state is VoiceReceivingAudio) {
                   _audioPlayer.play(state.audioData);
+                } else if (state is VoiceListening) {
+                  _audioPlayer.stop();
+                  setState(() => _aiText = '');
                 } else if (state is VoiceDone) {
                   _endCall();
                 } else if (state is VoiceErrorState) {
@@ -194,6 +197,10 @@ class _CallPageState extends State<CallPage> {
       statusText = _aiText.isNotEmpty ? '已接听' : '已接通，请说话...';
     } else if (state is VoiceReceivingText || state is VoiceReceivingAudio) {
       statusText = '正在回复...';
+    } else if (state is VoiceListening) {
+      statusText = '正在聆听...';
+    } else if (state is VoiceProcessingInput) {
+      statusText = '正在理解...';
     } else if (state is VoiceConnecting) {
       statusText = '正在连接...';
     }

@@ -10,6 +10,7 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
   StreamSubscription? _messageSubscription;
   StreamSubscription? _binarySubscription;
   String _accumulatedText = '';
+  bool _interrupted = false;
 
   static const String _healthInstructions = '''你是一位专业的AI健康助手，名叫"健康小荷"。请根据用户的语音问题提供健康建议。
 
@@ -95,16 +96,32 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
         break;
 
       case 'text':
+        if (_interrupted) break;
         final text = message['data'] as String? ?? '';
         _accumulatedText += text;
         emit(VoiceReceivingText(_accumulatedText));
         break;
 
       case 'audio':
+        if (_interrupted) break;
         final audioData = message['data'] as String? ?? '';
         if (audioData.isNotEmpty) {
           emit(VoiceReceivingAudio(audioData));
         }
+        break;
+
+      case 'speech_started':
+        // 用户打断AI — 标记打断，停止播放，转入聆听模式
+        debugPrint('[VOICE_BLOC] user interrupted, switching to listening');
+        _interrupted = true;
+        _accumulatedText = '';
+        emit(VoiceListening());
+        break;
+
+      case 'speech_stopped':
+        // 用户说完，AI开始处理新输入 — 此时清除打断标志，后续 audio 是新回复
+        _interrupted = false;
+        emit(VoiceProcessingInput());
         break;
 
       case 'done':

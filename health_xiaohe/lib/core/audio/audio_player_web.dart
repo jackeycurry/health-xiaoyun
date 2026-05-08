@@ -1,5 +1,5 @@
 // Web 平台 PCM 音频播放器 — 24kHz Int16 little-endian → Float32 → AudioContext
-// 与 voice_test.html playAudio() 完全一致的实现
+// 支持 barge-in: stop() 立即终止当前播放和所有排队音频
 import 'dart:js' as js;
 import 'audio_player_base.dart';
 
@@ -12,15 +12,14 @@ class AudioPlayer extends AudioPlayerBase {
     js.context.callMethod('eval', ['''
 window.__playAudioCtx = new (window.AudioContext||window.webkitAudioContext)({sampleRate: 24000});
 window.__playNextTime = 0;
+window.__playSources = [];
 window.__playAudio = function(b64) {
   if (!b64) return;
   try {
     var ctx = window.__playAudioCtx;
-    // base64 → bytes
     var binary = atob(b64);
     var bytes = new Uint8Array(binary.length);
     for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
-    // Int16 → Float32
     var samples = bytes.length / 2;
     var buf = ctx.createBuffer(1, samples, 24000);
     var channel = buf.getChannelData(0);
@@ -34,8 +33,22 @@ window.__playAudio = function(b64) {
     var now = ctx.currentTime;
     var startTime = Math.max(now, window.__playNextTime);
     src.start(startTime);
+    src.onended = function() {
+      var idx = window.__playSources.indexOf(src);
+      if (idx >= 0) window.__playSources.splice(idx, 1);
+    };
+    window.__playSources.push(src);
     window.__playNextTime = startTime + buf.duration;
   } catch(e) { console.error('[AudioPlayer] play error:', e); }
+};
+window.__stopAllAudio = function() {
+  window.__playNextTime = 0;
+  var sources = window.__playSources;
+  window.__playSources = [];
+  for (var i = 0; i < sources.length; i++) {
+    try { sources[i].stop(); } catch(e) {}
+    try { sources[i].disconnect(); } catch(e) {}
+  }
 };
 ''']);
   }
@@ -48,7 +61,8 @@ window.__playAudio = function(b64) {
 
   @override
   void stop() {
-    js.context.callMethod('eval', ['window.__playNextTime = 0']);
+    _ensureInit();
+    js.context.callMethod('eval', ['window.__stopAllAudio()']);
   }
 
   @override
@@ -58,7 +72,9 @@ window.__playAudio = function(b64) {
 try { window.__playAudioCtx?.close(); } catch(e) {}
 delete window.__playAudioCtx;
 delete window.__playNextTime;
+delete window.__playSources;
 delete window.__playAudio;
+delete window.__stopAllAudio;
 ''']);
     _initialized = false;
   }

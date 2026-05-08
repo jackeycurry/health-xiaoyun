@@ -15,6 +15,12 @@ class VoiceConnected extends VoiceState {}
 
 class VoiceDisconnected extends VoiceState {}
 
+/// 用户打断AI — AI停止播放，转为聆听用户
+class VoiceListening extends VoiceState {}
+
+/// AI正在处理用户的语音输入
+class VoiceProcessingInput extends VoiceState {}
+
 class VoiceRecording extends VoiceState {
   final Duration duration;
 
