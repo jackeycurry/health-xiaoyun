@@ -60,9 +60,13 @@ Stream<SseChunk> fetchSseStream({
 
   xhr.onReadyStateChange.listen((_) {
     if (xhr.readyState == html.HttpRequest.DONE) {
+      // 最后一次读取，确保定时器间隙中的数据不丢失
+      processIncremental(xhr.responseText ?? '');
       timer?.cancel();
-      if (lineBuffer.trim().startsWith('data: ')) {
-        final data = lineBuffer.trim().substring(6);
+      // 处理最后残留的行
+      final lb = lineBuffer.trim();
+      if (lb.startsWith('data: ')) {
+        final data = lb.substring(6);
         if (data != '[DONE]') {
           try {
             final json = jsonDecode(data);

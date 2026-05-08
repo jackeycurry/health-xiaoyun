@@ -145,6 +145,7 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
         break;
 
       case 'done':
+        _interrupted = false;
         _accumulatedText = '';
         emit(VoiceConnected());
         break;
