@@ -50,6 +50,27 @@ class VoiceReceivingAudio extends VoiceState {
   List<Object?> get props => [audioData];
 }
 
+class VoiceConversationCreated extends VoiceState {
+  final String conversationId;
+  const VoiceConversationCreated(this.conversationId);
+  @override
+  List<Object?> get props => [conversationId];
+}
+
+class VoiceUserText extends VoiceState {
+  final String text;
+  const VoiceUserText(this.text);
+  @override
+  List<Object?> get props => [text];
+}
+
+class VoiceAiFullText extends VoiceState {
+  final String text;
+  const VoiceAiFullText(this.text);
+  @override
+  List<Object?> get props => [text];
+}
+
 class VoiceDone extends VoiceState {}
 
 class VoiceErrorState extends VoiceState {

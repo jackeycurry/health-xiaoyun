@@ -29,6 +29,8 @@ class _CallPageState extends State<CallPage> {
   int _callDuration = 0;
   Timer? _timer;
   String _aiText = '';
+  String _userText = '';
+  String? _conversationId;
   VoiceBloc? _voiceBloc;
 
   @override
@@ -128,6 +130,10 @@ class _CallPageState extends State<CallPage> {
                   _callStarted = true;
                   _startTimer();
                   // 录音已在 initState 中启动 (保留用户手势), 这里只开启数据发送
+                } else if (state is VoiceConversationCreated) {
+                  _conversationId = state.conversationId;
+                } else if (state is VoiceUserText) {
+                  setState(() => _userText = state.text);
                 } else if (state is VoiceReceivingText) {
                   setState(() => _aiText = state.text);
                 } else if (state is VoiceReceivingAudio) {
@@ -153,6 +159,26 @@ class _CallPageState extends State<CallPage> {
                     const Spacer(),
                     _buildCallStatus(state),
                     const SizedBox(height: 24),
+                    if (_userText.isNotEmpty)
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 32),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('你说：',
+                                style: TextStyle(color: AppColors.primary, fontSize: 12)),
+                            const SizedBox(height: 4),
+                            Text(_userText,
+                                style: const TextStyle(color: Colors.white, fontSize: 14)),
+                          ],
+                        ),
+                      ),
+                    if (_userText.isNotEmpty) const SizedBox(height: 8),
                     if (_aiText.isNotEmpty)
                       Container(
                         margin: const EdgeInsets.symmetric(horizontal: 32),
@@ -161,10 +187,15 @@ class _CallPageState extends State<CallPage> {
                           color: Colors.white.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        child: Text(
-                          _aiText,
-                          style: const TextStyle(color: Colors.white70, fontSize: 14),
-                          textAlign: TextAlign.center,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('小荷：',
+                                style: TextStyle(color: AppColors.primaryLight, fontSize: 12)),
+                            const SizedBox(height: 4),
+                            Text(_aiText,
+                                style: const TextStyle(color: Colors.white70, fontSize: 14)),
+                          ],
                         ),
                       ),
                     const SizedBox(height: 16),
@@ -323,7 +354,11 @@ class _CallPageState extends State<CallPage> {
     _audioPlayer.stop();
     _voiceBloc?.add(VoiceDisconnect());
     if (mounted) {
-      context.go('/chat');
+      if (_conversationId != null) {
+        context.go('/chat?conversationId=$_conversationId');
+      } else {
+        context.go('/chat');
+      }
     }
   }
 }

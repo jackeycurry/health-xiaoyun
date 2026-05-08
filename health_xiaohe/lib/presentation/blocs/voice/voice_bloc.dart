@@ -92,6 +92,10 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
       case 'connected':
         // 后端 DashScope 就绪后才开始录音
         debugPrint('[VOICE_BLOC] backend ready, starting voice session');
+        final convId = message['conversation_id'] as String?;
+        if (convId != null) {
+          emit(VoiceConversationCreated(convId));
+        }
         emit(VoiceConnected());
         break;
 
@@ -122,6 +126,22 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
         // 用户说完，AI开始处理新输入 — 此时清除打断标志，后续 audio 是新回复
         _interrupted = false;
         emit(VoiceProcessingInput());
+        break;
+
+      case 'user_text':
+        // 用户语音转录
+        final userText = message['data'] as String? ?? '';
+        if (userText.isNotEmpty) {
+          emit(VoiceUserText(userText));
+        }
+        break;
+
+      case 'ai_text':
+        // AI 完整回复（response.audio_transcript.done）
+        final fullText = message['data'] as String? ?? '';
+        if (fullText.isNotEmpty) {
+          emit(VoiceAiFullText(fullText));
+        }
         break;
 
       case 'done':
