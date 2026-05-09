@@ -1,0 +1,13 @@
+[     596ms] [WARNING] The provided value '*/*' is not a valid enum value of type XMLHttpRequestResponseType. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:7
+[     616ms] [LOG] %c [APLUS] -- APLUS INIT SUCCESS background:#3B82FE; padding: 4px; padding-right: 8px; border-radius: 4px; color: #fff; @ :1
+[     623ms] [LOG] Deprecated as of 10.7.0. highlightBlock will be removed entirely in v12.0 @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     623ms] [LOG] Deprecated as of 10.7.0. Please use highlightElement now. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     623ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     623ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     623ms] [WARNING] The element with unescaped HTML: @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     623ms] [WARNING] JSHandle@node @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     626ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     626ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     626ms] [WARNING] The element with unescaped HTML: @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[     626ms] [WARNING] JSHandle@node @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1070ms] [LOG] Fri May 08 2026 10:19:38 GMT+0800 (中国标准时间) @ https://g.alicdn.com/AWSC/et/1.83.41/et_f.js:1

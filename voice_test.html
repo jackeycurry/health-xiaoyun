@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>语音通话测试</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: system-ui; background: #1A2A3A; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+h1 { font-size: 18px; margin: 20px 0 10px; }
+.subtitle { color: #fff8; font-size: 13px; margin-bottom: 24px; }
+.card { background: #ffffff10; border-radius: 16px; padding: 20px; margin-bottom: 16px; width: 100%; max-width: 400px; }
+.avatar { width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(135deg, #4ECDC4, #2D9CDB); display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 20px auto 0; box-shadow: 0 0 40px #4ECDC466; }
+.pulse { animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 60px #4ECDC466; } 50% { box-shadow: 0 0 80px #4ECDC488; } }
+#status { font-size: 14px; margin-top: 16px; text-align: center; }
+#timer { font-size: 36px; font-weight: 300; margin-top: 8px; text-align: center; }
+#answer { margin: 14px 0; padding: 12px 16px; background: #ffffff08; border-radius: 12px; font-size: 14px; color: #eee; line-height: 1.6; white-space: pre-wrap; word-break: break-word; min-height: 40px; }
+.btn { padding: 14px 28px; border-radius: 50px; border: none; font-size: 16px; cursor: pointer; font-weight: 600; transition: all .2s; width: 100%; }
+.btn-start { background: #4ECDC4; color: #fff; }
+.btn-start:hover { background: #3dbdb5; }
+.btn-start:disabled { background: #555; cursor: not-allowed; }
+.btn-end { background: #FF4D4F; color: #fff; margin-top: 10px; }
+.btn-end:hover { background: #e04042; }
+.btn-end:disabled { background: #555; cursor: not-allowed; }
+.log { margin-top: 12px; padding: 10px; background: #00000030; border-radius: 8px; font-size: 11px; color: #fff6; max-height: 160px; overflow-y: auto; font-family: monospace; }
+</style>
+</head>
+<body>
+
+<h1>健康小荷 · 语音通话</h1>
+<p class="subtitle">一键测试 DashScope Realtime WebSocket</p>
+
+<div class="card" style="text-align:center">
+  <div class="avatar pulse" id="avatar">🌿</div>
+  <div id="status">就绪</div>
+  <div id="timer" style="display:none">00:00</div>
+  <div id="answer"></div>
+</div>
+
+<div class="card">
+  <button class="btn btn-start" id="btnStart" onclick="start()">开始通话</button>
+  <button class="btn btn-end" id="btnEnd" onclick="hangup()" disabled>挂断</button>
+</div>
+
+<div class="card">
+  <div style="font-size:13px; color:#fff8; margin-bottom:6px">日志</div>
+  <div class="log" id="log"></div>
+</div>
+
+<script>
+const BASE = 'http://localhost:8000';
+const WS_BASE = 'ws://localhost:8000';
+const TEST_PHONE = '138' + Math.random().toString().slice(2,10);
+const TEST_PWD = 'test123456';
+
+let ws = null, audioCtx = null, processor = null, source = null, stream = null;
+let recording = false, started = false, callSec = 0, timerId = null;
+let token = '', accumText = '';
+let playAudioCtx = null;  // 独立 AudioContext 用于播放 (24kHz)
+
+function L(msg) {
+  const el = document.getElementById('log');
+  const t = new Date().toLocaleTimeString();
+  el.innerHTML += `<div><span style="color:#4ECDC4">${t}</span> ${msg}</div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function S(text, color) {
+  const el = document.getElementById('status');
+  el.textContent = text;
+  el.style.color = color || '#fff';
+}
+
+async function start() {
+  const btn = document.getElementById('btnStart');
+  btn.disabled = true;
+  S('注册/登录中...', '#FFB800');
+  L('开始测试...');
+
+  try {
+    // 1. 尝试注册（忽略已注册错误）
+    L('注册...');
+    const regRes = await fetch(`${BASE}/api/auth/register`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({phone: TEST_PHONE, password: TEST_PWD})
+    });
+    const regText = await regRes.text();
+    L(`注册返回 ${regRes.status}: ${regText.slice(0, 80)}`);
+
+    // 2. 登录
+    L('登录...');
+    const res = await fetch(`${BASE}/api/auth/login`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({phone: TEST_PHONE, password: TEST_PWD})
+    });
+    const data = await res.json();
+    if (!data.access_token) {
+      S('登录失败', '#FF4D4F');
+      L('登录失败: ' + JSON.stringify(data));
+      btn.disabled = false;
+      return;
+    }
+    token = data.access_token;
+    L('登录成功 ✓');
+
+    // 3. 获取麦克风
+    L('请求麦克风...');
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({audio: true});
+      L('麦克风就绪 ✓');
+    } catch(e) {
+      S('麦克风权限被拒绝', '#FF4D4F');
+      L('麦克风错误: ' + e.message);
+      btn.disabled = false;
+      return;
+    }
+
+    // 4. 连接 WebSocket
+    const wsUrl = `${WS_BASE}/api/consult/voice/ws?token=${encodeURIComponent(token)}`;
+    L('连接 WebSocket...');
+    ws = new WebSocket(wsUrl);
+
+    ws.onopen = () => { L('WebSocket 已连接 ✓'); };
+
+    ws.onmessage = (evt) => {
+      try {
+        const msg = JSON.parse(evt.data);
+        const t = msg.type;
+        if (t === 'connected') {
+          started = true;
+          S('已接通，请说话...', '#4ECDC4');
+          L('← connected — 开始录音');
+          document.getElementById('btnEnd').disabled = false;
+          startRecording();
+          startTimer();
+        } else if (t === 'text') {
+          accumText += msg.data;
+          document.getElementById('answer').textContent = accumText;
+          L(`← text: ${msg.data.slice(0, 30)}`);
+        } else if (t === 'audio') {
+          playAudio(msg.data);
+        } else if (t === 'done') {
+          accumText = '';
+          S('已接听', '#4ECDC4');
+          L('← done');
+        } else if (t === 'error') {
+          L(`← error: ${JSON.stringify(msg.data || msg)}`);
+          S('出错', '#FF4D4F');
+        } else {
+          L(`← ${t}`);
+        }
+      } catch(e) {}
+    };
+
+    ws.onerror = (e) => { L('WebSocket 错误'); console.error(e); };
+    ws.onclose = (e) => {
+      L(`WebSocket 关闭 code=${e.code}`);
+      cleanup();
+    };
+
+    S('正在连接...', '#FFB800');
+  } catch(e) {
+    L('启动失败: ' + e.message);
+    S('失败', '#FF4D4F');
+    btn.disabled = false;
+  }
+}
+
+function startRecording() {
+  if (recording) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)({sampleRate: 16000});
+  L(`AudioContext 采样率: ${audioCtx.sampleRate}`);
+
+  source = audioCtx.createMediaStreamSource(stream);
+  processor = audioCtx.createScriptProcessor(4096, 1, 1);
+
+  let chunkCount = 0;
+  processor.onaudioprocess = (e) => {
+    if (!recording || !started || ws?.readyState !== WebSocket.OPEN) return;
+    const input = e.inputBuffer.getChannelData(0);
+    const buf = new ArrayBuffer(input.length * 2);
+    const view = new DataView(buf);
+    for (let i = 0; i < input.length; i++) {
+      let s = Math.round(input[i] * 32767);
+      s = Math.max(-32768, Math.min(32767, s));
+      view.setInt16(i * 2, s, true);
+    }
+    const bytes = new Uint8Array(buf);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    const b64 = btoa(binary);
+    ws.send(JSON.stringify({type: 'audio', data: b64}));
+
+    chunkCount++;
+    if (chunkCount <= 2 || chunkCount % 20 === 0) {
+      L(`→ audio #${chunkCount} (${b64.length} chars)`);
+    }
+  };
+
+  source.connect(processor);
+  processor.connect(audioCtx.destination);
+  recording = true;
+  L('录音已启动 ✓');
+}
+
+function stopRecording() {
+  recording = false;
+  try { processor?.disconnect(); } catch(_) {}
+  try { source?.disconnect(); } catch(_) {}
+  try { audioCtx?.close(); } catch(_) {}
+  processor = null; source = null; audioCtx = null;
+}
+
+function startTimer() {
+  callSec = 0;
+  document.getElementById('timer').style.display = 'block';
+  timerId = setInterval(() => {
+    callSec++;
+    document.getElementById('timer').textContent =
+      `${Math.floor(callSec/60).toString().padStart(2,'0')}:${(callSec%60).toString().padStart(2,'0')}`;
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerId);
+  document.getElementById('timer').style.display = 'none';
+}
+
+function hangup() {
+  if (ws?.readyState === WebSocket.OPEN) ws.close(1000);
+  cleanup();
+}
+
+// 播放 PCM 音频 (24kHz, Int16, mono)
+let _nextPlayTime = 0;
+function playAudio(b64) {
+  if (!b64) return;
+  try {
+    if (!playAudioCtx) playAudioCtx = new (window.AudioContext || window.webkitAudioContext)({sampleRate: 24000});
+    // base64 → bytes
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    // Int16 → Float32
+    const samples = bytes.length / 2;
+    const buf = playAudioCtx.createBuffer(1, samples, 24000);
+    const channel = buf.getChannelData(0);
+    const view = new DataView(bytes.buffer);
+    for (let i = 0; i < samples; i++) {
+      channel[i] = view.getInt16(i * 2, true) / 32768;
+    }
+    // 播放
+    const src = playAudioCtx.createBufferSource();
+    src.buffer = buf;
+    src.connect(playAudioCtx.destination);
+    const now = playAudioCtx.currentTime;
+    const startTime = Math.max(now, _nextPlayTime);
+    src.start(startTime);
+    _nextPlayTime = startTime + buf.duration;
+  } catch(e) { L('音频播放失败: ' + e.message); }
+}
+
+function cleanup() {
+  stopRecording();
+  stopTimer();
+  started = false;
+  accumText = '';
+  _nextPlayTime = 0;
+  document.getElementById('answer').textContent = '';
+  document.getElementById('btnStart').disabled = false;
+  document.getElementById('btnEnd').disabled = true;
+  document.getElementById('avatar').classList.add('pulse');
+  S('已挂断');
+  try { stream?.getTracks().forEach(t => t.stop()); } catch(_) {}
+  try { playAudioCtx?.close(); playAudioCtx = null; } catch(_) {}
+  stream = null; ws = null;
+  L('通话结束');
+}
+
+window.addEventListener('beforeunload', () => cleanup());
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+[    1300ms] [WARNING] The provided value '*/*' is not a valid enum value of type XMLHttpRequestResponseType. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:7
+[    1318ms] [LOG] Deprecated as of 10.7.0. highlightBlock will be removed entirely in v12.0 @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1318ms] [LOG] Deprecated as of 10.7.0. Please use highlightElement now. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1340ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1340ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1340ms] [WARNING] The element with unescaped HTML: @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1340ms] [WARNING] JSHandle@node @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1341ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1341ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1341ms] [WARNING] The element with unescaped HTML: @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1341ms] [WARNING] JSHandle@node @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1346ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1346ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1346ms] [WARNING] The element with unescaped HTML: @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1346ms] [WARNING] JSHandle@node @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1348ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1348ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1348ms] [WARNING] The element with unescaped HTML: @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1348ms] [WARNING] JSHandle@node @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1348ms] [WARNING] One of your code blocks includes unescaped HTML. This is a potentially serious security risk. @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1348ms] [WARNING] https://github.com/highlightjs/highlight.js/wiki/security @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1348ms] [WARNING] The element with unescaped HTML: @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    1348ms] [WARNING] JSHandle@node @ https://g.alicdn.com/aliyun-help/help-portal-fe/0.12.40/js/vendor.js:19
+[    2339ms] [ERROR] TypeError: window.goldlog.setMetaInfo is not a function
+    at t.value (https://cloud-assets.alicdn.com/website.js:9:44728)
+    at t.value (https://cloud-assets.alicdn.com/website.js:9:60250)
+    at https://cloud-assets.alicdn.com/website.js:9:61676 @ https://cloud-assets.alicdn.com/website.js:8
+[   12089ms] [LOG] %c [APLUS] -- APLUS INIT SUCCESS background:#3B82FE; padding: 4px; padding-right: 8px; border-radius: 4px; color: #fff; @ :1
+[   12257ms] [LOG] Wed May 06 2026 15:27:20 GMT+0800 (中国标准时间) @ https://g.alicdn.com/AWSC/et/1.83.41/et_f.js:1
+[  578181ms] [ERROR] Failed to launch 'aliyun://forward/sign?target_=/app/home&tab_=console' because the scheme does not have a registered handler. @ https://download.app.aliyun.com/app/aliyunapp/download/home?spm=a2c4g.11186623.0.0.14e035ccS1Pzh7&ulinks_fallback=aliyun%3A%2F%2Fforward%2Fsign%3Ftarget_%3D%2Fapp%2Fhome%26tab_%3Dconsole&channel=maliyun202506&scm=20140722.M_10836496.P_101.MO_4823-ID_10836487-MID_10836487-CID_33078-ST_13880-V_1:0
+[  578260ms] [LOG] Wed May 06 2026 15:36:46 GMT+0800 (中国标准时间) @ https://g.alicdn.com/AWSC/et/1.83.41/et_f.js:1

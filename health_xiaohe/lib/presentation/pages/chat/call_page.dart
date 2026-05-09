@@ -33,7 +33,6 @@ class _CallPageState extends State<CallPage> {
   bool _isSpeakerOn = false;
   bool _videoEnabled = false;
   bool _callStarted = false;
-  bool _aiSpeaking = false; // AI正在说话时静音麦克风防止回声
   int _callDuration = 0;
   Timer? _timer;
   String _aiText = '';
@@ -171,13 +170,12 @@ class _CallPageState extends State<CallPage> {
                   // AI说完一轮 → 噪声门过滤残余回声，等待用户说话
                   _audioRecorder.unmute();
                   _audioRecorder.gateOn();
-                  setState(() => _aiSpeaking = false);
                 } else if (state is VoiceListening) {
                   // 用户打断AI，全量收音
                   _audioRecorder.unmute();
                   _audioRecorder.gateOff();
                   _audioPlayer.stop();
-                  setState(() { _aiText = ''; _aiSpeaking = false; });
+                  setState(() => _aiText = '');
                 } else if (state is VoiceConversationCreated) {
                   _conversationId = state.conversationId;
                 } else if (state is VoiceUserText) {
@@ -187,12 +185,10 @@ class _CallPageState extends State<CallPage> {
                 } else if (state is VoiceReceivingAudio) {
                   // AI开始说话 → 完全静音麦克风，防止模拟器回声循环
                   _audioRecorder.mute();
-                  setState(() => _aiSpeaking = true);
                   _audioPlayer.play(state.audioData);
                 } else if (state is VoiceProcessingInput) {
                   // AI正在处理用户输入，完全静音等待
                   _audioRecorder.mute();
-                  setState(() => _aiSpeaking = true);
                 } else if (state is VoiceDone) {
                   _endCall();
                 } else if (state is VoiceDisconnected) {
@@ -275,15 +271,6 @@ class _CallPageState extends State<CallPage> {
     );
   }
 
-  void _interruptAi() {
-    _audioPlayer.stop();
-    // 全量收音，让用户说话
-    _audioRecorder.unmute();
-    _audioRecorder.gateOff();
-    setState(() => _aiSpeaking = false);
-    _voiceBloc?.add(VoiceInterrupt());
-  }
-
   Widget _buildCallStatus(VoiceState state) {
     String statusText = '正在连接...';
 
@@ -301,39 +288,26 @@ class _CallPageState extends State<CallPage> {
 
     return Column(
       children: [
-        GestureDetector(
-          onTap: _aiSpeaking ? _interruptAi : null,
-          child: Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [AppColors.primary, AppColors.primaryDark],
+        Container(
+          width: 120,
+          height: 120,
+          decoration: BoxDecoration(
+            gradient: const LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [AppColors.primary, AppColors.primaryDark],
+            ),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withOpacity(0.4),
+                blurRadius: 20,
+                spreadRadius: 0,
               ),
-              shape: BoxShape.circle,
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.primary.withOpacity(0.4),
-                  blurRadius: 20,
-                  spreadRadius: 0,
-                ),
-              ],
-            ),
-            child: Center(
-              child: _aiSpeaking
-                  ? const Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.touch_app, color: Colors.white70, size: 28),
-                        SizedBox(height: 4),
-                        Text('点击打断',
-                            style: TextStyle(color: Colors.white70, fontSize: 12)),
-                      ],
-                    )
-                  : const Text('🌿', style: TextStyle(fontSize: 60)),
-            ),
+            ],
+          ),
+          child: const Center(
+            child: Text('🌿', style: TextStyle(fontSize: 60)),
           ),
         ),
         const SizedBox(height: 24),

@@ -1,0 +1,844 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - banner [ref=e6]:
+      - link [ref=e7] [cursor=pointer]:
+        - /url: https://www.aliyun.com/
+        - img [ref=e8]
+      - generic [ref=e12]:
+        - link [ref=e16] [cursor=pointer]:
+          - /url: https://www.aliyun.com/search?from=h5-global-nav-search
+          - img [ref=e17]:
+            - img [ref=e18]
+        - link "你好，我是AI助理，可以解答问题、推荐解决方案等" [ref=e22] [cursor=pointer]:
+          - /url: https://www.aliyun.com/ai-assistant?displayMode=side
+          - img [ref=e25]
+          - generic:
+            - paragraph: 你好，我是AI助理，可以解答问题、推荐解决方案等
+        - button "头像" [ref=e26]:
+          - img "头像" [ref=e27]
+        - button "菜单" [ref=e28]:
+          - img "菜单" [ref=e29]
+  - generic [ref=e31]:
+    - text: 
+    - generic [ref=e32]:
+      - generic [ref=e36]:
+        - img [ref=e38]:
+          - img [ref=e39]
+        - generic [ref=e45]: 󡀂
+        - img [ref=e47]:
+          - img [ref=e48]
+      - main [ref=e53]:
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e59]:
+              - link "首页" [ref=e60] [cursor=pointer]:
+                - /url: /
+              - generic [ref=e61]:
+                - generic [ref=e63]: 󦅨
+                - link "大模型服务平台百炼" [ref=e64] [cursor=pointer]:
+                  - /url: /zh/model-studio/
+              - generic [ref=e65]:
+                - generic [ref=e67]: 󦅨
+                - link "模型推理" [ref=e68] [cursor=pointer]:
+                  - /url: /zh/model-studio/model-inference/
+              - generic [ref=e69]:
+                - generic [ref=e71]: 󦅨
+                - link "语音转语音" [ref=e72] [cursor=pointer]:
+                  - /url: /zh/model-studio/s2s-model/
+              - generic [ref=e73]:
+                - generic [ref=e75]: 󦅨
+                - link "全模态" [ref=e76] [cursor=pointer]:
+                  - /url: /zh/model-studio/omni/
+              - generic [ref=e77]:
+                - generic [ref=e79]: 󦅨
+                - text: 实时（Qwen-Omni-Realtime）
+            - generic [ref=e80]:
+              - heading "Qwen-Omni-Realtime" [level=1] [ref=e81]
+              - generic [ref=e82]:
+                - generic [ref=e84]: 更新时间：2026-05-06 16:37:07
+                - generic [ref=e85]:
+                  - generic [ref=e87] [cursor=pointer]:
+                    - img [ref=e88]:
+                      - img [ref=e89]
+                    - text: 复制为 MD 格式
+                  - link "产品详情" [ref=e95] [cursor=pointer]:
+                    - /url: https://www.aliyun.com/product/bailian
+                  - generic [ref=e96]:
+                    - generic "收藏本文档" [ref=e97] [cursor=pointer]:
+                      - generic [ref=e98]: 
+                    - link "我的收藏" [ref=e99] [cursor=pointer]:
+                      - /url: /my_favorites.html
+          - main [ref=e103]:
+            - paragraph [ref=e104]: Qwen-Omni-Realtime 是千问推出的实时音视频聊天模型。能同时理解流式的音频与图像输入（例如从视频流中实时抽取的连续图像帧），并实时输出高质量的文本与音频。
+            - generic [ref=e105]:
+              - paragraph [ref=e106]:
+                - text: 支持的地域：北京、新加坡，需使用各地域的
+                - link "API Key" [ref=e107] [cursor=pointer]:
+                  - /url: https://help.aliyun.com/zh/model-studio/get-api-key
+                - text: 。
+              - paragraph [ref=e108]:
+                - text: 在线体验：请参见
+                - link "如何在线体验 Qwen-Omni-Realtime 模型？" [ref=e109] [cursor=pointer]:
+                  - /url: "#14a119f447ehf"
+              - generic [ref=e110]:
+                - heading "如何使用" [level=2] [ref=e111]
+                - generic [ref=e112]:
+                  - heading "1. 建立连接" [level=3] [ref=e113]
+                  - paragraph [ref=e114]:
+                    - text: Qwen-Omni-Realtime 模型通过 WebSocket 协议接入，可通过以下 Python 示例代码建立连接。也可通过
+                    - text: DashScope SDK 建立连接。
+                  - generic [ref=e115]:
+                    - generic [ref=e117]:
+                      - generic [ref=e118] [cursor=pointer]: WebSocket 原生连接
+                      - generic [ref=e119] [cursor=pointer]: DashScope SDK
+                    - generic [ref=e120]:
+                      - paragraph [ref=e121]: 连接时需要以下配置项：
+                      - table [ref=e122]:
+                        - rowgroup [ref=e125]:
+                          - row "配置项 说明" [ref=e126]:
+                            - cell "配置项" [ref=e127]:
+                              - paragraph [ref=e128]: 配置项
+                            - cell "说明" [ref=e129]:
+                              - paragraph [ref=e130]: 说明
+                          - row "调用地址 中国内地（北京）：wss://dashscope.aliyuncs.com/api-ws/v1/realtime 国际（新加坡）：wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime" [ref=e131]:
+                            - cell "调用地址" [ref=e132]:
+                              - paragraph [ref=e133]: 调用地址
+                            - cell "中国内地（北京）：wss://dashscope.aliyuncs.com/api-ws/v1/realtime 国际（新加坡）：wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime" [ref=e134]:
+                              - paragraph [ref=e135]: 中国内地（北京）：wss://dashscope.aliyuncs.com/api-ws/v1/realtime
+                              - paragraph [ref=e136]: 国际（新加坡）：wss://dashscope-intl.aliyuncs.com/api-ws/v1/realtime
+                          - row "查询参数 查询参数为 model，需指定为访问的模型名。示例： ?model=qwen3.5-omni-plus-realtime" [ref=e137]:
+                            - cell "查询参数" [ref=e138]:
+                              - paragraph [ref=e139]: 查询参数
+                            - cell "查询参数为 model，需指定为访问的模型名。示例： ?model=qwen3.5-omni-plus-realtime" [ref=e140]:
+                              - paragraph [ref=e141]:
+                                - text: 查询参数为
+                                - text: model，需指定为访问的模型名。示例：
+                                - code [ref=e142]: "?model=qwen3.5-omni-plus-realtime"
+                          - 'row "请求头 使用 Bearer Token 鉴权：Authorization: Bearer DASHSCOPE_API_KEY" [ref=e143]':
+                            - cell "请求头" [ref=e144]:
+                              - paragraph [ref=e145]: 请求头
+                            - 'cell "使用 Bearer Token 鉴权：Authorization: Bearer DASHSCOPE_API_KEY" [ref=e146]':
+                              - paragraph [ref=e147]: "使用 Bearer Token 鉴权：Authorization: Bearer DASHSCOPE_API_KEY"
+                              - blockquote [ref=e148]:
+                                - text: DASHSCOPE_API_KEY 是您在百炼上申请的
+                                - link "API Key" [ref=e149] [cursor=pointer]:
+                                  - /url: https://help.aliyun.com/zh/model-studio/get-api-key
+                                - text: 。
+                      - generic [ref=e150]:
+                        - generic [ref=e152]:
+                          - generic "更改代码主题" [ref=e153] [cursor=pointer]: 
+                          - generic "复制代码" [ref=e154] [cursor=pointer]: 
+                        - code [ref=e156]:
+                          - text: "# pip install websocket-client import json import websocket import os API_KEY=os.getenv(\"DASHSCOPE_API_KEY\") API_URL = \"wss://dashscope.aliyuncs.com/api-ws/v1/realtime?model=qwen3.5-omni-plus-realtime\" headers = [ \"Authorization: Bearer \" + API_KEY ] def on_open(ws): print("
+                          - generic [ref=e157]: "f\"Connected to server: {API_URL}\""
+                          - text: ") def on_message(ws, message): data = json.loads(message) print(\"Received event:\", json.dumps(data, indent=2)) def on_error(ws, error): print(\"Error:\", error) ws = websocket.WebSocketApp( API_URL, header=headers, on_open=on_open, on_message=on_message, on_error=on_error ) ws.run_forever()"
+                    - text:      
+                - generic [ref=e158]:
+                  - heading "2. 配置会话" [level=3] [ref=e159]
+                  - paragraph [ref=e160]:
+                    - text: 发送客户端事件
+                    - link "session.update" [ref=e161] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/client-events#26a8302028sjm
+                    - text: ：
+                  - generic [ref=e162]:
+                    - generic [ref=e164]:
+                      - generic "更改代码主题" [ref=e165] [cursor=pointer]: 
+                      - generic "复制代码" [ref=e166] [cursor=pointer]: 
+                    - code [ref=e168]: "{ // 该事件的id，由客户端生成 \"event_id\": \"event_ToPZqeobitzUJnt3QqtWg\", // 事件类型，固定为session.update \"type\": \"session.update\", // 会话配置 \"session\": { // 输出模态，支持设置为[\"text\"]（仅输出文本）或[\"text\",\"audio\"]（输出文本与音频）。 \"modalities\": [ \"text\", \"audio\" ], // 输出音频的音色 \"voice\": \"Ethan\", // 输入音频格式，当前仅支持设置为pcm。 \"input_audio_format\": \"pcm\", // 输出音频格式，当前仅支持设置为pcm。 \"output_audio_format\": \"pcm\", // 系统消息，用于设定模型的目标或角色。 \"instructions\": \"你是某五星级酒店的AI客服专员，请准确且友好地解答客户关于房型、设施、价格、预订政策的咨询。请始终以专业和乐于助人的态度回应，杜绝提供未经证实或超出酒店服务范围的信息。\", // 是否开启语音活动检测。若需启用，需传入一个配置对象，服务端将据此自动检测语音起止。 // 设置为null表示由客户端决定何时发起模型响应。 \"turn_detection\": { // VAD类型，取值为server_vad或semantic_vad。使用qwen3.5-omni-realtime模型时推荐设为semantic_vad。 \"type\": \"semantic_vad\", // VAD检测阈值。建议在嘈杂的环境中增加，在安静的环境中降低。 \"threshold\": 0.5, // 检测语音停止的静音持续时间，超过此值后会触发模型响应 \"silence_duration_ms\": 800 } } }"
+                - generic [ref=e169]:
+                  - heading "3. 输入音频与图片" [level=3] [ref=e170]
+                  - paragraph [ref=e171]:
+                    - text: 客户端通过
+                    - link "input_audio_buffer.append" [ref=e172] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/client-events#2ea4b5e41fhjd
+                    - text: 和
+                    - link "input_image_buffer.append" [ref=e173] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/client-events#c28ed38410nfw
+                    - text: 事件发送 Base64 编码的音频和图片数据到服务端缓冲区。音频输入是必需的；图片输入是可选的。
+                  - blockquote [ref=e174]: 图片可以来自本地文件，或从视频流中实时采集。
+                  - blockquote [ref=e175]:
+                    - text: 启用服务端
+                    - text: VAD
+                    - text: 时，服务端会在检测到语音结束时自动提交数据并触发响应。禁用
+                    - text: VAD
+                    - text: 时（手动模式），客户端必须在发送完数据后，主动调用
+                    - link "input_audio_buffer.commit" [ref=e176] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/client-events#1cbea5fa7fkfl
+                    - text: 事件来提交。
+                - generic [ref=e177]:
+                  - heading "4. 接收模型响应" [level=3] [ref=e178]
+                  - paragraph [ref=e179]: 模型的响应格式取决于配置的输出模态。
+                  - list [ref=e180]:
+                    - listitem [ref=e181]:
+                      - paragraph [ref=e182]: 仅输出文本
+                      - paragraph [ref=e183]:
+                        - text: 通过
+                        - link "response.text.delta" [ref=e184] [cursor=pointer]:
+                          - /url: https://help.aliyun.com/zh/model-studio/server-events#0c54be63e0c3w
+                        - text: 事件接收流式文本，
+                        - link "response.text.done" [ref=e185] [cursor=pointer]:
+                          - /url: https://help.aliyun.com/zh/model-studio/server-events#d675635a94jfb
+                        - text: 事件获取完整文本。
+                    - listitem [ref=e186]:
+                      - paragraph [ref=e187]: 输出文本+音频
+                      - list [ref=e188]:
+                        - listitem [ref=e189]:
+                          - paragraph [ref=e190]:
+                            - text: 文本：通过
+                            - link "response.audio_transcript.delta" [ref=e191] [cursor=pointer]:
+                              - /url: https://help.aliyun.com/zh/model-studio/server-events#35396453cfood
+                            - text: 事件接收流式文本，
+                            - link "response.audio_transcript.done" [ref=e192] [cursor=pointer]:
+                              - /url: https://help.aliyun.com/zh/model-studio/server-events#f4d1698567bsm
+                            - text: 事件获取完整文本。
+                        - listitem [ref=e193]:
+                          - paragraph [ref=e194]:
+                            - text: 音频：通过
+                            - link "response.audio.delta" [ref=e195] [cursor=pointer]:
+                              - /url: https://help.aliyun.com/zh/model-studio/server-events#a25cc50a15car
+                            - text: 事件获取 Base64 编码的流式输出音频数据。
+                            - link "response.audio.done" [ref=e196] [cursor=pointer]:
+                              - /url: https://help.aliyun.com/zh/model-studio/server-events#9e8eb59c67qnt
+                            - text: 事件标志音频数据生成完成。
+              - generic [ref=e197]:
+                - heading "模型选型" [level=2] [ref=e198]
+                - paragraph [ref=e199]: Qwen3.5-Omni-Realtime 是千问最新推出的实时多模态模型，相比于上一代的 Qwen3-Omni-Flash-Realtime：
+                - list [ref=e200]:
+                  - listitem [ref=e201]:
+                    - paragraph [ref=e202]: 智能水平
+                    - paragraph [ref=e203]: 模型智力大幅提升，与 Qwen3.5-Plus 智能水平相当。
+                  - listitem [ref=e204]:
+                    - paragraph [ref=e205]: 联网搜索
+                    - paragraph [ref=e206]:
+                      - text: 原生支持联网搜索（WebSearch），模型可自主判断是否需要搜索来回应即时问题。详见
+                      - link "联网搜索" [ref=e207] [cursor=pointer]:
+                        - /url: "#a8b2c3d4e5s6h"
+                      - text: 。
+                  - listitem [ref=e208]:
+                    - paragraph [ref=e209]: 工具调用
+                    - paragraph [ref=e210]:
+                      - text: 支持 Function Calling，模型可自主判断是否需要调用外部工具，实现与外部系统的交互。详见
+                      - link "Qwen-Omni-Realtime 系列" [ref=e211] [cursor=pointer]:
+                        - /url: https://help.aliyun.com/zh/model-studio/qwen-function-calling#rt02realtime01
+                      - text: 。
+                  - listitem [ref=e212]:
+                    - paragraph [ref=e213]: 语义打断
+                    - paragraph [ref=e214]: 自动识别对话意图，避免附和声和无意义背景音触发打断。
+                  - listitem [ref=e215]:
+                    - paragraph [ref=e216]: 语音控制
+                    - paragraph [ref=e217]: 通过语音指令控制声音大小、语速和情绪，如“语速快一些”、“声音大一些”、“用开心的语气”等。
+                  - listitem [ref=e218]:
+                    - paragraph [ref=e219]: 支持的语言
+                    - paragraph [ref=e220]:
+                      - text: 支持
+                      - link "113 种语种和方言" [ref=e221] [cursor=pointer]:
+                        - /url: https://help.aliyun.com/zh/model-studio/qwen-omni#model-comparison-table
+                      - text: 的语音识别，以及
+                      - link "36 种语种和方言" [ref=e222] [cursor=pointer]:
+                        - /url: https://help.aliyun.com/zh/model-studio/qwen-omni#model-comparison-table
+                      - text: 的语音生成。
+                  - listitem [ref=e223]:
+                    - paragraph [ref=e224]: 支持的音色
+                    - paragraph [ref=e225]:
+                      - text: 支持 55 种音色（47 种多语言 + 8 种方言），具体可查看
+                      - link "音色列表" [ref=e226] [cursor=pointer]:
+                        - /url: "#f4c9fd97f221z"
+                      - text: 。
+                  - listitem [ref=e227]:
+                    - paragraph [ref=e228]: 声音复刻
+                    - paragraph [ref=e229]:
+                      - text: qwen3.5-omni-plus-realtime 和 qwen3.5-omni-flash-realtime 支持声音复刻功能，可使用自定义音色进行实时对话。详见
+                      - link "声音复刻" [ref=e230] [cursor=pointer]:
+                        - /url: https://help.aliyun.com/zh/model-studio/qwen-omni-voice-cloning
+                      - text: 。
+                - blockquote [ref=e231]:
+                  - text: 模型的名称、上下文、价格、快照版本等信息请参见百炼控制台；并发限流条件请参考
+                  - link "限流" [ref=e232] [cursor=pointer]:
+                    - /url: https://help.aliyun.com/zh/model-studio/rate-limit
+                  - text: 。
+              - generic [ref=e233]:
+                - heading "使用限制" [level=2] [ref=e234]
+                - list [ref=e235]:
+                  - listitem [ref=e236]:
+                    - paragraph [ref=e237]: 联网搜索和工具调用不兼容，不可同时开启。
+                  - listitem [ref=e238]:
+                    - paragraph [ref=e239]: 单次 WebSocket 会话最长可持续 120 分钟，达到此上限后服务将主动关闭连接。
+                  - listitem [ref=e240]:
+                    - paragraph [ref=e241]: 模型会维护对话历史上下文，当对话轮次或累计时长超过以下限制时，将自动丢弃更早的历史信息。最大时长指模型上下文中能保留的音频或视频（图像帧）累计时长上限。
+                    - blockquote [ref=e242]: 由于视频以抽帧方式输入（建议 1 帧/秒），视频最大时长即模型能保留的图像帧累计时长。例如 240 秒表示模型最多保留最近 240 秒内收到的帧，超过后更早的帧将被丢弃。
+                    - blockquote [ref=e243]: qwen3-omni-flash-realtime 最大轮次为 8 轮，一般会先触及轮次限制，时长限制为模型的上下文长度限制，不再单独列出。
+                    - table [ref=e245]:
+                      - rowgroup [ref=e251]:
+                        - row "模型 音频最大轮次 视频最大轮次 音频最大时长 视频最大时长" [ref=e252]:
+                          - cell "模型" [ref=e253]:
+                            - paragraph [ref=e254]: 模型
+                          - cell "音频最大轮次" [ref=e255]:
+                            - paragraph [ref=e256]: 音频最大轮次
+                          - cell "视频最大轮次" [ref=e257]:
+                            - paragraph [ref=e258]: 视频最大轮次
+                          - cell "音频最大时长" [ref=e259]:
+                            - paragraph [ref=e260]: 音频最大时长
+                          - cell "视频最大时长" [ref=e261]:
+                            - paragraph [ref=e262]: 视频最大时长
+                        - row "qwen3.5-omni-plus-realtime 100 轮 50 轮 600 秒 240 秒" [ref=e263]:
+                          - cell "qwen3.5-omni-plus-realtime" [ref=e264]:
+                            - paragraph [ref=e265]: qwen3.5-omni-plus-realtime
+                          - cell "100 轮" [ref=e266]:
+                            - paragraph [ref=e267]:
+                              - text: "100"
+                              - text: 轮
+                          - cell "50 轮" [ref=e268]:
+                            - paragraph [ref=e269]:
+                              - text: "50"
+                              - text: 轮
+                          - cell "600 秒" [ref=e270]:
+                            - paragraph [ref=e271]:
+                              - text: "600"
+                              - text: 秒
+                          - cell "240 秒" [ref=e272]:
+                            - paragraph [ref=e273]:
+                              - text: "240"
+                              - text: 秒
+                        - row "qwen3.5-omni-flash-realtime 80 轮 50 轮 480 秒 120 秒" [ref=e274]:
+                          - cell "qwen3.5-omni-flash-realtime" [ref=e275]:
+                            - paragraph [ref=e276]: qwen3.5-omni-flash-realtime
+                          - cell "80 轮" [ref=e277]:
+                            - paragraph [ref=e278]:
+                              - text: "80"
+                              - text: 轮
+                          - cell "50 轮" [ref=e279]:
+                            - paragraph [ref=e280]:
+                              - text: "50"
+                              - text: 轮
+                          - cell "480 秒" [ref=e281]:
+                            - paragraph [ref=e282]:
+                              - text: "480"
+                              - text: 秒
+                          - cell "120 秒" [ref=e283]:
+                            - paragraph [ref=e284]:
+                              - text: "120"
+                              - text: 秒
+                        - row "qwen3-omni-flash-realtime 8 轮 8 轮 — —" [ref=e285]:
+                          - cell "qwen3-omni-flash-realtime" [ref=e286]:
+                            - paragraph [ref=e287]: qwen3-omni-flash-realtime
+                          - cell "8 轮" [ref=e288]:
+                            - paragraph [ref=e289]:
+                              - text: "8"
+                              - text: 轮
+                          - cell "8 轮" [ref=e290]:
+                            - paragraph [ref=e291]:
+                              - text: "8"
+                              - text: 轮
+                          - cell "—" [ref=e292]:
+                            - paragraph [ref=e293]: —
+                          - cell "—" [ref=e294]:
+                            - paragraph [ref=e295]: —
+              - generic [ref=e296]:
+                - heading "快速开始" [level=2] [ref=e297]
+                - paragraph [ref=e298]:
+                  - text: 您需要
+                  - link "获取 API Key" [ref=e299] [cursor=pointer]:
+                    - /url: https://help.aliyun.com/zh/model-studio/get-api-key
+                    - text: 获取
+                    - text: API Key
+                  - text: 并
+                  - link "配置 API Key 到环境变量" [ref=e300] [cursor=pointer]:
+                    - /url: https://help.aliyun.com/zh/model-studio/configure-api-key-through-environment-variables
+                    - text: 配置
+                    - text: API Key
+                    - text: 到环境变量
+                  - text: 。
+                - paragraph [ref=e301]: 请选择您熟悉的编程语言，通过以下步骤快速体验与 Realtime 模型实时对话的功能。
+                - generic [ref=e302]:
+                  - generic [ref=e303]:
+                    - generic [ref=e304]:
+                      - generic [ref=e305] [cursor=pointer]: DashScope Python SDK
+                      - generic [ref=e306] [cursor=pointer]: DashScope Java SDK
+                      - generic [ref=e307] [cursor=pointer]: WebSocket（Python）
+                    - generic [ref=e308]:
+                      - generic [ref=e310]: 
+                      - generic [ref=e312]: 
+                  - generic [ref=e313]:
+                    - list [ref=e314]:
+                      - listitem [ref=e315]:
+                        - paragraph [ref=e316]: 准备运行环境
+                    - paragraph [ref=e317]: 您的 Python 版本需要不低于 3.10。
+                    - paragraph [ref=e318]: 首先根据您的操作系统安装 pyaudio。
+                    - generic [ref=e319]:
+                      - generic [ref=e321]:
+                        - generic [ref=e322] [cursor=pointer]: macOS
+                        - generic [ref=e323] [cursor=pointer]: Debian/Ubuntu
+                        - generic [ref=e324] [cursor=pointer]: CentOS
+                        - generic [ref=e325] [cursor=pointer]: Windows
+                      - generic [ref=e327]:
+                        - generic [ref=e329]:
+                          - generic "更改代码主题" [ref=e330] [cursor=pointer]: 
+                          - generic "复制代码" [ref=e331] [cursor=pointer]: 
+                        - code [ref=e333]: brew install portaudio && pip install pyaudio
+                      - text:          
+                    - paragraph [ref=e334]: 安装完成后，通过 pip 安装依赖：
+                    - generic [ref=e335]:
+                      - generic [ref=e337]:
+                        - generic "更改代码主题" [ref=e338] [cursor=pointer]: 
+                        - generic "复制代码" [ref=e339] [cursor=pointer]: 
+                      - code [ref=e341]: pip install websocket-client dashscope
+                    - list [ref=e342]:
+                      - listitem [ref=e343]:
+                        - paragraph [ref=e344]: 选择交互模式
+                        - list [ref=e345]:
+                          - listitem [ref=e346]:
+                            - paragraph [ref=e347]: VAD 模式（Voice Activity Detection，自动检测语音起止）
+                            - paragraph [ref=e348]: 服务端自动判断用户何时开始与停止说话并作出回应。
+                          - listitem [ref=e349]:
+                            - paragraph [ref=e350]: Manual 模式（按下即说，松开即发送）
+                            - paragraph [ref=e351]: 客户端控制语音起止。用户说话结束后，客户端需主动发送消息至服务端。
+                        - generic [ref=e352]:
+                          - generic [ref=e354]:
+                            - generic [ref=e355] [cursor=pointer]: VAD 模式
+                            - generic [ref=e356] [cursor=pointer]: Manual 模式
+                          - generic [ref=e357]:
+                            - paragraph [ref=e358]:
+                              - text: 新建一个 python 文件，命名为
+                              - text: vad_dash.py，并将以下代码复制到文件中：
+                            - generic [ref=e359]:
+                              - generic [ref=e360]:
+                                - paragraph [ref=e362]: vad_dash.py
+                                - generic [ref=e363]: 
+                              - text:  
+                            - paragraph [ref=e364]:
+                              - text: 运行
+                              - code [ref=e365]: vad_dash.py
+                              - text: ，通过麦克风即可与 Qwen-Omni-Realtime 模型实时对话，系统会检测您的音频起始位置并自动发送到服务器，无需您手动发送。
+                          - text:   
+                  - text:                         
+              - generic [ref=e366]:
+                - heading "交互流程" [level=2] [ref=e367]
+                - generic [ref=e368]:
+                  - generic [ref=e370]:
+                    - generic [ref=e371] [cursor=pointer]: VAD 模式
+                    - generic [ref=e372] [cursor=pointer]: Manual 模式
+                  - generic [ref=e373]:
+                    - paragraph [ref=e374]:
+                      - text: 将
+                      - link "session.update" [ref=e375] [cursor=pointer]:
+                        - /url: https://help.aliyun.com/zh/model-studio/client-events#af43722339yva
+                      - text: 事件的
+                      - code [ref=e376]: session.turn_detection.type
+                      - text: 设为
+                      - code [ref=e377]: "\"server_vad\""
+                      - text: 或
+                      - code [ref=e378]: "\"semantic_vad\""
+                      - text: 以
+                      - link "启用 VAD 模式" [ref=e379] [cursor=pointer]:
+                        - /url: https://help.aliyun.com/zh/model-studio/client-events#6218707b80vlt
+                      - text: 。适用于语音通话场景。
+                    - paragraph [ref=e380]: 交互流程如下：
+                    - list [ref=e381]:
+                      - listitem [ref=e382]:
+                        - paragraph [ref=e383]:
+                          - text: 服务端检测到语音开始，发送
+                          - link "input_audio_buffer.speech_started" [ref=e384] [cursor=pointer]:
+                            - /url: https://help.aliyun.com/zh/model-studio/server-events#b99f92d872n5c
+                          - text: 事件。
+                      - listitem [ref=e385]:
+                        - paragraph [ref=e386]:
+                          - text: 客户端随时发送
+                          - link "input_audio_buffer.append" [ref=e387] [cursor=pointer]:
+                            - /url: https://help.aliyun.com/zh/model-studio/client-events#8d11313f2198k
+                          - text: 与
+                          - link "input_image_buffer.append" [ref=e388] [cursor=pointer]:
+                            - /url: https://help.aliyun.com/zh/model-studio/client-events#e27908854eaht
+                          - text: 事件追加音频与图片至缓冲区。
+                        - blockquote [ref=e389]: 发送 input_image_buffer.append 事件前，至少发送过一次 input_audio_buffer.append 事件。
+                      - listitem [ref=e390]:
+                        - paragraph [ref=e391]:
+                          - text: 服务端检测到语音结束，发送
+                          - link "input_audio_buffer.speech_stopped" [ref=e392] [cursor=pointer]:
+                            - /url: https://help.aliyun.com/zh/model-studio/server-events#fd08ffdf0a2mt
+                          - text: 事件。
+                      - listitem [ref=e393]:
+                        - paragraph [ref=e394]:
+                          - text: 服务端发送
+                          - link "input_audio_buffer.committed" [ref=e395] [cursor=pointer]:
+                            - /url: https://help.aliyun.com/zh/model-studio/server-events#bd9bfdc258afy
+                          - text: 事件提交音频缓冲区。
+                      - listitem [ref=e396]:
+                        - paragraph [ref=e397]:
+                          - text: 服务端发送
+                          - link "conversation.item.created" [ref=e398] [cursor=pointer]:
+                            - /url: https://help.aliyun.com/zh/model-studio/server-events#bb4547ed5b5ht
+                          - text: 事件，包含从缓冲区创建的用户消息项。
+                    - table [ref=e399]:
+                      - rowgroup [ref=e403]:
+                        - row "生命周期 客户端事件 服务端事件" [ref=e404]:
+                          - cell "生命周期" [ref=e405]:
+                            - paragraph [ref=e406]: 生命周期
+                          - cell "客户端事件" [ref=e407]:
+                            - paragraph [ref=e408]: 客户端事件
+                          - cell "服务端事件" [ref=e409]:
+                            - paragraph [ref=e410]: 服务端事件
+                        - row "会话初始化 session.update session.created session.updated" [ref=e411]:
+                          - cell "会话初始化" [ref=e412]:
+                            - paragraph [ref=e413]: 会话初始化
+                          - cell "session.update" [ref=e414]:
+                            - paragraph [ref=e415]:
+                              - link "session.update" [ref=e416] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/client-events#af43722339yva
+                            - blockquote [ref=e417]: 会话配置
+                          - cell "session.created session.updated" [ref=e418]:
+                            - paragraph [ref=e419]:
+                              - link "session.created" [ref=e420] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#39689ed6e90ag
+                            - blockquote [ref=e421]: 会话已创建
+                            - paragraph [ref=e422]:
+                              - link "session.updated" [ref=e423] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#424ef2e774q9p
+                            - blockquote [ref=e424]: 会话配置已更新
+                        - row "用户音频输入 input_audio_buffer.append input_image_buffer.append input_audio_buffer.speech_started input_audio_buffer.speech_stopped input_audio_buffer.committed" [ref=e425]:
+                          - cell "用户音频输入" [ref=e426]:
+                            - paragraph [ref=e427]: 用户音频输入
+                          - cell "input_audio_buffer.append input_image_buffer.append" [ref=e428]:
+                            - paragraph [ref=e429]:
+                              - link "input_audio_buffer.append" [ref=e430] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/client-events#8d11313f2198k
+                            - blockquote [ref=e431]: 添加音频到缓冲区
+                            - paragraph [ref=e432]:
+                              - link "input_image_buffer.append" [ref=e433] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/client-events#e27908854eaht
+                            - blockquote [ref=e434]: 添加图片到缓冲区
+                          - cell "input_audio_buffer.speech_started input_audio_buffer.speech_stopped input_audio_buffer.committed" [ref=e435]:
+                            - paragraph [ref=e436]:
+                              - link "input_audio_buffer.speech_started" [ref=e437] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#b99f92d872n5c
+                            - blockquote [ref=e438]: 检测到语音开始
+                            - paragraph [ref=e439]:
+                              - link "input_audio_buffer.speech_stopped" [ref=e440] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#fd08ffdf0a2mt
+                            - blockquote [ref=e441]: 检测到语音结束
+                            - paragraph [ref=e442]:
+                              - link "input_audio_buffer.committed" [ref=e443] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#bd9bfdc258afy
+                            - blockquote [ref=e444]: 服务器收到提交的音频
+                        - row "服务器音频输出 无 response.created response.output_item.added conversation.item.created response.content_part.added response.audio_transcript.delta response.audio.delta response.audio_transcript.done response.audio.done response.content_part.done response.output_item.done response.done" [ref=e445]:
+                          - cell "服务器音频输出" [ref=e446]:
+                            - paragraph [ref=e447]: 服务器音频输出
+                          - cell "无" [ref=e448]:
+                            - paragraph [ref=e449]: 无
+                          - cell "response.created response.output_item.added conversation.item.created response.content_part.added response.audio_transcript.delta response.audio.delta response.audio_transcript.done response.audio.done response.content_part.done response.output_item.done response.done" [ref=e450]:
+                            - paragraph [ref=e451]:
+                              - link "response.created" [ref=e452] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#38033afc582r1
+                            - blockquote [ref=e453]: 服务端开始生成响应
+                            - paragraph [ref=e454]:
+                              - link "response.output_item.added" [ref=e455] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#dae2260d40qtu
+                            - blockquote [ref=e456]: 响应时有新的输出内容
+                            - paragraph [ref=e457]:
+                              - link "conversation.item.created" [ref=e458] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#bb4547ed5b5ht
+                            - blockquote [ref=e459]: 对话项被创建
+                            - paragraph [ref=e460]:
+                              - link "response.content_part.added" [ref=e461] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#de7fa0b877j25
+                            - blockquote [ref=e462]:
+                              - text: 新的输出内容添加到
+                              - text: assistant message
+                            - paragraph [ref=e463]:
+                              - link "response.audio_transcript.delta" [ref=e464] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#35396453cfood
+                            - blockquote [ref=e465]: 增量生成的转录文字
+                            - paragraph [ref=e466]:
+                              - link "response.audio.delta" [ref=e467] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#a25cc50a15car
+                            - blockquote [ref=e468]: 模型增量生成的音频
+                            - paragraph [ref=e469]:
+                              - link "response.audio_transcript.done" [ref=e470] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#f4d1698567bsm
+                            - blockquote [ref=e471]: 文本转录完成
+                            - paragraph [ref=e472]:
+                              - link "response.audio.done" [ref=e473] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#9e8eb59c67qnt
+                            - blockquote [ref=e474]: 音频生成完成
+                            - paragraph [ref=e475]:
+                              - link "response.content_part.done" [ref=e476] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#011ad54242wft
+                            - blockquote [ref=e477]: Assistant message 的文本或音频内容流式输出完成
+                            - paragraph [ref=e478]:
+                              - link "response.output_item.done" [ref=e479] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#f580421f45w3h
+                            - blockquote [ref=e480]: Assistant message 的整个输出项流式传输完成
+                            - paragraph [ref=e481]:
+                              - link "response.done" [ref=e482] [cursor=pointer]:
+                                - /url: https://help.aliyun.com/zh/model-studio/server-events#f2333c777d9s4
+                            - blockquote [ref=e483]: 响应完成
+              - generic [ref=e484]:
+                - heading "联网搜索" [level=2] [ref=e485]
+                - paragraph [ref=e486]: 联网搜索功能使模型能够基于实时检索数据进行回复，适用于股票价格、天气预报等需要即时信息的场景。模型可自主判断是否需要搜索来回应用户的即时问题。
+                - blockquote [ref=e487]:
+                  - text: 联网搜索仅
+                  - code [ref=e488]: Qwen3.5-Omni-Realtime
+                  - text: 模型支持，且默认关闭，需通过
+                  - code [ref=e489]: session.update
+                  - text: 事件启用。
+                - blockquote [ref=e490]:
+                  - text: 计费请参考
+                  - link "计费说明" [ref=e491] [cursor=pointer]:
+                    - /url: https://help.aliyun.com/zh/model-studio/web-search#92ce83df3a599
+                  - text: 中的
+                  - code [ref=e492]: agent
+                  - text: 策略。
+                - generic [ref=e493]:
+                  - heading "启用方式" [level=3] [ref=e494]
+                  - paragraph [ref=e495]:
+                    - text: 在
+                    - code [ref=e496]: session.update
+                    - text: 事件中添加以下参数：
+                  - list [ref=e497]:
+                    - listitem [ref=e498]:
+                      - paragraph [ref=e499]:
+                        - code [ref=e500]: enable_search
+                        - text: ：设置为
+                        - code [ref=e501]: "true"
+                        - text: 启用联网搜索功能。
+                    - listitem [ref=e502]:
+                      - paragraph [ref=e503]:
+                        - code [ref=e504]: search_options.enable_source
+                        - text: ：设置为
+                        - code [ref=e505]: "true"
+                        - text: 返回搜索结果来源列表。
+                  - paragraph [ref=e506]:
+                    - text: 参数详情请参见
+                    - link "session.update" [ref=e507] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/client-events#7692180895hvk
+                    - text: 。
+                - generic [ref=e508]:
+                  - heading "响应格式" [level=3] [ref=e509]
+                  - paragraph [ref=e510]:
+                    - text: 启用联网搜索后，
+                    - code [ref=e511]: response.done
+                    - text: 事件中的
+                    - code [ref=e512]: usage
+                    - text: 会新增
+                    - code [ref=e513]: plugins
+                    - text: 字段，用于记录搜索计量信息：
+                  - generic [ref=e514]:
+                    - generic [ref=e516]:
+                      - generic "更改代码主题" [ref=e517] [cursor=pointer]: 
+                      - generic "复制代码" [ref=e518] [cursor=pointer]: 
+                    - code [ref=e520]: "{ \"usage\": { \"total_tokens\": 2937, \"input_tokens\": 2554, \"output_tokens\": 383, \"input_tokens_details\": { \"text_tokens\": 2512, \"audio_tokens\": 42 }, \"output_tokens_details\": { \"text_tokens\": 90, \"audio_tokens\": 293 }, \"plugins\": { \"search\": { \"count\": 1, \"strategy\": \"agent\" } } } }"
+                - generic [ref=e521]:
+                  - heading "代码示例" [level=3] [ref=e522]
+                  - paragraph [ref=e523]: 以下示例展示如何在实时对话中启用联网搜索功能。
+                  - generic [ref=e524]:
+                    - generic [ref=e525]:
+                      - generic [ref=e526]:
+                        - generic [ref=e527] [cursor=pointer]: DashScope Python SDK
+                        - generic [ref=e528] [cursor=pointer]: DashScope Java SDK
+                        - generic [ref=e529] [cursor=pointer]: WebSocket（Python）
+                      - generic [ref=e530]:
+                        - generic [ref=e532]: 
+                        - generic [ref=e534]: 
+                    - generic [ref=e535]:
+                      - paragraph [ref=e536]:
+                        - text: 在
+                        - code [ref=e537]: update_session
+                        - text: 调用中传入
+                        - code [ref=e538]: enable_search
+                        - text: 和
+                        - code [ref=e539]: search_options
+                        - text: 参数：
+                      - generic [ref=e540]:
+                        - generic [ref=e542]:
+                          - generic "更改代码主题" [ref=e543] [cursor=pointer]: 
+                          - generic "复制代码" [ref=e544] [cursor=pointer]: 
+                        - code [ref=e546]:
+                          - text: "import os import base64 import time import json import pyaudio from dashscope.audio.qwen_omni import MultiModality, AudioFormat, OmniRealtimeCallback, OmniRealtimeConversation import dashscope dashscope.api_key = os.getenv('DASHSCOPE_API_KEY') url = 'wss://dashscope.aliyuncs.com/api-ws/v1/realtime' model = 'qwen3.5-omni-plus-realtime' voice = 'Tina' class SearchCallback(OmniRealtimeCallback): def __init__(self, pya): self.pya = pya self.out = None def on_open(self): self.out = self.pya.open(format=pyaudio.paInt16, channels=1, rate=24000, output=True) def on_event(self, response): if response['type'] == 'response.audio.delta': self.out.write(base64.b64decode(response['delta'])) elif response['type'] == 'conversation.item.input_audio_transcription.completed': print("
+                          - generic [ref=e547]:
+                            - text: f"[User]
+                            - generic [ref=e548]: "{response['transcript']}"
+                            - text: "\""
+                          - text: ") elif response['type'] == 'response.audio_transcript.done': print("
+                          - generic [ref=e549]:
+                            - text: f"[LLM]
+                            - generic [ref=e550]: "{response['transcript']}"
+                            - text: "\""
+                          - text: ") elif response['type'] == 'response.done': usage = response.get('response', {}).get('usage', {}) plugins = usage.get('plugins', {}) if plugins.get('search'): print("
+                          - generic [ref=e551]:
+                            - text: f"[Search] count=
+                            - generic [ref=e552]: "{plugins['search']['count']}"
+                            - text: ", strategy="
+                            - generic [ref=e553]: "{plugins['search']['strategy']}"
+                            - text: "\""
+                          - text: ") pya = pyaudio.PyAudio() callback = SearchCallback(pya) conv = OmniRealtimeConversation(model=model, callback=callback, url=url) conv.connect() conv.update_session( output_modalities=[MultiModality.AUDIO, MultiModality.TEXT], voice=voice, instructions=\"你是个人助理小云\", enable_search=True, search_options={'enable_source': True} ) mic = pya.open(format=pyaudio.paInt16, channels=1, rate=16000, input=True) print(\"联网搜索已启用，对着麦克风说话 (Ctrl+C 退出)...\") try: while True: audio_data = mic.read(3200, exception_on_overflow=False) conv.append_audio(base64.b64encode(audio_data).decode()) time.sleep(0.01) except KeyboardInterrupt: conv.close() mic.close() callback.out.close() pya.terminate() print(\"\\n对话结束\")"
+                    - text:    
+              - generic [ref=e554]:
+                - heading "API 参考" [level=2] [ref=e555]
+                - list [ref=e556]:
+                  - listitem [ref=e557]:
+                    - paragraph [ref=e558]:
+                      - link "客户端事件" [ref=e559] [cursor=pointer]:
+                        - /url: https://help.aliyun.com/zh/model-studio/client-events
+                  - listitem [ref=e560]:
+                    - paragraph [ref=e561]:
+                      - link "服务端事件" [ref=e562] [cursor=pointer]:
+                        - /url: https://help.aliyun.com/zh/model-studio/server-events
+              - generic [ref=e563]:
+                - heading "计费与限流" [level=2] [ref=e564]
+                - generic [ref=e565]:
+                  - heading "计费规则" [level=3] [ref=e566]
+                  - paragraph [ref=e567]:
+                    - text: Qwen-Omni-Realtime 模型根据不同模态（音频、图像）对应的
+                    - text: Token
+                    - text: 数计费。计费详情请参见百炼控制台。
+                  - generic [ref=e568]:
+                    - generic [ref=e569]:
+                      - paragraph [ref=e571]:
+                        - generic [ref=e572]:
+                          - text: 音频、图片转换为
+                          - text: Token
+                          - text: 数的规则
+                      - generic [ref=e573]: 
+                    - text:  
+                - generic [ref=e574]:
+                  - heading "限流" [level=3] [ref=e575]
+                  - paragraph [ref=e576]:
+                    - text: 模型限流规则请参见
+                    - link "限流" [ref=e577] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/rate-limit
+                    - text: 。
+              - generic [ref=e578]:
+                - heading "常见问题" [level=2] [ref=e579]
+                - generic [ref=e580]:
+                  - heading "如何在线体验 Qwen-Omni-Realtime 模型？" [level=3] [ref=e581]
+                  - paragraph [ref=e582]: A：您可以通过以下方式一键部署：
+                  - list [ref=e583]:
+                    - listitem [ref=e584]:
+                      - paragraph [ref=e585]:
+                        - text: 访问
+                        - link "函数计算模板" [ref=e586] [cursor=pointer]:
+                          - /url: https://fcnext.console.aliyun.com/applications/create?template=omni-realtime@dev
+                        - text: ，部署类型选择直接部署，百炼 API-KEY 填入您的 API Key；单击创建并部署默认环境。
+                    - listitem [ref=e587]:
+                      - paragraph [ref=e588]:
+                        - text: 等待约一分钟，在环境详情的环境信息中获取访问域名，将访问域名的
+                        - code [ref=e589]: http
+                        - text: 改成
+                        - code [ref=e590]: https
+                        - text: （示例：https://omni-realtime.fcv3.xxxx.cn-hangzhou.fc.devsapp.net），修改后的 HTTPS 链接指向一个可在线体验的 Web 应用，可通过它与模型进行实时视频或语音通话。
+                  - generic [ref=e591]:
+                    - strong [ref=e594]: 重要
+                    - paragraph [ref=e596]: 此链接使用自签名证书，仅用于临时测试。首次访问时，浏览器会显示安全警告，这是预期行为，请勿在生产环境使用。如需继续，请按浏览器提示操作（如点击“高级” → “继续前往（不安全）”）。
+                  - blockquote [ref=e597]: 通过资源信息-函数资源查看项目源代码。
+                  - blockquote [ref=e598]:
+                    - link "函数计算" [ref=e599] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/functioncompute/fc/product-overview/trial-quota-1
+                    - text: 与
+                    - link "阿里云百炼" [ref=e600] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/new-free-quota
+                    - text: 均为新用户提供免费额度，可以覆盖简单调试所需成本，额度耗尽后按量计费。只有在访问的情况下会产生费用。
+                - generic [ref=e601]:
+                  - heading "怎么向模型输入图片？" [level=3] [ref=e602]
+                  - paragraph [ref=e603]:
+                    - text: A：通过客户端发送
+                    - link "input_image_buffer.append" [ref=e604] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/client-events#c28ed38410nfw
+                    - text: 事件。
+                  - list [ref=e605]:
+                    - listitem [ref=e606]:
+                      - paragraph [ref=e607]: VAD 模式
+                      - paragraph [ref=e608]:
+                        - text: 该模式会根据语音检测情况自动提交音频与图片，请在服务端响应
+                        - link "input_audio_buffer.speech_stopped" [ref=e609] [cursor=pointer]:
+                          - /url: https://help.aliyun.com/zh/model-studio/server-events#fd08ffdf0a2mt
+                        - text: 前发送
+                        - link "input_image_buffer.append" [ref=e610] [cursor=pointer]:
+                          - /url: https://help.aliyun.com/zh/model-studio/client-events#c28ed38410nfw
+                        - text: 事件。
+                    - listitem [ref=e611]:
+                      - paragraph [ref=e612]: Manual 模式
+                      - paragraph [ref=e613]:
+                        - text: 参见
+                        - link "Manual 模式" [ref=e614] [cursor=pointer]:
+                          - /url: "#b3fed8b9161vd"
+                        - text: 代码，将图片输入与提交的两部分代码取消注释，即可传入本地图片。
+                  - paragraph [ref=e615]:
+                    - text: 若用于视频通话场景，可以对视频抽帧，建议以 1
+                    - text: 张/秒 的频率向服务端发送图像。
+                    - link "input_image_buffer.append" [ref=e616] [cursor=pointer]:
+                      - /url: https://help.aliyun.com/zh/model-studio/client-events#c28ed38410nfw
+                    - text: 事件。 DashScope SDK 代码请参见
+                    - link "Omni-Realtime 示例代码" [ref=e617] [cursor=pointer]:
+                      - /url: https://github.com/aliyun/alibabacloud-bailian-speech-demo/tree/master/samples/conversation/omni
+                    - text: 。
+              - generic [ref=e618]:
+                - heading "错误码" [level=2] [ref=e619]
+                - paragraph [ref=e620]:
+                  - text: 如果模型调用失败并返回报错信息，请参见
+                  - link "错误信息" [ref=e621] [cursor=pointer]:
+                    - /url: https://help.aliyun.com/zh/model-studio/error-code
+                  - text: 进行解决。
+              - generic [ref=e622]:
+                - heading "音色列表" [level=2] [ref=e623]
+                - paragraph [ref=e624]:
+                  - text: Qwen-Omni-Realtime
+                  - text: 模型的音色列表可参见
+                  - link "音色列表" [ref=e625] [cursor=pointer]:
+                    - /url: https://help.aliyun.com/zh/model-studio/omni-voice-list
+                  - text: 。
+          - generic [ref=e627]:
+            - generic [ref=e628]: 该文章对您有帮助吗？
+            - generic [ref=e630]:
+              - button "" [ref=e631] [cursor=pointer]:
+                - generic [ref=e632]: 
+              - button "" [ref=e633] [cursor=pointer]:
+                - generic [ref=e634]: 
+              - button "反馈" [ref=e635] [cursor=pointer]:
+                - generic [ref=e636]: 
+                - text: 反馈
+  - contentinfo [ref=e638]:
+    - contentinfo "移动端页尾" [ref=e641]:
+      - generic [ref=e642]:
+        - generic [ref=e645]:
+          - generic [ref=e646]: 关注我们：
+          - link "新浪微博" [ref=e647] [cursor=pointer]:
+            - /url: https://weibo.com/u/1644971875
+            - text: 新浪微博
+        - link "联系我们" [ref=e649] [cursor=pointer]:
+          - /url: https://www.aliyun.com/contact
+        - generic [ref=e650]:
+          - link "文档" [ref=e651] [cursor=pointer]:
+            - /url: https://help.aliyun.com/
+          - text: "|"
+          - link "开发者社区" [ref=e652] [cursor=pointer]:
+            - /url: https://developer.aliyun.com/
+          - text: "|"
+          - link "天池大赛" [ref=e653] [cursor=pointer]:
+            - /url: https://tianchi.aliyun.com/
+          - text: "|"
+          - link "培训与认证" [ref=e654] [cursor=pointer]:
+            - /url: https://edu.aliyun.com/
+        - img "阿里云" [ref=e655]
+        - generic [ref=e656]:
+          - link "法律声明及隐私权政策" [ref=e657] [cursor=pointer]:
+            - /url: http://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud201902141711_54837.html
+          - text: "|"
+          - link "Cookies政策" [ref=e658] [cursor=pointer]:
+            - /url: https://terms.alicdn.com/legal-agreement/terms/platform_service/20220906101446934/20220906101446934.html
+        - generic [ref=e659]:
+          - text: © 2009-现在 Aliyun.com 版权所有
+          - text: 增值电信业务经营许可证：
+          - link "浙B2-20080101" [ref=e660] [cursor=pointer]:
+            - /url: http://beian.miit.gov.cn/
+          - text: 域名注册服务机构许可：
+          - link "浙D3-20210002" [ref=e661] [cursor=pointer]:
+            - /url: "https://domain.miit.gov.cn/域名注册服务机构/互联网域名/阿里云计算有限公司 "
+        - generic [ref=e662]:
+          - link [ref=e663] [cursor=pointer]:
+            - /url: https://zzlz.gsxt.gov.cn/businessCheck/verifKey.do?showType=p&serial=91330106673959654P-SAIC_SHOW_10000091330106673959654P1710919400712&signData=MEUCIQDEkCd8cK7/yqe6BNMWvoMPtAnsgKa7FZetfPkjZMsvhAIgOX1G9YC6FKyndE7o7hL0KaBVn4f+V/iof3iAgpsV09o=
+            - img [ref=e664]
+          - link "浙公网安备 33010602009975号" [ref=e665] [cursor=pointer]:
+            - /url: http://www.beian.gov.cn/portal/registerSystemInfo
+            - img [ref=e666]
+            - text: 浙公网安备 33010602009975号
+          - link "浙B2-20080101-4" [ref=e667] [cursor=pointer]:
+            - /url: https://beian.miit.gov.cn/

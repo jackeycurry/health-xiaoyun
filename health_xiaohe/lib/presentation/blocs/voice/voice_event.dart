@@ -66,5 +66,3 @@ class VoiceSendImageChunk extends VoiceEvent {
 class VoiceStartRecording extends VoiceEvent {}
 
 class VoiceStopRecording extends VoiceEvent {}
-
-class VoiceInterrupt extends VoiceEvent {}

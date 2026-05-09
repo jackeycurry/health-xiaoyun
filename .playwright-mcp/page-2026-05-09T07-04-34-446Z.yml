@@ -1,0 +1,2104 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - link [ref=e7] [cursor=pointer]:
+          - /url: https://download.app.aliyun.com/app/aliyunapp/download/home?ulinks_fallback=aliyun%3A%2F%2Fforward%2Fsign%3Ftarget_%3D%2Fapp%2Fhome%26tab_%3Dconsole&channel=maliyun202506
+        - generic:
+          - generic [ref=e9] [cursor=pointer]: 
+          - generic:
+            - img
+            - link "打开 APP" [ref=e10] [cursor=pointer]:
+              - /url: https://download.app.aliyun.com/app/aliyunapp/download/home?ulinks_fallback=aliyun%3A%2F%2Fforward%2Fsign%3Ftarget_%3D%2Fapp%2Fhome%26tab_%3Dconsole&channel=maliyun202506
+      - banner [ref=e11]:
+        - link [ref=e12] [cursor=pointer]:
+          - /url: https://www.aliyun.com/
+          - img [ref=e13]
+        - generic [ref=e17]:
+          - link [ref=e21] [cursor=pointer]:
+            - /url: https://www.aliyun.com/search?from=h5-global-nav-search
+            - img [ref=e22]:
+              - img [ref=e23]
+          - link "你好，我是AI助理，可以解答问题、推荐解决方案等" [ref=e27] [cursor=pointer]:
+            - /url: https://www.aliyun.com/ai-assistant?displayMode=side
+            - img [ref=e30]
+            - generic:
+              - paragraph: 你好，我是AI助理，可以解答问题、推荐解决方案等
+          - button "头像" [ref=e31] [cursor=pointer]:
+            - img "头像" [ref=e32]
+          - button "菜单" [ref=e33] [cursor=pointer]:
+            - img "菜单" [ref=e34]
+  - generic [ref=e36]:
+    - text: 
+    - generic [ref=e37]:
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - img [ref=e43]:
+            - img [ref=e44]
+          - generic [ref=e49]:
+            - generic [ref=e50]: 大模型服务平台百炼
+            - generic [ref=e51]: 󡀂
+          - img [ref=e53]:
+            - img [ref=e54]
+        - generic [ref=e59]:
+          - link "用户指南（模型）" [ref=e60] [cursor=pointer]:
+            - /url: /zh/model-studio/what-is-model-studio
+          - link "用户指南（应用）" [ref=e61] [cursor=pointer]:
+            - /url: /zh/model-studio/build-knowledge-base-qa-assistant-without-coding/
+          - link "API参考（模型）" [ref=e62] [cursor=pointer]:
+            - /url: /zh/model-studio/get-api-key
+          - link "API参考（应用）" [ref=e63] [cursor=pointer]:
+            - /url: /zh/model-studio/obtain-the-app-id-and-workspace-id
+      - main [ref=e65]:
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - generic [ref=e71]:
+              - link "首页" [ref=e72] [cursor=pointer]:
+                - /url: /
+              - generic [ref=e73]:
+                - generic [ref=e75]: 󦅨
+                - link "大模型服务平台百炼" [ref=e76] [cursor=pointer]:
+                  - /url: /zh/model-studio/
+              - generic [ref=e77]:
+                - generic [ref=e79]: 󦅨
+                - link "实时多模态" [ref=e80] [cursor=pointer]:
+                  - /url: /zh/model-studio/omni-realtime-api/
+              - generic [ref=e81]:
+                - generic [ref=e83]: 󦅨
+                - text: 服务端事件
+            - generic [ref=e84]:
+              - heading "服务端事件" [level=1] [ref=e85]
+              - generic [ref=e86]:
+                - generic [ref=e88]: 更新时间：2026-04-28 23:54:15
+                - generic [ref=e89]:
+                  - generic [ref=e91] [cursor=pointer]:
+                    - img [ref=e92]:
+                      - img [ref=e93]
+                    - text: 复制为 MD 格式
+                  - link "产品详情" [ref=e99] [cursor=pointer]:
+                    - /url: https://www.aliyun.com/product/bailian
+                  - generic [ref=e100]:
+                    - generic "收藏本文档" [ref=e101] [cursor=pointer]:
+                      - generic [ref=e102]: 
+                    - link "我的收藏" [ref=e103] [cursor=pointer]:
+                      - /url: /my_favorites.html
+          - generic [ref=e104]:
+            - main [ref=e107]:
+              - paragraph [ref=e108]: 本文介绍 Qwen-Omni-Realtime API 的服务端事件，包括工具调用（Function Calling）相关事件。
+              - generic [ref=e109]:
+                - blockquote [ref=e110]:
+                  - text: 相关文档：
+                  - link "实时（Qwen-Omni-Realtime）" [ref=e111] [cursor=pointer]:
+                    - /url: https://help.aliyun.com/zh/model-studio/realtime
+                  - text: 。
+                - generic [ref=e112]:
+                  - heading "error" [level=2] [ref=e113]
+                  - paragraph [ref=e114]: 服务端返回的错误信息。
+                  - table [ref=e115]:
+                    - rowgroup [ref=e116]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_RoUu4T8yExPMI37GKwaOC\", \"type\": \"error\", \"error\": { \"type\": \"invalid_request_error\", \"code\": \"invalid_value\", \"message\": \"Invalid modalities: [''audio'']. Supported combinations are: [''text''] and [''audio'', ''text''].\", \"param\": \"session.modalities\" } }" [ref=e117]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e118]:
+                          - paragraph [ref=e119]:
+                            - text: event_id
+                            - code [ref=e120]: string
+                          - paragraph [ref=e121]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_RoUu4T8yExPMI37GKwaOC\", \"type\": \"error\", \"error\": { \"type\": \"invalid_request_error\", \"code\": \"invalid_value\", \"message\": \"Invalid modalities: [''audio'']. Supported combinations are: [''text''] and [''audio'', ''text''].\", \"param\": \"session.modalities\" } }" [ref=e122]':
+                          - generic [ref=e124]:
+                            - generic [ref=e126]:
+                              - generic "更改代码主题" [ref=e127] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e128] [cursor=pointer]: 
+                            - code [ref=e130]: "{ \"event_id\": \"event_RoUu4T8yExPMI37GKwaOC\", \"type\": \"error\", \"error\": { \"type\": \"invalid_request_error\", \"code\": \"invalid_value\", \"message\": \"Invalid modalities: ['audio']. Supported combinations are: ['text'] and ['audio', 'text'].\", \"param\": \"session.modalities\" } }"
+                      - row "type string 事件类型，固定为 error 。" [ref=e131]:
+                        - cell "type string 事件类型，固定为 error 。" [ref=e132]:
+                          - paragraph [ref=e133]:
+                            - text: type
+                            - code [ref=e134]: string
+                          - paragraph [ref=e135]:
+                            - text: 事件类型，固定为
+                            - code [ref=e136]: error
+                            - text: 。
+                      - row "error object 错误的详细信息。 属性  type string 错误类型。 code string 错误码。 message string 错误信息。 param string 与错误相关的参数，如 session.modalities 。" [ref=e137]:
+                        - cell "error object 错误的详细信息。 属性  type string 错误类型。 code string 错误码。 message string 错误信息。 param string 与错误相关的参数，如 session.modalities 。" [ref=e138]:
+                          - paragraph [ref=e139]:
+                            - text: error
+                            - code [ref=e140]: object
+                          - paragraph [ref=e141]: 错误的详细信息。
+                          - generic [ref=e142]:
+                            - generic [ref=e143]:
+                              - paragraph [ref=e145]: 属性
+                              - generic [ref=e146]: 
+                            - generic [ref=e147]:
+                              - generic [ref=e148]:
+                                - paragraph [ref=e149]:
+                                  - text: type
+                                  - code [ref=e150]: string
+                                - paragraph [ref=e151]: 错误类型。
+                              - generic [ref=e152]:
+                                - paragraph [ref=e153]:
+                                  - text: code
+                                  - code [ref=e154]: string
+                                - paragraph [ref=e155]: 错误码。
+                              - generic [ref=e156]:
+                                - paragraph [ref=e157]:
+                                  - text: message
+                                  - code [ref=e158]: string
+                                - paragraph [ref=e159]: 错误信息。
+                              - generic [ref=e160]:
+                                - paragraph [ref=e161]:
+                                  - text: param
+                                  - code [ref=e162]: string
+                                - paragraph [ref=e163]:
+                                  - text: 与错误相关的参数，如
+                                  - code [ref=e164]: session.modalities
+                                  - text: 。
+                - generic [ref=e165]:
+                  - heading "session.created" [level=2] [ref=e166]
+                  - paragraph [ref=e167]: 客户端连接后，服务端返回的第一个事件，包含本次连接的默认配置信息。
+                  - table [ref=e168]:
+                    - rowgroup [ref=e169]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_RdvlSpbBb2ssyBjYrDHjt\", \"type\": \"session.created\", \"session\": { \"object\": \"realtime.session\", \"model\": \"qwen3-omni-flash-realtime\", \"modalities\": [ \"text\", \"audio\" ], \"voice\": \"Cherry\", \"input_audio_format\": \"pcm\", \"output_audio_format\": \"pcm\", \"input_audio_transcription\": { \"model\": \"qwen3-asr-flash-realtime\" }, \"turn_detection\": { // 取值为server_vad或semantic_vad（仅qwen3.5-omni-realtime支持） \"type\": \"server_vad\", \"threshold\": 0.5, \"prefix_padding_ms\": 300, \"silence_duration_ms\": 800, \"create_response\": true, \"interrupt_response\": true }, \"enable_search\": false, \"search_options\": {}, \"tools\": [], \"temperature\": 0.8, \"id\": \"sess_Ov7GOXoNXhNjlxXtOGKQS\" } }" [ref=e170]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e171]:
+                          - paragraph [ref=e172]:
+                            - text: event_id
+                            - code [ref=e173]: string
+                          - paragraph [ref=e174]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_RdvlSpbBb2ssyBjYrDHjt\", \"type\": \"session.created\", \"session\": { \"object\": \"realtime.session\", \"model\": \"qwen3-omni-flash-realtime\", \"modalities\": [ \"text\", \"audio\" ], \"voice\": \"Cherry\", \"input_audio_format\": \"pcm\", \"output_audio_format\": \"pcm\", \"input_audio_transcription\": { \"model\": \"qwen3-asr-flash-realtime\" }, \"turn_detection\": { // 取值为server_vad或semantic_vad（仅qwen3.5-omni-realtime支持） \"type\": \"server_vad\", \"threshold\": 0.5, \"prefix_padding_ms\": 300, \"silence_duration_ms\": 800, \"create_response\": true, \"interrupt_response\": true }, \"enable_search\": false, \"search_options\": {}, \"tools\": [], \"temperature\": 0.8, \"id\": \"sess_Ov7GOXoNXhNjlxXtOGKQS\" } }" [ref=e175]':
+                          - generic [ref=e177]:
+                            - generic [ref=e179]:
+                              - generic "更改代码主题" [ref=e180] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e181] [cursor=pointer]: 
+                            - code [ref=e183]:
+                              - text: "{ \"event_id\": \"event_RdvlSpbBb2ssyBjYrDHjt\", \"type\": \"session.created\", \"session\": { \"object\": \"realtime.session\", \"model\": \"qwen3-omni-flash-realtime\", \"modalities\": [ \"text\", \"audio\" ], \"voice\": \"Cherry\", \"input_audio_format\": \"pcm\", \"output_audio_format\": \"pcm\", \"input_audio_transcription\": { \"model\": \"qwen3-asr-flash-realtime\" }, \"turn_detection\": { // 取值为server_vad或semantic_vad（仅qwen3.5-omni-realtime支持） \"type\": \"server_vad\", \"threshold\": 0.5, \"prefix_padding_ms\": 300, \"silence_duration_ms\": 800, \"create_response\":"
+                              - generic [ref=e184]: "true"
+                              - text: ", \"interrupt_response\":"
+                              - generic [ref=e185]: "true"
+                              - text: "}, \"enable_search\":"
+                              - generic [ref=e186]: "false"
+                              - text: ", \"search_options\": {}, \"tools\": [], \"temperature\": 0.8, \"id\": \"sess_Ov7GOXoNXhNjlxXtOGKQS\" } }"
+                      - row "type string 事件类型，固定为 session.created 。" [ref=e187]:
+                        - cell "type string 事件类型，固定为 session.created 。" [ref=e188]:
+                          - paragraph [ref=e189]:
+                            - text: type
+                            - code [ref=e190]: string
+                          - paragraph [ref=e191]:
+                            - text: 事件类型，固定为
+                            - code [ref=e192]: session.created
+                            - text: 。
+                      - row "session object 会话的配置信息。 属性  object string 固定为 realtime.session 。 model string 使用的模型。 modalities array 模型输出模态设置。 voice string 模型生成音频的音色。 input_audio_format string 输入音频的格式，固定为 pcm 。 output_audio_format string 模型输出音频的格式，固定为 pcm 。 input_audio_transcription object 语音转录的配置。 属性  model string 语音转录模型，固定为 qwen3-asr-flash-realtime ，不支持修改。 turn_detection object 语音活动检测（VAD）的配置。 属性  type string VAD 类型。取值： server_vad （默认值）或 semantic_vad 。详情请参见客户端事件。 threshold float VAD 检测阈值。 silence_duration_ms integer 检测语音停止的静音持续时间。 enable_search boolean 是否启用联网搜索功能。仅 Qwen3.5-Omni-Realtime 模型支持。 search_options object 联网搜索选项配置。 temperature float 模型的温度参数。" [ref=e193]:
+                        - cell "session object 会话的配置信息。 属性  object string 固定为 realtime.session 。 model string 使用的模型。 modalities array 模型输出模态设置。 voice string 模型生成音频的音色。 input_audio_format string 输入音频的格式，固定为 pcm 。 output_audio_format string 模型输出音频的格式，固定为 pcm 。 input_audio_transcription object 语音转录的配置。 属性  model string 语音转录模型，固定为 qwen3-asr-flash-realtime ，不支持修改。 turn_detection object 语音活动检测（VAD）的配置。 属性  type string VAD 类型。取值： server_vad （默认值）或 semantic_vad 。详情请参见客户端事件。 threshold float VAD 检测阈值。 silence_duration_ms integer 检测语音停止的静音持续时间。 enable_search boolean 是否启用联网搜索功能。仅 Qwen3.5-Omni-Realtime 模型支持。 search_options object 联网搜索选项配置。 temperature float 模型的温度参数。" [ref=e194]:
+                          - paragraph [ref=e195]:
+                            - text: session
+                            - code [ref=e196]: object
+                          - paragraph [ref=e197]: 会话的配置信息。
+                          - generic [ref=e198]:
+                            - generic [ref=e199]:
+                              - paragraph [ref=e201]: 属性
+                              - generic [ref=e202]: 
+                            - generic [ref=e203]:
+                              - generic [ref=e204]:
+                                - paragraph [ref=e205]:
+                                  - text: object
+                                  - code [ref=e206]: string
+                                - paragraph [ref=e207]:
+                                  - text: 固定为
+                                  - code [ref=e208]: realtime.session
+                                  - text: 。
+                              - generic [ref=e209]:
+                                - paragraph [ref=e210]:
+                                  - text: model
+                                  - code [ref=e211]: string
+                                - paragraph [ref=e212]: 使用的模型。
+                              - generic [ref=e213]:
+                                - paragraph [ref=e214]:
+                                  - text: modalities
+                                  - code [ref=e215]: array
+                                - paragraph [ref=e216]: 模型输出模态设置。
+                              - generic [ref=e217]:
+                                - paragraph [ref=e218]:
+                                  - text: voice
+                                  - code [ref=e219]: string
+                                - paragraph [ref=e220]: 模型生成音频的音色。
+                              - generic [ref=e221]:
+                                - paragraph [ref=e222]:
+                                  - text: input_audio_format
+                                  - code [ref=e223]: string
+                                - paragraph [ref=e224]:
+                                  - text: 输入音频的格式，固定为
+                                  - code [ref=e225]: pcm
+                                  - text: 。
+                              - generic [ref=e226]:
+                                - paragraph [ref=e227]:
+                                  - text: output_audio_format
+                                  - code [ref=e228]: string
+                                - paragraph [ref=e229]:
+                                  - text: 模型输出音频的格式，固定为
+                                  - code [ref=e230]: pcm
+                                  - text: 。
+                              - generic [ref=e231]:
+                                - paragraph [ref=e232]:
+                                  - text: input_audio_transcription
+                                  - code [ref=e233]: object
+                                - paragraph [ref=e234]: 语音转录的配置。
+                                - generic [ref=e235]:
+                                  - generic [ref=e236]:
+                                    - paragraph [ref=e238]: 属性
+                                    - generic [ref=e239]: 
+                                  - generic [ref=e241]:
+                                    - paragraph [ref=e242]:
+                                      - text: model
+                                      - code [ref=e243]: string
+                                    - paragraph [ref=e244]:
+                                      - text: 语音转录模型，固定为
+                                      - code [ref=e245]: qwen3-asr-flash-realtime
+                                      - text: ，不支持修改。
+                              - generic [ref=e246]:
+                                - paragraph [ref=e247]:
+                                  - text: turn_detection
+                                  - code [ref=e248]: object
+                                - paragraph [ref=e249]: 语音活动检测（VAD）的配置。
+                                - generic [ref=e250]:
+                                  - generic [ref=e251]:
+                                    - paragraph [ref=e253]: 属性
+                                    - generic [ref=e254]: 
+                                  - generic [ref=e255]:
+                                    - generic [ref=e256]:
+                                      - paragraph [ref=e257]:
+                                        - text: type
+                                        - code [ref=e258]: string
+                                      - paragraph [ref=e259]:
+                                        - text: VAD
+                                        - text: 类型。取值：
+                                        - code [ref=e260]: server_vad
+                                        - text: （默认值）或
+                                        - code [ref=e261]: semantic_vad
+                                        - text: 。详情请参见
+                                        - link "客户端事件" [ref=e262] [cursor=pointer]:
+                                          - /url: https://help.aliyun.com/zh/model-studio/client-events#7c8172272codm
+                                        - text: 。
+                                    - generic [ref=e263]:
+                                      - paragraph [ref=e264]:
+                                        - text: threshold
+                                        - code [ref=e265]: float
+                                      - paragraph [ref=e266]:
+                                        - text: VAD
+                                        - text: 检测阈值。
+                                    - generic [ref=e267]:
+                                      - paragraph [ref=e268]:
+                                        - text: silence_duration_ms
+                                        - code [ref=e269]: integer
+                                      - paragraph [ref=e270]: 检测语音停止的静音持续时间。
+                              - generic [ref=e271]:
+                                - paragraph [ref=e272]:
+                                  - text: enable_search
+                                  - code [ref=e273]: boolean
+                                - paragraph [ref=e274]: 是否启用联网搜索功能。仅 Qwen3.5-Omni-Realtime 模型支持。
+                              - generic [ref=e275]:
+                                - paragraph [ref=e276]:
+                                  - text: search_options
+                                  - code [ref=e277]: object
+                                - paragraph [ref=e278]: 联网搜索选项配置。
+                              - generic [ref=e279]:
+                                - paragraph [ref=e280]:
+                                  - text: temperature
+                                  - code [ref=e281]: float
+                                - paragraph [ref=e282]: 模型的温度参数。
+                - generic [ref=e283]:
+                  - heading "session.updated" [level=2] [ref=e284]
+                  - paragraph [ref=e285]:
+                    - text: 收到用户的
+                    - code [ref=e286]: session.update
+                    - text: 请求后，若处理成功，则返回此事件；若出错，则返回
+                    - code [ref=e287]: error
+                    - text: 事件。
+                  - table [ref=e288]:
+                    - rowgroup [ref=e289]:
+                      - row [ref=e290]:
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e291]:
+                          - paragraph [ref=e292]:
+                            - text: event_id
+                            - code [ref=e293]: string
+                          - paragraph [ref=e294]: 本次事件唯一标识符。
+                        - cell [ref=e295]:
+                          - generic [ref=e297]:
+                            - generic [ref=e299]:
+                              - generic "更改代码主题" [ref=e300] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e301] [cursor=pointer]: 
+                            - code [ref=e303]:
+                              - text: "{ \"event_id\": \"event_X1HsXS4b4uptp6yo1LgKd\", \"type\": \"session.updated\", \"session\": { \"id\": \"sess_Aih6vAcY5Ddt6jwFx1tCa\", \"object\": \"realtime.session\", \"model\": \"qwen3-omni-flash-realtime\", \"modalities\": [ \"text\", \"audio\" ], \"instructions\": \"你是个人助理小云，请你准确且友好地解答用户的问题，始终以乐于助人的态度回应。\", \"voice\": \"Cherry\", \"input_audio_format\": \"pcm\", \"output_audio_format\": \"pcm\", \"input_audio_transcription\": { \"model\": \"qwen3-asr-flash-realtime\" }, \"turn_detection\": { // 取值为server_vad或semantic_vad（仅qwen3.5-omni-realtime支持） \"type\": \"server_vad\", \"threshold\": 0.1, \"prefix_padding_ms\": 500, \"silence_duration_ms\": 900, \"create_response\":"
+                              - generic [ref=e304]: "true"
+                              - text: ", \"interrupt_response\":"
+                              - generic [ref=e305]: "true"
+                              - text: "}, \"enable_search\":"
+                              - generic [ref=e306]: "true"
+                              - text: ", \"search_options\": { \"enable_source\":"
+                              - generic [ref=e307]: "true"
+                              - text: "}, \"tools\": [ { \"type\": \"function\", \"function\": { \"name\": \"get_current_weather\", \"description\": \"当你想查询指定城市的天气时非常有用。\", \"parameters\": { \"type\": \"object\", \"properties\": { \"location\": {\"type\": \"string\", \"description\": \"城市名称\"} }, \"required\": [\"location\"] } } } ], \"temperature\": 0.8, \"max_response_output_token\": \"inf\", \"max_tokens\": 16384, \"repetition_penalty\": 1.05, \"presence_penalty\": 0.0, \"top_k\": 50, \"top_p\": 1.0, \"seed\":-1 } }"
+                      - row "type string 事件类型，固定为 session.updated 。" [ref=e308]:
+                        - cell "type string 事件类型，固定为 session.updated 。" [ref=e309]:
+                          - paragraph [ref=e310]:
+                            - text: type
+                            - code [ref=e311]: string
+                          - paragraph [ref=e312]:
+                            - text: 事件类型，固定为
+                            - code [ref=e313]: session.updated
+                            - text: 。
+                      - row "session object 会话的配置信息。 属性  temperature float 模型的温度参数。 modalities array 模型输出模态设置。 voice string 模型生成音频的音色。 instructions string 模型的目标与角色。 input_audio_format string 输入音频的格式，当前仅支持设置为 pcm 。 output_audio_format string 输出音频的格式，当前仅支持设置为 pcm 。 input_audio_transcription object 语音转录的配置。 属性  model string 语音转录模型，固定为 qwen3-asr-flash-realtime ，不支持修改。 turn_detection object 语音活动检测（VAD）的配置。 属性  type string VAD 类型。取值： server_vad （默认值）或 semantic_vad 。详情请参见客户端事件。 threshold float VAD 检测阈值。 silence_duration_ms integer 检测语音停止的静音持续时间。 enable_search boolean （可选） 是否启用联网搜索功能。仅 Qwen3.5-Omni-Realtime 模型支持。 search_options object （可选） 联网搜索选项配置。 tools array （可选） 工具定义列表。配置后模型可根据用户输入自主决定是否调用工具。 属性  top_p float 核采样的概率阈值。 top_k integer 模型生成过程中，采样候选集的大小。 max_tokens integer 模型在本次请求返回的最大 Token 数。 repetition_penalty float 控制模型生成时，连续序列中的重复度。 presence_penalty float 控制模型在生成内容时的重复度。 seed integer 模型在每次请求时，运行结果一致性程度。" [ref=e314]:
+                        - cell "session object 会话的配置信息。 属性  temperature float 模型的温度参数。 modalities array 模型输出模态设置。 voice string 模型生成音频的音色。 instructions string 模型的目标与角色。 input_audio_format string 输入音频的格式，当前仅支持设置为 pcm 。 output_audio_format string 输出音频的格式，当前仅支持设置为 pcm 。 input_audio_transcription object 语音转录的配置。 属性  model string 语音转录模型，固定为 qwen3-asr-flash-realtime ，不支持修改。 turn_detection object 语音活动检测（VAD）的配置。 属性  type string VAD 类型。取值： server_vad （默认值）或 semantic_vad 。详情请参见客户端事件。 threshold float VAD 检测阈值。 silence_duration_ms integer 检测语音停止的静音持续时间。 enable_search boolean （可选） 是否启用联网搜索功能。仅 Qwen3.5-Omni-Realtime 模型支持。 search_options object （可选） 联网搜索选项配置。 tools array （可选） 工具定义列表。配置后模型可根据用户输入自主决定是否调用工具。 属性  top_p float 核采样的概率阈值。 top_k integer 模型生成过程中，采样候选集的大小。 max_tokens integer 模型在本次请求返回的最大 Token 数。 repetition_penalty float 控制模型生成时，连续序列中的重复度。 presence_penalty float 控制模型在生成内容时的重复度。 seed integer 模型在每次请求时，运行结果一致性程度。" [ref=e315]:
+                          - paragraph [ref=e316]:
+                            - text: session
+                            - code [ref=e317]: object
+                          - paragraph [ref=e318]: 会话的配置信息。
+                          - generic [ref=e319]:
+                            - generic [ref=e320]:
+                              - paragraph [ref=e322]: 属性
+                              - generic [ref=e323]: 
+                            - generic [ref=e324]:
+                              - generic [ref=e325]:
+                                - paragraph [ref=e326]:
+                                  - text: temperature
+                                  - code [ref=e327]: float
+                                - paragraph [ref=e328]: 模型的温度参数。
+                              - generic [ref=e329]:
+                                - paragraph [ref=e330]:
+                                  - text: modalities
+                                  - code [ref=e331]: array
+                                - paragraph [ref=e332]: 模型输出模态设置。
+                              - generic [ref=e333]:
+                                - paragraph [ref=e334]:
+                                  - text: voice
+                                  - code [ref=e335]: string
+                                - paragraph [ref=e336]: 模型生成音频的音色。
+                              - generic [ref=e337]:
+                                - paragraph [ref=e338]:
+                                  - text: instructions
+                                  - code [ref=e339]: string
+                                - paragraph [ref=e340]: 模型的目标与角色。
+                              - generic [ref=e341]:
+                                - paragraph [ref=e342]:
+                                  - text: input_audio_format
+                                  - code [ref=e343]: string
+                                - paragraph [ref=e344]:
+                                  - text: 输入音频的格式，当前仅支持设置为
+                                  - code [ref=e345]: pcm
+                                  - text: 。
+                              - generic [ref=e346]:
+                                - paragraph [ref=e347]:
+                                  - text: output_audio_format
+                                  - code [ref=e348]: string
+                                - paragraph [ref=e349]:
+                                  - text: 输出音频的格式，当前仅支持设置为
+                                  - code [ref=e350]: pcm
+                                  - text: 。
+                              - generic [ref=e351]:
+                                - paragraph [ref=e352]:
+                                  - text: input_audio_transcription
+                                  - code [ref=e353]: object
+                                - paragraph [ref=e354]: 语音转录的配置。
+                                - generic [ref=e355]:
+                                  - generic [ref=e356]:
+                                    - paragraph [ref=e358]: 属性
+                                    - generic [ref=e359]: 
+                                  - generic [ref=e361]:
+                                    - paragraph [ref=e362]:
+                                      - text: model
+                                      - code [ref=e363]: string
+                                    - paragraph [ref=e364]:
+                                      - text: 语音转录模型，固定为
+                                      - code [ref=e365]: qwen3-asr-flash-realtime
+                                      - text: ，不支持修改。
+                              - generic [ref=e366]:
+                                - paragraph [ref=e367]:
+                                  - text: turn_detection
+                                  - code [ref=e368]: object
+                                - paragraph [ref=e369]: 语音活动检测（VAD）的配置。
+                                - generic [ref=e370]:
+                                  - generic [ref=e371]:
+                                    - paragraph [ref=e373]: 属性
+                                    - generic [ref=e374]: 
+                                  - generic [ref=e375]:
+                                    - generic [ref=e376]:
+                                      - paragraph [ref=e377]:
+                                        - text: type
+                                        - code [ref=e378]: string
+                                      - paragraph [ref=e379]:
+                                        - text: VAD
+                                        - text: 类型。取值：
+                                        - code [ref=e380]: server_vad
+                                        - text: （默认值）或
+                                        - code [ref=e381]: semantic_vad
+                                        - text: 。详情请参见
+                                        - link "客户端事件" [ref=e382] [cursor=pointer]:
+                                          - /url: https://help.aliyun.com/zh/model-studio/client-events#7c8172272codm
+                                        - text: 。
+                                    - generic [ref=e383]:
+                                      - paragraph [ref=e384]:
+                                        - text: threshold
+                                        - code [ref=e385]: float
+                                      - paragraph [ref=e386]:
+                                        - text: VAD
+                                        - text: 检测阈值。
+                                    - generic [ref=e387]:
+                                      - paragraph [ref=e388]:
+                                        - text: silence_duration_ms
+                                        - code [ref=e389]: integer
+                                      - paragraph [ref=e390]: 检测语音停止的静音持续时间。
+                              - generic [ref=e391]:
+                                - paragraph [ref=e392]:
+                                  - text: enable_search
+                                  - code [ref=e393]: boolean
+                                  - text: （可选）
+                                - paragraph [ref=e394]: 是否启用联网搜索功能。仅 Qwen3.5-Omni-Realtime 模型支持。
+                              - generic [ref=e395]:
+                                - paragraph [ref=e396]:
+                                  - text: search_options
+                                  - code [ref=e397]: object
+                                  - text: （可选）
+                                - paragraph [ref=e398]: 联网搜索选项配置。
+                              - generic [ref=e399]:
+                                - paragraph [ref=e400]:
+                                  - text: tools
+                                  - code [ref=e401]: array
+                                  - text: （可选）
+                                - paragraph [ref=e402]: 工具定义列表。配置后模型可根据用户输入自主决定是否调用工具。
+                                - generic [ref=e403]:
+                                  - generic [ref=e404]:
+                                    - paragraph [ref=e406]: 属性
+                                    - generic [ref=e407]: 
+                                  - text: 
+                              - generic [ref=e408]:
+                                - paragraph [ref=e409]:
+                                  - text: top_p
+                                  - code [ref=e410]: float
+                                - paragraph [ref=e411]: 核采样的概率阈值。
+                              - generic [ref=e412]:
+                                - paragraph [ref=e413]:
+                                  - text: top_k
+                                  - code [ref=e414]: integer
+                                - paragraph [ref=e415]: 模型生成过程中，采样候选集的大小。
+                              - generic [ref=e416]:
+                                - paragraph [ref=e417]:
+                                  - text: max_tokens
+                                  - code [ref=e418]: integer
+                                - paragraph [ref=e419]: 模型在本次请求返回的最大 Token 数。
+                              - generic [ref=e420]:
+                                - paragraph [ref=e421]:
+                                  - text: repetition_penalty
+                                  - code [ref=e422]: float
+                                - paragraph [ref=e423]: 控制模型生成时，连续序列中的重复度。
+                              - generic [ref=e424]:
+                                - paragraph [ref=e425]:
+                                  - text: presence_penalty
+                                  - code [ref=e426]: float
+                                - paragraph [ref=e427]: 控制模型在生成内容时的重复度。
+                              - generic [ref=e428]:
+                                - paragraph [ref=e429]:
+                                  - text: seed
+                                  - code [ref=e430]: integer
+                                - paragraph [ref=e431]: 模型在每次请求时，运行结果一致性程度。
+                - generic [ref=e432]:
+                  - heading "input_audio_buffer.speech_started" [level=2] [ref=e433]
+                  - paragraph [ref=e434]: 在 VAD 模式下，当服务端在音频缓冲区中检测到语音开始时，会返回此事件。
+                  - blockquote [ref=e435]: 若服务端尚未检测到语音，则每次向缓冲区添加音频时都可能触发此事件。
+                  - table [ref=e436]:
+                    - rowgroup [ref=e437]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_Pvp8nEhsQuGCQbFJ9x58n\", \"type\": \"input_audio_buffer.speech_started\", \"audio_start_ms\": 3647, \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }" [ref=e438]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e439]:
+                          - paragraph [ref=e440]:
+                            - text: event_id
+                            - code [ref=e441]: string
+                          - paragraph [ref=e442]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_Pvp8nEhsQuGCQbFJ9x58n\", \"type\": \"input_audio_buffer.speech_started\", \"audio_start_ms\": 3647, \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }" [ref=e443]':
+                          - generic [ref=e445]:
+                            - generic [ref=e447]:
+                              - generic "更改代码主题" [ref=e448] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e449] [cursor=pointer]: 
+                            - code [ref=e451]: "{ \"event_id\": \"event_Pvp8nEhsQuGCQbFJ9x58n\", \"type\": \"input_audio_buffer.speech_started\", \"audio_start_ms\": 3647, \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }"
+                      - row "type string 事件类型，固定为 input_audio_buffer.speech_started 。" [ref=e452]:
+                        - cell "type string 事件类型，固定为 input_audio_buffer.speech_started 。" [ref=e453]:
+                          - paragraph [ref=e454]:
+                            - text: type
+                            - code [ref=e455]: string
+                          - paragraph [ref=e456]:
+                            - text: 事件类型，固定为
+                            - code [ref=e457]: input_audio_buffer.speech_started
+                            - text: 。
+                      - row "audio_start_ms integer 从音频开始写入缓冲区到首次检测到语音所经过的毫秒数。" [ref=e458]:
+                        - cell "audio_start_ms integer 从音频开始写入缓冲区到首次检测到语音所经过的毫秒数。" [ref=e459]:
+                          - paragraph [ref=e460]:
+                            - text: audio_start_ms
+                            - code [ref=e461]: integer
+                          - paragraph [ref=e462]: 从音频开始写入缓冲区到首次检测到语音所经过的毫秒数。
+                      - row "item_id string 语音停止时将创建的用户消息项的 ID。" [ref=e463]:
+                        - cell "item_id string 语音停止时将创建的用户消息项的 ID。" [ref=e464]:
+                          - paragraph [ref=e465]:
+                            - text: item_id
+                            - code [ref=e466]: string
+                          - paragraph [ref=e467]: 语音停止时将创建的用户消息项的 ID。
+                          - blockquote [ref=e468]: 用户消息项用于将用户输入追加到对话历史，供模型后续推理与生成使用。
+                - generic [ref=e469]:
+                  - heading "input_audio_buffer.speech_stopped" [level=2] [ref=e470]
+                  - paragraph [ref=e471]: 在 VAD 模式下，当音频缓冲区中检测到语音结束时，服务端会返回此事件。
+                  - paragraph [ref=e472]:
+                    - text: 同时，服务端还会返回一个
+                    - code [ref=e473]: conversation.item.created
+                    - text: 事件，以创建对应的用户消息项。
+                  - table [ref=e474]:
+                    - rowgroup [ref=e475]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_UhQiqNVRsgUiq4KUS5Xb5\", \"type\": \"input_audio_buffer.speech_stopped\", \"audio_end_ms\": 4453, \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }" [ref=e476]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e477]:
+                          - paragraph [ref=e478]:
+                            - text: event_id
+                            - code [ref=e479]: string
+                          - paragraph [ref=e480]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_UhQiqNVRsgUiq4KUS5Xb5\", \"type\": \"input_audio_buffer.speech_stopped\", \"audio_end_ms\": 4453, \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }" [ref=e481]':
+                          - generic [ref=e483]:
+                            - generic [ref=e485]:
+                              - generic "更改代码主题" [ref=e486] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e487] [cursor=pointer]: 
+                            - code [ref=e489]: "{ \"event_id\": \"event_UhQiqNVRsgUiq4KUS5Xb5\", \"type\": \"input_audio_buffer.speech_stopped\", \"audio_end_ms\": 4453, \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }"
+                      - row "type string 事件类型，固定为 input_audio_buffer.speech_stopped 。" [ref=e490]:
+                        - cell "type string 事件类型，固定为 input_audio_buffer.speech_stopped 。" [ref=e491]:
+                          - paragraph [ref=e492]:
+                            - text: type
+                            - code [ref=e493]: string
+                          - paragraph [ref=e494]:
+                            - text: 事件类型，固定为
+                            - code [ref=e495]: input_audio_buffer.speech_stopped
+                            - text: 。
+                      - row "audio_end_ms integer 语音停止时刻距会话开始经过的毫秒数。" [ref=e496]:
+                        - cell "audio_end_ms integer 语音停止时刻距会话开始经过的毫秒数。" [ref=e497]:
+                          - paragraph [ref=e498]:
+                            - text: audio_end_ms
+                            - code [ref=e499]: integer
+                          - paragraph [ref=e500]: 语音停止时刻距会话开始经过的毫秒数。
+                      - row "item_id string 将创建的用户消息项的 ID。" [ref=e501]:
+                        - cell "item_id string 将创建的用户消息项的 ID。" [ref=e502]:
+                          - paragraph [ref=e503]:
+                            - text: item_id
+                            - code [ref=e504]: string
+                          - paragraph [ref=e505]: 将创建的用户消息项的 ID。
+                - generic [ref=e506]:
+                  - heading "input_audio_buffer.committed" [level=2] [ref=e507]
+                  - paragraph [ref=e508]: 当输入音频缓冲区被提交时返回此事件。
+                  - list [ref=e509]:
+                    - listitem [ref=e510]:
+                      - paragraph [ref=e511]:
+                        - text: 在
+                        - text: VAD
+                        - text: 模式下，当检测到用户说话结束时，服务端会自动提交音频缓冲区并返回此事件。
+                    - listitem [ref=e512]:
+                      - paragraph [ref=e513]:
+                        - text: 在 Manual 模式下，当客户端发送
+                        - code [ref=e514]: input_audio_buffer.commit
+                        - text: 事件后，服务端返回此事件。
+                  - table [ref=e515]:
+                    - rowgroup [ref=e516]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_Iy6sUzL1nmdFgshFYxJEz\", \"type\": \"input_audio_buffer.committed\", \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }" [ref=e517]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e518]:
+                          - paragraph [ref=e519]:
+                            - text: event_id
+                            - code [ref=e520]: string
+                          - paragraph [ref=e521]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_Iy6sUzL1nmdFgshFYxJEz\", \"type\": \"input_audio_buffer.committed\", \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }" [ref=e522]':
+                          - generic [ref=e524]:
+                            - generic [ref=e526]:
+                              - generic "更改代码主题" [ref=e527] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e528] [cursor=pointer]: 
+                            - code [ref=e530]: "{ \"event_id\": \"event_Iy6sUzL1nmdFgshFYxJEz\", \"type\": \"input_audio_buffer.committed\", \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\" }"
+                      - row "type string 事件类型，固定为 input_audio_buffer.committed 。" [ref=e531]:
+                        - cell "type string 事件类型，固定为 input_audio_buffer.committed 。" [ref=e532]:
+                          - paragraph [ref=e533]:
+                            - text: type
+                            - code [ref=e534]: string
+                          - paragraph [ref=e535]:
+                            - text: 事件类型，固定为
+                            - code [ref=e536]: input_audio_buffer.committed
+                            - text: 。
+                      - row "item_id string 将创建的用户消息项的 ID。" [ref=e537]:
+                        - cell "item_id string 将创建的用户消息项的 ID。" [ref=e538]:
+                          - paragraph [ref=e539]:
+                            - text: item_id
+                            - code [ref=e540]: string
+                          - paragraph [ref=e541]: 将创建的用户消息项的 ID。
+                - generic [ref=e542]:
+                  - heading "input_audio_buffer.cleared" [level=2] [ref=e543]
+                  - paragraph [ref=e544]:
+                    - text: 客户端发送
+                    - code [ref=e545]: input_audio_buffer.clear
+                    - text: 事件后，服务端将返回此事件。
+                  - table [ref=e546]:
+                    - rowgroup [ref=e547]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_RoUu4T8yExPMI37GKwaOC\", \"type\": \"input_audio_buffer.cleared\" }" [ref=e548]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e549]:
+                          - paragraph [ref=e550]:
+                            - text: event_id
+                            - code [ref=e551]: string
+                          - paragraph [ref=e552]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_RoUu4T8yExPMI37GKwaOC\", \"type\": \"input_audio_buffer.cleared\" }" [ref=e553]':
+                          - generic [ref=e555]:
+                            - generic [ref=e557]:
+                              - generic "更改代码主题" [ref=e558] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e559] [cursor=pointer]: 
+                            - code [ref=e561]: "{ \"event_id\": \"event_RoUu4T8yExPMI37GKwaOC\", \"type\": \"input_audio_buffer.cleared\" }"
+                      - row "type string 事件类型，固定为 input_audio_buffer.cleared 。" [ref=e562]:
+                        - cell "type string 事件类型，固定为 input_audio_buffer.cleared 。" [ref=e563]:
+                          - paragraph [ref=e564]:
+                            - text: type
+                            - code [ref=e565]: string
+                          - paragraph [ref=e566]:
+                            - text: 事件类型，固定为
+                            - code [ref=e567]: input_audio_buffer.cleared
+                            - text: 。
+                - generic [ref=e568]:
+                  - heading "conversation.item.created" [level=2] [ref=e569]
+                  - paragraph [ref=e570]: 当对话项创建时返回此事件。
+                  - table [ref=e571]:
+                    - rowgroup [ref=e572]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_JEfkrr9gO3Ny7Xcv9bGVd\", \"type\": \"conversation.item.created\", \"item\": { \"id\": \"item_YbAiGvK2H7YaS34o4R6Ba\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"in_progress\", \"role\": \"assistant\", \"content\": [ { \"type\": \"input_audio\" } ] } } // 工具调用场景 { \"event_id\": \"event_S1hkaIQgcuQD8OEdOpGHQ\", \"type\": \"conversation.item.created\", \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"in_progress\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \"\" } }" [ref=e573]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e574]:
+                          - paragraph [ref=e575]:
+                            - text: event_id
+                            - code [ref=e576]: string
+                          - paragraph [ref=e577]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_JEfkrr9gO3Ny7Xcv9bGVd\", \"type\": \"conversation.item.created\", \"item\": { \"id\": \"item_YbAiGvK2H7YaS34o4R6Ba\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"in_progress\", \"role\": \"assistant\", \"content\": [ { \"type\": \"input_audio\" } ] } } // 工具调用场景 { \"event_id\": \"event_S1hkaIQgcuQD8OEdOpGHQ\", \"type\": \"conversation.item.created\", \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"in_progress\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \"\" } }" [ref=e578]':
+                          - generic [ref=e580]:
+                            - generic [ref=e582]:
+                              - generic "更改代码主题" [ref=e583] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e584] [cursor=pointer]: 
+                            - code [ref=e586]: "{ \"event_id\": \"event_JEfkrr9gO3Ny7Xcv9bGVd\", \"type\": \"conversation.item.created\", \"item\": { \"id\": \"item_YbAiGvK2H7YaS34o4R6Ba\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"in_progress\", \"role\": \"assistant\", \"content\": [ { \"type\": \"input_audio\" } ] } } // 工具调用场景 { \"event_id\": \"event_S1hkaIQgcuQD8OEdOpGHQ\", \"type\": \"conversation.item.created\", \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"in_progress\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \"\" } }"
+                      - row "type string 事件类型，固定为 conversation.item.created 。" [ref=e587]:
+                        - cell "type string 事件类型，固定为 conversation.item.created 。" [ref=e588]:
+                          - paragraph [ref=e589]:
+                            - text: type
+                            - code [ref=e590]: string
+                          - paragraph [ref=e591]:
+                            - text: 事件类型，固定为
+                            - code [ref=e592]: conversation.item.created
+                            - text: 。
+                      - row "item object 要添加到对话中的项。 属性  id string 对话项的唯一 ID。 object string 始终为 realtime.item 。 status string 对话项的状态。 role string 消息的角色。 content string 消息的内容。当 type 为 message 时存在。 type string 对话项的类型。可选值为 message （常规消息）或 function_call （工具调用）。 name string 当 type 为 function_call 时，被调用的函数名称。 call_id string 当 type 为 function_call 时，本次函数调用的唯一 ID。 arguments string 当 type 为 function_call 时，函数调用的参数（JSON 字符串）。" [ref=e593]:
+                        - cell "item object 要添加到对话中的项。 属性  id string 对话项的唯一 ID。 object string 始终为 realtime.item 。 status string 对话项的状态。 role string 消息的角色。 content string 消息的内容。当 type 为 message 时存在。 type string 对话项的类型。可选值为 message （常规消息）或 function_call （工具调用）。 name string 当 type 为 function_call 时，被调用的函数名称。 call_id string 当 type 为 function_call 时，本次函数调用的唯一 ID。 arguments string 当 type 为 function_call 时，函数调用的参数（JSON 字符串）。" [ref=e594]:
+                          - paragraph [ref=e595]:
+                            - text: item
+                            - code [ref=e596]: object
+                          - paragraph [ref=e597]: 要添加到对话中的项。
+                          - generic [ref=e598]:
+                            - generic [ref=e599]:
+                              - paragraph [ref=e601]: 属性
+                              - generic [ref=e602]: 
+                            - generic [ref=e603]:
+                              - generic [ref=e604]:
+                                - paragraph [ref=e605]:
+                                  - text: id
+                                  - code [ref=e606]: string
+                                - paragraph [ref=e607]:
+                                  - text: 对话项的唯一
+                                  - text: ID。
+                              - generic [ref=e608]:
+                                - paragraph [ref=e609]:
+                                  - text: object
+                                  - code [ref=e610]: string
+                                - paragraph [ref=e611]:
+                                  - text: 始终为
+                                  - code [ref=e612]: realtime.item
+                                  - text: 。
+                              - generic [ref=e613]:
+                                - paragraph [ref=e614]:
+                                  - text: status
+                                  - code [ref=e615]: string
+                                - paragraph [ref=e616]: 对话项的状态。
+                              - generic [ref=e617]:
+                                - paragraph [ref=e618]:
+                                  - text: role
+                                  - code [ref=e619]: string
+                                - paragraph [ref=e620]: 消息的角色。
+                              - generic [ref=e621]:
+                                - paragraph [ref=e622]:
+                                  - text: content
+                                  - code [ref=e623]: string
+                                - paragraph [ref=e624]:
+                                  - text: 消息的内容。当 type 为
+                                  - code [ref=e625]: message
+                                  - text: 时存在。
+                              - generic [ref=e626]:
+                                - paragraph [ref=e627]:
+                                  - text: type
+                                  - code [ref=e628]: string
+                                - paragraph [ref=e629]:
+                                  - text: 对话项的类型。可选值为
+                                  - code [ref=e630]: message
+                                  - text: （常规消息）或
+                                  - code [ref=e631]: function_call
+                                  - text: （工具调用）。
+                              - generic [ref=e632]:
+                                - paragraph [ref=e633]:
+                                  - text: name
+                                  - code [ref=e634]: string
+                                - paragraph [ref=e635]:
+                                  - text: 当 type 为
+                                  - code [ref=e636]: function_call
+                                  - text: 时，被调用的函数名称。
+                              - generic [ref=e637]:
+                                - paragraph [ref=e638]:
+                                  - text: call_id
+                                  - code [ref=e639]: string
+                                - paragraph [ref=e640]:
+                                  - text: 当 type 为
+                                  - code [ref=e641]: function_call
+                                  - text: 时，本次函数调用的唯一 ID。
+                              - generic [ref=e642]:
+                                - paragraph [ref=e643]:
+                                  - text: arguments
+                                  - code [ref=e644]: string
+                                - paragraph [ref=e645]:
+                                  - text: 当 type 为
+                                  - code [ref=e646]: function_call
+                                  - text: 时，函数调用的参数（JSON 字符串）。
+                - generic [ref=e647]:
+                  - heading "conversation.item.input_audio_transcription.completed" [level=2] [ref=e648]
+                  - paragraph [ref=e649]:
+                    - text: 此事件表示用户音频写入缓冲区后生成的转录结果。其转录由内置的语音识别模型（固定为
+                    - code [ref=e650]: qwen3-asr-flash-realtime
+                    - text: ）处理，不支持修改。
+                  - blockquote [ref=e651]: 语音识别模型生成的转录文本可能与 Qwen-Omni-Realtime 模型的理解存在差异，仅供参考。
+                  - table [ref=e652]:
+                    - rowgroup [ref=e653]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_FrrZcxiDfTB9LD9p4pVng\", \"type\": \"conversation.item.input_audio_transcription.completed\", \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\", \"content_index\": 0, \"transcript\": \"喂，你好。\" }" [ref=e654]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e655]:
+                          - paragraph [ref=e656]:
+                            - text: event_id
+                            - code [ref=e657]: string
+                          - paragraph [ref=e658]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_FrrZcxiDfTB9LD9p4pVng\", \"type\": \"conversation.item.input_audio_transcription.completed\", \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\", \"content_index\": 0, \"transcript\": \"喂，你好。\" }" [ref=e659]':
+                          - generic [ref=e661]:
+                            - generic [ref=e663]:
+                              - generic "更改代码主题" [ref=e664] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e665] [cursor=pointer]: 
+                            - code [ref=e667]: "{ \"event_id\": \"event_FrrZcxiDfTB9LD9p4pVng\", \"type\": \"conversation.item.input_audio_transcription.completed\", \"item_id\": \"item_YbAiGvK2H7YaS34o4R6Ba\", \"content_index\": 0, \"transcript\": \"喂，你好。\" }"
+                      - row "type string 事件类型，固定为 conversation.item.input_audio_transcription.completed 。" [ref=e668]:
+                        - cell "type string 事件类型，固定为 conversation.item.input_audio_transcription.completed 。" [ref=e669]:
+                          - paragraph [ref=e670]:
+                            - text: type
+                            - code [ref=e671]: string
+                          - paragraph [ref=e672]:
+                            - text: 事件类型，固定为
+                            - code [ref=e673]: conversation.item.input_audio_transcription.completed
+                            - text: 。
+                      - row "item_id string 用户消息项的 ID。" [ref=e674]:
+                        - cell "item_id string 用户消息项的 ID。" [ref=e675]:
+                          - paragraph [ref=e676]:
+                            - text: item_id
+                            - code [ref=e677]: string
+                          - paragraph [ref=e678]: 用户消息项的 ID。
+                      - row "content_index integer 当前固定为 0。" [ref=e679]:
+                        - cell "content_index integer 当前固定为 0。" [ref=e680]:
+                          - paragraph [ref=e681]: content_index integer
+                          - paragraph [ref=e682]:
+                            - text: 当前固定为
+                            - text: 0。
+                      - row "transcript string 转录的文本内容。" [ref=e683]:
+                        - cell "transcript string 转录的文本内容。" [ref=e684]:
+                          - paragraph [ref=e685]:
+                            - text: transcript
+                            - code [ref=e686]: string
+                          - paragraph [ref=e687]: 转录的文本内容。
+                - generic [ref=e688]:
+                  - heading "conversation.item.input_audio_transcription.failed" [level=2] [ref=e689]
+                  - paragraph [ref=e690]:
+                    - text: 启用输入音频转录后，若用户音频转录失败，服务端会返回此事件。此事件独立于
+                    - code [ref=e691]: error
+                    - text: 事件，便于客户端识别。
+                  - table [ref=e692]:
+                    - rowgroup [ref=e693]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"type\": \"conversation.item.input_audio_transcription.failed\", \"item_id\": \"<item_id>\", \"content_index\": 0, \"error\": { \"code\": \"<code>\", \"message\": \"<message>\", \"param\": \"<param>\" } }" [ref=e694]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e695]:
+                          - paragraph [ref=e696]:
+                            - text: event_id
+                            - code [ref=e697]: string
+                          - paragraph [ref=e698]: 本次事件唯一标识符。
+                        - 'cell "  { \"type\": \"conversation.item.input_audio_transcription.failed\", \"item_id\": \"<item_id>\", \"content_index\": 0, \"error\": { \"code\": \"<code>\", \"message\": \"<message>\", \"param\": \"<param>\" } }" [ref=e699]':
+                          - generic [ref=e701]:
+                            - generic [ref=e703]:
+                              - generic "更改代码主题" [ref=e704] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e705] [cursor=pointer]: 
+                            - code [ref=e707]: "{ \"type\": \"conversation.item.input_audio_transcription.failed\", \"item_id\": \"<item_id>\", \"content_index\": 0, \"error\": { \"code\": \"<code>\", \"message\": \"<message>\", \"param\": \"<param>\" } }"
+                      - row "type string 事件类型，固定为 conversation.item.input_audio_transcription.failed 。" [ref=e708]:
+                        - cell "type string 事件类型，固定为 conversation.item.input_audio_transcription.failed 。" [ref=e709]:
+                          - paragraph [ref=e710]:
+                            - text: type
+                            - code [ref=e711]: string
+                          - paragraph [ref=e712]:
+                            - text: 事件类型，固定为
+                            - code [ref=e713]: conversation.item.input_audio_transcription.failed
+                            - text: 。
+                      - row "item_id string 用户消息项的 ID。" [ref=e714]:
+                        - cell "item_id string 用户消息项的 ID。" [ref=e715]:
+                          - paragraph [ref=e716]:
+                            - text: item_id
+                            - code [ref=e717]: string
+                          - paragraph [ref=e718]: 用户消息项的 ID。
+                      - row "content_index integer 当前固定为 0。" [ref=e719]:
+                        - cell "content_index integer 当前固定为 0。" [ref=e720]:
+                          - paragraph [ref=e721]:
+                            - text: content_index
+                            - code [ref=e722]: integer
+                          - paragraph [ref=e723]:
+                            - text: 当前固定为
+                            - text: 0。
+                      - row "error object 错误信息。 属性  code string 错误码。 message string 错误消息。 param string 错误相关的参数。" [ref=e724]:
+                        - cell "error object 错误信息。 属性  code string 错误码。 message string 错误消息。 param string 错误相关的参数。" [ref=e725]:
+                          - paragraph [ref=e726]:
+                            - text: error
+                            - code [ref=e727]: object
+                          - paragraph [ref=e728]: 错误信息。
+                          - generic [ref=e729]:
+                            - generic [ref=e730]:
+                              - paragraph [ref=e732]: 属性
+                              - generic [ref=e733]: 
+                            - generic [ref=e734]:
+                              - generic [ref=e735]:
+                                - paragraph [ref=e736]:
+                                  - text: code
+                                  - code [ref=e737]: string
+                                - paragraph [ref=e738]: 错误码。
+                              - generic [ref=e739]:
+                                - paragraph [ref=e740]:
+                                  - text: message
+                                  - code [ref=e741]: string
+                                - paragraph [ref=e742]: 错误消息。
+                              - generic [ref=e743]:
+                                - paragraph [ref=e744]:
+                                  - text: param
+                                  - code [ref=e745]: string
+                                - paragraph [ref=e746]: 错误相关的参数。
+                - generic [ref=e747]:
+                  - heading "response.created" [level=2] [ref=e748]
+                  - paragraph [ref=e749]: 当服务端生成新的模型响应时，会返回此事件。
+                  - table [ref=e750]:
+                    - rowgroup [ref=e751]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_XuDavMzQN3KKepqGu3KRh\", \"type\": \"response.created\", \"response\": { \"id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"object\": \"realtime.response\", \"conversation_id\": \"conv_FjJaccpnvwHNo9cPVuzGc\", \"status\": \"in_progress\", \"modalities\": [ \"text\", \"audio\" ], \"voice\": \"Cherry\", \"output_audio_format\": \"pcm\", \"output\": [] } }" [ref=e752]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e753]:
+                          - paragraph [ref=e754]:
+                            - text: event_id
+                            - code [ref=e755]: string
+                          - paragraph [ref=e756]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_XuDavMzQN3KKepqGu3KRh\", \"type\": \"response.created\", \"response\": { \"id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"object\": \"realtime.response\", \"conversation_id\": \"conv_FjJaccpnvwHNo9cPVuzGc\", \"status\": \"in_progress\", \"modalities\": [ \"text\", \"audio\" ], \"voice\": \"Cherry\", \"output_audio_format\": \"pcm\", \"output\": [] } }" [ref=e757]':
+                          - generic [ref=e759]:
+                            - generic [ref=e761]:
+                              - generic "更改代码主题" [ref=e762] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e763] [cursor=pointer]: 
+                            - code [ref=e765]: "{ \"event_id\": \"event_XuDavMzQN3KKepqGu3KRh\", \"type\": \"response.created\", \"response\": { \"id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"object\": \"realtime.response\", \"conversation_id\": \"conv_FjJaccpnvwHNo9cPVuzGc\", \"status\": \"in_progress\", \"modalities\": [ \"text\", \"audio\" ], \"voice\": \"Cherry\", \"output_audio_format\": \"pcm\", \"output\": [] } }"
+                      - row "type string 事件类型，固定为 response.created 。" [ref=e766]:
+                        - cell "type string 事件类型，固定为 response.created 。" [ref=e767]:
+                          - paragraph [ref=e768]:
+                            - text: type
+                            - code [ref=e769]: string
+                          - paragraph [ref=e770]:
+                            - text: 事件类型，固定为
+                            - code [ref=e771]: response.created
+                            - text: 。
+                      - row "response object 响应对象。 属性  id string 响应的唯一 ID。 conversation_id string 当前会话的唯一 ID。 object string 对象类型，此事件下固定为 realtime.response 。 status string 响应的状态。在 [completed, failed, in_progress, or incomplete] 范围内。 modalities array 响应的模态。 voice string 模型生成音频的音色。 output string 此事件下目前为空。" [ref=e772]:
+                        - cell "response object 响应对象。 属性  id string 响应的唯一 ID。 conversation_id string 当前会话的唯一 ID。 object string 对象类型，此事件下固定为 realtime.response 。 status string 响应的状态。在 [completed, failed, in_progress, or incomplete] 范围内。 modalities array 响应的模态。 voice string 模型生成音频的音色。 output string 此事件下目前为空。" [ref=e773]:
+                          - paragraph [ref=e774]:
+                            - text: response
+                            - code [ref=e775]: object
+                          - paragraph [ref=e776]: 响应对象。
+                          - generic [ref=e777]:
+                            - generic [ref=e778]:
+                              - paragraph [ref=e780]: 属性
+                              - generic [ref=e781]: 
+                            - generic [ref=e782]:
+                              - generic [ref=e783]:
+                                - paragraph [ref=e784]:
+                                  - text: id
+                                  - code [ref=e785]: string
+                                - paragraph [ref=e786]: 响应的唯一 ID。
+                              - generic [ref=e787]:
+                                - paragraph [ref=e788]:
+                                  - text: conversation_id
+                                  - code [ref=e789]: string
+                                - paragraph [ref=e790]:
+                                  - text: 当前会话的唯一
+                                  - text: ID。
+                              - generic [ref=e791]:
+                                - paragraph [ref=e792]:
+                                  - text: object
+                                  - code [ref=e793]: string
+                                - paragraph [ref=e794]:
+                                  - text: 对象类型，此事件下固定为
+                                  - code [ref=e795]: realtime.response
+                                  - text: 。
+                              - generic [ref=e796]:
+                                - paragraph [ref=e797]:
+                                  - text: status
+                                  - code [ref=e798]: string
+                                - paragraph [ref=e799]:
+                                  - text: 响应的状态。在
+                                  - code [ref=e800]: "[completed, failed, in_progress, or incomplete]"
+                                  - text: 范围内。
+                              - generic [ref=e801]:
+                                - paragraph [ref=e802]:
+                                  - text: modalities
+                                  - code [ref=e803]: array
+                                - paragraph [ref=e804]: 响应的模态。
+                              - generic [ref=e805]:
+                                - paragraph [ref=e806]:
+                                  - text: voice
+                                  - code [ref=e807]: string
+                                - paragraph [ref=e808]: 模型生成音频的音色。
+                              - generic [ref=e809]:
+                                - paragraph [ref=e810]:
+                                  - text: output
+                                  - code [ref=e811]: string
+                                - paragraph [ref=e812]: 此事件下目前为空。
+                - generic [ref=e813]:
+                  - heading "response.done" [level=2] [ref=e814]
+                  - paragraph [ref=e815]:
+                    - text: 响应生成完成后，服务端会返回此事件。事件中的
+                    - code [ref=e816]: response
+                    - text: 对象包含除原始音频数据外的全部输出项。
+                  - table [ref=e817]:
+                    - rowgroup [ref=e818]:
+                      - row [ref=e819]:
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e820]:
+                          - paragraph [ref=e821]:
+                            - text: event_id
+                            - code [ref=e822]: string
+                          - paragraph [ref=e823]: 本次事件唯一标识符。
+                        - cell [ref=e824]:
+                          - generic [ref=e826]:
+                            - generic [ref=e828]:
+                              - generic "更改代码主题" [ref=e829] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e830] [cursor=pointer]: 
+                            - code [ref=e832]: "{ \"event_id\": \"event_CSaxRRYLvbrfexDXAEuDG\", \"type\": \"response.done\", \"response\": { \"id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"object\": \"realtime.response\", \"conversation_id\": \"conv_FjJaccpnvwHNo9cPVuzGc\", \"status\": \"completed\", \"modalities\": [ \"text\", \"audio\" ], \"voice\": \"Cherry\", \"output_audio_format\": \"pcm\", \"output\": [ { \"id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"completed\", \"role\": \"assistant\", \"content\": [ { \"type\": \"audio\", \"transcript\": \"你好呀！有什么我可以帮你的吗？\" } ] } ], \"usage\": { \"total_tokens\": 377, \"input_tokens\": 336, \"output_tokens\": 41, \"input_tokens_details\": { \"text_tokens\": 228, \"audio_tokens\": 108 }, \"output_tokens_details\": { \"text_tokens\": 9, \"audio_tokens\": 32 }, \"plugins\": { \"search\": { \"count\": 1, \"strategy\": \"agent\" } } } } } // 工具调用场景 { \"event_id\": \"event_T1EFAJp43X2DWtDRmxTtx\", \"type\": \"response.done\", \"response\": { \"id\": \"resp_TucN5QgymL5MA8vkJvFlS\", \"object\": \"realtime.response\", \"conversation_id\": \"conv_SEDZESRlefT8WvLSmEn6E\", \"status\": \"completed\", \"modalities\": [\"text\", \"audio\"], \"voice\": \"Ethan\", \"output_audio_format\": \"pcm16\", \"output\": [ { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"completed\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \" {\\\"location\\\": \\\"杭州\\\"}\" } ], \"usage\": { \"total_tokens\": 567, \"input_tokens\": 524, \"output_tokens\": 43, \"input_tokens_details\": { \"text_tokens\": 487, \"audio_tokens\": 37 }, \"output_tokens_details\": { \"text_tokens\": 43 } } } }"
+                      - row "type string 事件类型，固定为 response.done 。" [ref=e833]:
+                        - cell "type string 事件类型，固定为 response.done 。" [ref=e834]:
+                          - paragraph [ref=e835]:
+                            - text: type
+                            - code [ref=e836]: string
+                          - paragraph [ref=e837]:
+                            - text: 事件类型，固定为
+                            - code [ref=e838]: response.done
+                            - text: 。
+                      - row "response object 响应对象。 属性  id string 响应的唯一 ID。 conversation_id string 当前会话的唯一 ID。 object string 对象类型，此事件下固定为 realtime.response 。 status string 响应的状态。 modalities array 响应的模态。 voice string 模型生成音频的音色。 output object 响应的输出。 属性  id string 响应输出对应的 ID。 type string 输出项的类型，可选值为 message （常规消息）或 function_call （工具调用）。 object string 输出项的对象类型，当前固定为 realtime.item 。 status string 输出项的状态。 role string 输出项的角色。 content array 输出项的内容。当 type 为 message 时存在。 属性  type string 输出内容的类型。输出为纯文本时，为 text ；输出包含音频时，为 audio 。 text string 输出的文本内容。 transcript string 音频转录为文字后的内容。 name string 当 type 为 function_call 时，被调用的函数名称。 call_id string 当 type 为 function_call 时，函数调用的唯一 ID。 arguments string 当 type 为 function_call 时，函数调用的完整参数（JSON 字符串）。 usage object 本次响应的 Token 消耗信息。 属性 " [ref=e839]:
+                        - cell "response object 响应对象。 属性  id string 响应的唯一 ID。 conversation_id string 当前会话的唯一 ID。 object string 对象类型，此事件下固定为 realtime.response 。 status string 响应的状态。 modalities array 响应的模态。 voice string 模型生成音频的音色。 output object 响应的输出。 属性  id string 响应输出对应的 ID。 type string 输出项的类型，可选值为 message （常规消息）或 function_call （工具调用）。 object string 输出项的对象类型，当前固定为 realtime.item 。 status string 输出项的状态。 role string 输出项的角色。 content array 输出项的内容。当 type 为 message 时存在。 属性  type string 输出内容的类型。输出为纯文本时，为 text ；输出包含音频时，为 audio 。 text string 输出的文本内容。 transcript string 音频转录为文字后的内容。 name string 当 type 为 function_call 时，被调用的函数名称。 call_id string 当 type 为 function_call 时，函数调用的唯一 ID。 arguments string 当 type 为 function_call 时，函数调用的完整参数（JSON 字符串）。 usage object 本次响应的 Token 消耗信息。 属性 " [ref=e840]:
+                          - paragraph [ref=e841]:
+                            - text: response
+                            - code [ref=e842]: object
+                          - paragraph [ref=e843]: 响应对象。
+                          - generic [ref=e844]:
+                            - generic [ref=e845]:
+                              - paragraph [ref=e847]: 属性
+                              - generic [ref=e848]: 
+                            - generic [ref=e849]:
+                              - generic [ref=e850]:
+                                - paragraph [ref=e851]:
+                                  - text: id
+                                  - code [ref=e852]: string
+                                - paragraph [ref=e853]: 响应的唯一 ID。
+                              - generic [ref=e854]:
+                                - paragraph [ref=e855]:
+                                  - text: conversation_id
+                                  - code [ref=e856]: string
+                                - paragraph [ref=e857]:
+                                  - text: 当前会话的唯一
+                                  - text: ID。
+                              - generic [ref=e858]:
+                                - paragraph [ref=e859]:
+                                  - text: object
+                                  - code [ref=e860]: string
+                                - paragraph [ref=e861]:
+                                  - text: 对象类型，此事件下固定为
+                                  - code [ref=e862]: realtime.response
+                                  - text: 。
+                              - generic [ref=e863]:
+                                - paragraph [ref=e864]:
+                                  - text: status
+                                  - code [ref=e865]: string
+                                - paragraph [ref=e866]: 响应的状态。
+                              - generic [ref=e867]:
+                                - paragraph [ref=e868]:
+                                  - text: modalities
+                                  - code [ref=e869]: array
+                                - paragraph [ref=e870]: 响应的模态。
+                              - generic [ref=e871]:
+                                - paragraph [ref=e872]:
+                                  - text: voice
+                                  - code [ref=e873]: string
+                                - paragraph [ref=e874]: 模型生成音频的音色。
+                              - generic [ref=e875]:
+                                - paragraph [ref=e876]:
+                                  - text: output
+                                  - code [ref=e877]: object
+                                - paragraph [ref=e878]: 响应的输出。
+                                - generic [ref=e879]:
+                                  - generic [ref=e880]:
+                                    - paragraph [ref=e882]: 属性
+                                    - generic [ref=e883]: 
+                                  - generic [ref=e884]:
+                                    - generic [ref=e885]:
+                                      - paragraph [ref=e886]:
+                                        - text: id
+                                        - code [ref=e887]: string
+                                      - paragraph [ref=e888]:
+                                        - text: 响应输出对应的
+                                        - text: ID。
+                                    - generic [ref=e889]:
+                                      - paragraph [ref=e890]:
+                                        - text: type
+                                        - code [ref=e891]: string
+                                      - paragraph [ref=e892]:
+                                        - text: 输出项的类型，可选值为
+                                        - code [ref=e893]: message
+                                        - text: （常规消息）或
+                                        - code [ref=e894]: function_call
+                                        - text: （工具调用）。
+                                    - generic [ref=e895]:
+                                      - paragraph [ref=e896]:
+                                        - text: object
+                                        - code [ref=e897]: string
+                                      - paragraph [ref=e898]:
+                                        - text: 输出项的对象类型，当前固定为
+                                        - code [ref=e899]: realtime.item
+                                        - text: 。
+                                    - generic [ref=e900]:
+                                      - paragraph [ref=e901]:
+                                        - text: status
+                                        - code [ref=e902]: string
+                                      - paragraph [ref=e903]: 输出项的状态。
+                                    - generic [ref=e904]:
+                                      - paragraph [ref=e905]:
+                                        - text: role
+                                        - code [ref=e906]: string
+                                      - paragraph [ref=e907]: 输出项的角色。
+                                    - generic [ref=e908]:
+                                      - paragraph [ref=e909]:
+                                        - text: content
+                                        - code [ref=e910]: array
+                                      - paragraph [ref=e911]:
+                                        - text: 输出项的内容。当 type 为
+                                        - code [ref=e912]: message
+                                        - text: 时存在。
+                                      - generic [ref=e913]:
+                                        - generic [ref=e914]:
+                                          - paragraph [ref=e916]: 属性
+                                          - generic [ref=e917]: 
+                                        - generic [ref=e918]:
+                                          - generic [ref=e919]:
+                                            - paragraph [ref=e920]:
+                                              - text: type
+                                              - code [ref=e921]: string
+                                            - paragraph [ref=e922]:
+                                              - text: 输出内容的类型。输出为纯文本时，为
+                                              - code [ref=e923]: text
+                                              - text: ；输出包含音频时，为
+                                              - code [ref=e924]: audio
+                                              - text: 。
+                                          - generic [ref=e925]:
+                                            - paragraph [ref=e926]:
+                                              - text: text
+                                              - code [ref=e927]: string
+                                            - paragraph [ref=e928]: 输出的文本内容。
+                                          - generic [ref=e929]:
+                                            - paragraph [ref=e930]:
+                                              - text: transcript
+                                              - code [ref=e931]: string
+                                            - paragraph [ref=e932]: 音频转录为文字后的内容。
+                                    - generic [ref=e933]:
+                                      - paragraph [ref=e934]:
+                                        - text: name
+                                        - code [ref=e935]: string
+                                      - paragraph [ref=e936]:
+                                        - text: 当 type 为
+                                        - code [ref=e937]: function_call
+                                        - text: 时，被调用的函数名称。
+                                    - generic [ref=e938]:
+                                      - paragraph [ref=e939]:
+                                        - text: call_id
+                                        - code [ref=e940]: string
+                                      - paragraph [ref=e941]:
+                                        - text: 当 type 为
+                                        - code [ref=e942]: function_call
+                                        - text: 时，函数调用的唯一 ID。
+                                    - generic [ref=e943]:
+                                      - paragraph [ref=e944]:
+                                        - text: arguments
+                                        - code [ref=e945]: string
+                                      - paragraph [ref=e946]:
+                                        - text: 当 type 为
+                                        - code [ref=e947]: function_call
+                                        - text: 时，函数调用的完整参数（JSON 字符串）。
+                              - generic [ref=e948]:
+                                - paragraph [ref=e949]:
+                                  - text: usage
+                                  - code [ref=e950]: object
+                                - paragraph [ref=e951]: 本次响应的 Token 消耗信息。
+                                - generic [ref=e952]:
+                                  - generic [ref=e953]:
+                                    - paragraph [ref=e955]: 属性
+                                    - generic [ref=e956]: 
+                                  - text:  
+                - generic [ref=e957]:
+                  - heading "response.text.delta" [level=2] [ref=e958]
+                  - paragraph [ref=e959]: 当输出模态仅包含文本，且模型增量生成新的文本时，服务端将返回此事件。
+                  - table [ref=e960]:
+                    - rowgroup [ref=e961]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"delta\": \"喂\", \"event_id\": \"event_TH49MauuPmRo1RGaMSlP7\", \"type\": \"response.text.delta\", \"response_id\": \"resp_PrRSvPVpnCExdUOGHHLuP\", \"item_id\": \"item_L8IRm9kRXFpxoOjDqDC96\", \"output_index\": 0, \"content_index\": 0 }" [ref=e962]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e963]:
+                          - paragraph [ref=e964]:
+                            - text: event_id
+                            - code [ref=e965]: string
+                          - paragraph [ref=e966]: 本次事件唯一标识符。
+                        - 'cell "  { \"delta\": \"喂\", \"event_id\": \"event_TH49MauuPmRo1RGaMSlP7\", \"type\": \"response.text.delta\", \"response_id\": \"resp_PrRSvPVpnCExdUOGHHLuP\", \"item_id\": \"item_L8IRm9kRXFpxoOjDqDC96\", \"output_index\": 0, \"content_index\": 0 }" [ref=e967]':
+                          - generic [ref=e969]:
+                            - generic [ref=e971]:
+                              - generic "更改代码主题" [ref=e972] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e973] [cursor=pointer]: 
+                            - code [ref=e975]: "{ \"delta\": \"喂\", \"event_id\": \"event_TH49MauuPmRo1RGaMSlP7\", \"type\": \"response.text.delta\", \"response_id\": \"resp_PrRSvPVpnCExdUOGHHLuP\", \"item_id\": \"item_L8IRm9kRXFpxoOjDqDC96\", \"output_index\": 0, \"content_index\": 0 }"
+                      - row "type string 事件类型，固定为 response.text.delta 。" [ref=e976]:
+                        - cell "type string 事件类型，固定为 response.text.delta 。" [ref=e977]:
+                          - paragraph [ref=e978]:
+                            - text: type
+                            - code [ref=e979]: string
+                          - paragraph [ref=e980]:
+                            - text: 事件类型，固定为
+                            - code [ref=e981]: response.text.delta
+                            - text: 。
+                      - row "delta string 返回的增量文本。" [ref=e982]:
+                        - cell "delta string 返回的增量文本。" [ref=e983]:
+                          - paragraph [ref=e984]:
+                            - text: delta
+                            - code [ref=e985]: string
+                          - paragraph [ref=e986]: 返回的增量文本。
+                      - row "response_id string 回复的 ID。" [ref=e987]:
+                        - cell "response_id string 回复的 ID。" [ref=e988]:
+                          - paragraph [ref=e989]:
+                            - text: response_id
+                            - code [ref=e990]: string
+                          - paragraph [ref=e991]:
+                            - text: 回复的
+                            - text: ID。
+                      - row "item_id string 消息项 ID，可以关联同一个消息项。" [ref=e992]:
+                        - cell "item_id string 消息项 ID，可以关联同一个消息项。" [ref=e993]:
+                          - paragraph [ref=e994]:
+                            - text: item_id
+                            - code [ref=e995]: string
+                          - paragraph [ref=e996]:
+                            - text: 消息项
+                            - text: ID，可以关联同一个消息项。
+                      - row "output_index integer 响应中输出项的索引, 目前固定为 0。" [ref=e997]:
+                        - cell "output_index integer 响应中输出项的索引, 目前固定为 0。" [ref=e998]:
+                          - paragraph [ref=e999]:
+                            - text: output_index
+                            - code [ref=e1000]: integer
+                          - paragraph [ref=e1001]: 响应中输出项的索引, 目前固定为 0。
+                      - row "content_index integer 响应中输出项中内部部分的索引, 目前固定为 0。" [ref=e1002]:
+                        - cell "content_index integer 响应中输出项中内部部分的索引, 目前固定为 0。" [ref=e1003]:
+                          - paragraph [ref=e1004]:
+                            - text: content_index
+                            - code [ref=e1005]: integer
+                          - paragraph [ref=e1006]: 响应中输出项中内部部分的索引, 目前固定为 0。
+                - generic [ref=e1007]:
+                  - heading "response.text.done" [level=2] [ref=e1008]
+                  - paragraph [ref=e1009]: 当输出模态仅包含文本，且模型生成的文本结束时，服务端将返回此事件。
+                  - blockquote [ref=e1010]: 当响应中断、不完整或取消时，也会返回此事件。
+                  - table [ref=e1011]:
+                    - rowgroup [ref=e1012]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_B1lIeE2Nac33zn5V7h2mm\", \"type\": \"response.text.done\", \"response_id\": \"resp_B1lIdtjF4Noqpn5NOjznj\", \"item_id\": \"item_B1lIdJsAJlJiFs8ztWpJt\", \"output_index\": 0, \"content_index\": 0, \"text\": \"How can I assist you today?\" }" [ref=e1013]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1014]:
+                          - paragraph [ref=e1015]:
+                            - text: event_id
+                            - code [ref=e1016]: string
+                          - paragraph [ref=e1017]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_B1lIeE2Nac33zn5V7h2mm\", \"type\": \"response.text.done\", \"response_id\": \"resp_B1lIdtjF4Noqpn5NOjznj\", \"item_id\": \"item_B1lIdJsAJlJiFs8ztWpJt\", \"output_index\": 0, \"content_index\": 0, \"text\": \"How can I assist you today?\" }" [ref=e1018]':
+                          - generic [ref=e1020]:
+                            - generic [ref=e1022]:
+                              - generic "更改代码主题" [ref=e1023] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1024] [cursor=pointer]: 
+                            - code [ref=e1026]: "{ \"event_id\": \"event_B1lIeE2Nac33zn5V7h2mm\", \"type\": \"response.text.done\", \"response_id\": \"resp_B1lIdtjF4Noqpn5NOjznj\", \"item_id\": \"item_B1lIdJsAJlJiFs8ztWpJt\", \"output_index\": 0, \"content_index\": 0, \"text\": \"How can I assist you today?\" }"
+                      - row "type string 事件类型，固定为 response.text.done 。" [ref=e1027]:
+                        - cell "type string 事件类型，固定为 response.text.done 。" [ref=e1028]:
+                          - paragraph [ref=e1029]:
+                            - text: type
+                            - code [ref=e1030]: string
+                          - paragraph [ref=e1031]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1032]: response.text.done
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1033]:
+                        - cell "response_id string 响应的 ID。" [ref=e1034]:
+                          - paragraph [ref=e1035]:
+                            - text: response_id
+                            - code [ref=e1036]: string
+                          - paragraph [ref=e1037]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1038]:
+                        - cell "item_id string 消息项 ID。" [ref=e1039]:
+                          - paragraph [ref=e1040]:
+                            - text: item_id
+                            - code [ref=e1041]: string
+                          - paragraph [ref=e1042]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引。" [ref=e1043]:
+                        - cell "output_index integer 响应输出项的索引。" [ref=e1044]:
+                          - paragraph [ref=e1045]:
+                            - text: output_index
+                            - code [ref=e1046]: integer
+                          - paragraph [ref=e1047]: 响应输出项的索引。
+                      - row "content_index integer 响应输出项的索引。" [ref=e1048]:
+                        - cell "content_index integer 响应输出项的索引。" [ref=e1049]:
+                          - paragraph [ref=e1050]:
+                            - text: content_index
+                            - code [ref=e1051]: integer
+                          - paragraph [ref=e1052]: 响应输出项的索引。
+                      - row "text string 模型输出的完整文本。" [ref=e1053]:
+                        - cell "text string 模型输出的完整文本。" [ref=e1054]:
+                          - paragraph [ref=e1055]:
+                            - text: text
+                            - code [ref=e1056]: string
+                          - paragraph [ref=e1057]: 模型输出的完整文本。
+                - generic [ref=e1058]:
+                  - heading "response.audio.delta" [level=2] [ref=e1059]
+                  - paragraph [ref=e1060]: 当输出模态包含音频，且模型增量生成新的音频数据时，服务端将返回此事件。
+                  - table [ref=e1061]:
+                    - rowgroup [ref=e1062]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_B1osWMZBtrEQbiIwW0qHQ\", \"type\": \"response.audio.delta\", \"response_id\": \"resp_P79OOMs8LnrXVpiIHUCKR\", \"item_id\": \"item_OFaPGtzfWCPyGzxnuEX9i\", \"output_index\": 0, \"content_index\": 0, \"delta\": \"{base64 audio}\" }" [ref=e1063]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1064]:
+                          - paragraph [ref=e1065]:
+                            - text: event_id
+                            - code [ref=e1066]: string
+                          - paragraph [ref=e1067]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_B1osWMZBtrEQbiIwW0qHQ\", \"type\": \"response.audio.delta\", \"response_id\": \"resp_P79OOMs8LnrXVpiIHUCKR\", \"item_id\": \"item_OFaPGtzfWCPyGzxnuEX9i\", \"output_index\": 0, \"content_index\": 0, \"delta\": \"{base64 audio}\" }" [ref=e1068]':
+                          - generic [ref=e1070]:
+                            - generic [ref=e1072]:
+                              - generic "更改代码主题" [ref=e1073] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1074] [cursor=pointer]: 
+                            - code [ref=e1076]: "{ \"event_id\": \"event_B1osWMZBtrEQbiIwW0qHQ\", \"type\": \"response.audio.delta\", \"response_id\": \"resp_P79OOMs8LnrXVpiIHUCKR\", \"item_id\": \"item_OFaPGtzfWCPyGzxnuEX9i\", \"output_index\": 0, \"content_index\": 0, \"delta\": \"{base64 audio}\" }"
+                      - row "type string 事件类型，固定为 response.audio.delta 。" [ref=e1077]:
+                        - cell "type string 事件类型，固定为 response.audio.delta 。" [ref=e1078]:
+                          - paragraph [ref=e1079]:
+                            - text: type
+                            - code [ref=e1080]: string
+                          - paragraph [ref=e1081]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1082]: response.audio.delta
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1083]:
+                        - cell "response_id string 响应的 ID。" [ref=e1084]:
+                          - paragraph [ref=e1085]:
+                            - text: response_id
+                            - code [ref=e1086]: string
+                          - paragraph [ref=e1087]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1088]:
+                        - cell "item_id string 消息项 ID。" [ref=e1089]:
+                          - paragraph [ref=e1090]:
+                            - text: item_id
+                            - code [ref=e1091]: string
+                          - paragraph [ref=e1092]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引。" [ref=e1093]:
+                        - cell "output_index integer 响应输出项的索引。" [ref=e1094]:
+                          - paragraph [ref=e1095]:
+                            - text: output_index
+                            - code [ref=e1096]: integer
+                          - paragraph [ref=e1097]: 响应输出项的索引。
+                      - row "content_index integer 响应输出项的索引。" [ref=e1098]:
+                        - cell "content_index integer 响应输出项的索引。" [ref=e1099]:
+                          - paragraph [ref=e1100]:
+                            - text: content_index
+                            - code [ref=e1101]: integer
+                          - paragraph [ref=e1102]: 响应输出项的索引。
+                      - row "delta string 模型增量输出的音频数据，使用 Base64 编码。" [ref=e1103]:
+                        - cell "delta string 模型增量输出的音频数据，使用 Base64 编码。" [ref=e1104]:
+                          - paragraph [ref=e1105]:
+                            - text: delta
+                            - code [ref=e1106]: string
+                          - paragraph [ref=e1107]:
+                            - text: 模型增量输出的音频数据，使用
+                            - text: Base64
+                            - text: 编码。
+                - generic [ref=e1108]:
+                  - heading "response.audio.done" [level=2] [ref=e1109]
+                  - paragraph [ref=e1110]: 当输出模态包含音频，且模型完成生成音频数据时，服务端将返回此事件。
+                  - blockquote [ref=e1111]: 当响应中断、不完整或取消时，也会返回此事件。
+                  - table [ref=e1112]:
+                    - rowgroup [ref=e1113]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_Le1TDl7VfyHQxl47DtGxI\", \"type\": \"response.audio.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0 }" [ref=e1114]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1115]:
+                          - paragraph [ref=e1116]:
+                            - text: event_id
+                            - code [ref=e1117]: string
+                          - paragraph [ref=e1118]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_Le1TDl7VfyHQxl47DtGxI\", \"type\": \"response.audio.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0 }" [ref=e1119]':
+                          - generic [ref=e1121]:
+                            - generic [ref=e1123]:
+                              - generic "更改代码主题" [ref=e1124] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1125] [cursor=pointer]: 
+                            - code [ref=e1127]: "{ \"event_id\": \"event_Le1TDl7VfyHQxl47DtGxI\", \"type\": \"response.audio.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0 }"
+                      - row "type string 事件类型，固定为 response.audio.done 。" [ref=e1128]:
+                        - cell "type string 事件类型，固定为 response.audio.done 。" [ref=e1129]:
+                          - paragraph [ref=e1130]:
+                            - text: type
+                            - code [ref=e1131]: string
+                          - paragraph [ref=e1132]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1133]: response.audio.done
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1134]:
+                        - cell "response_id string 响应的 ID。" [ref=e1135]:
+                          - paragraph [ref=e1136]:
+                            - text: response_id
+                            - code [ref=e1137]: string
+                          - paragraph [ref=e1138]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1139]:
+                        - cell "item_id string 消息项 ID。" [ref=e1140]:
+                          - paragraph [ref=e1141]:
+                            - text: item_id
+                            - code [ref=e1142]: string
+                          - paragraph [ref=e1143]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引。" [ref=e1144]:
+                        - cell "output_index integer 响应输出项的索引。" [ref=e1145]:
+                          - paragraph [ref=e1146]:
+                            - text: output_index
+                            - code [ref=e1147]: integer
+                          - paragraph [ref=e1148]: 响应输出项的索引。
+                      - row "content_index integer 响应输出项的索引。" [ref=e1149]:
+                        - cell "content_index integer 响应输出项的索引。" [ref=e1150]:
+                          - paragraph [ref=e1151]:
+                            - text: content_index
+                            - code [ref=e1152]: integer
+                          - paragraph [ref=e1153]: 响应输出项的索引。
+                - generic [ref=e1154]:
+                  - heading "response.audio_transcript.delta" [level=2] [ref=e1155]
+                  - paragraph [ref=e1156]:
+                    - text: 当输出模态包含音频，且模型增量生成新的音频对应的文本时，服务端将返回
+                    - code [ref=e1157]: response.audio_transcript.delta
+                    - text: 事件。
+                  - table [ref=e1158]:
+                    - rowgroup [ref=e1159]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_BksW7fOwnyavZdDxIzZYM\", \"type\": \"response.audio_transcript.delta\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"delta\": \"有什么\" }" [ref=e1160]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1161]:
+                          - paragraph [ref=e1162]:
+                            - text: event_id
+                            - code [ref=e1163]: string
+                          - paragraph [ref=e1164]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_BksW7fOwnyavZdDxIzZYM\", \"type\": \"response.audio_transcript.delta\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"delta\": \"有什么\" }" [ref=e1165]':
+                          - generic [ref=e1167]:
+                            - generic [ref=e1169]:
+                              - generic "更改代码主题" [ref=e1170] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1171] [cursor=pointer]: 
+                            - code [ref=e1173]: "{ \"event_id\": \"event_BksW7fOwnyavZdDxIzZYM\", \"type\": \"response.audio_transcript.delta\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"delta\": \"有什么\" }"
+                      - row "type string 事件类型，固定为 response.audio_transcript.delta 。" [ref=e1174]:
+                        - cell "type string 事件类型，固定为 response.audio_transcript.delta 。" [ref=e1175]:
+                          - paragraph [ref=e1176]:
+                            - text: type
+                            - code [ref=e1177]: string
+                          - paragraph [ref=e1178]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1179]: response.audio_transcript.delta
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1180]:
+                        - cell "response_id string 响应的 ID。" [ref=e1181]:
+                          - paragraph [ref=e1182]:
+                            - text: response_id
+                            - code [ref=e1183]: string
+                          - paragraph [ref=e1184]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1185]:
+                        - cell "item_id string 消息项 ID。" [ref=e1186]:
+                          - paragraph [ref=e1187]:
+                            - text: item_id
+                            - code [ref=e1188]: string
+                          - paragraph [ref=e1189]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引。" [ref=e1190]:
+                        - cell "output_index integer 响应输出项的索引。" [ref=e1191]:
+                          - paragraph [ref=e1192]:
+                            - text: output_index
+                            - code [ref=e1193]: integer
+                          - paragraph [ref=e1194]: 响应输出项的索引。
+                      - row "content_index integer 响应输出项的索引。" [ref=e1195]:
+                        - cell "content_index integer 响应输出项的索引。" [ref=e1196]:
+                          - paragraph [ref=e1197]:
+                            - text: content_index
+                            - code [ref=e1198]: integer
+                          - paragraph [ref=e1199]: 响应输出项的索引。
+                      - row "delta string 增量文本。" [ref=e1200]:
+                        - cell "delta string 增量文本。" [ref=e1201]:
+                          - paragraph [ref=e1202]:
+                            - text: delta
+                            - code [ref=e1203]: string
+                          - paragraph [ref=e1204]: 增量文本。
+                - generic [ref=e1205]:
+                  - heading "response.audio_transcript.done" [level=2] [ref=e1206]
+                  - paragraph [ref=e1207]:
+                    - text: 当输出模态包含音频，且模型完成音频转录后，服务端将返回
+                    - code [ref=e1208]: response.audio_transcript.done
+                    - text: 事件。
+                  - table [ref=e1209]:
+                    - rowgroup [ref=e1210]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_X49tL2WerT4WjxcmH16lS\", \"type\": \"response.audio_transcript.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"transcript\": \"你好呀！有什么我可以帮你的吗？\" }" [ref=e1211]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1212]:
+                          - paragraph [ref=e1213]:
+                            - text: event_id
+                            - code [ref=e1214]: string
+                          - paragraph [ref=e1215]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_X49tL2WerT4WjxcmH16lS\", \"type\": \"response.audio_transcript.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"transcript\": \"你好呀！有什么我可以帮你的吗？\" }" [ref=e1216]':
+                          - generic [ref=e1218]:
+                            - generic [ref=e1220]:
+                              - generic "更改代码主题" [ref=e1221] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1222] [cursor=pointer]: 
+                            - code [ref=e1224]: "{ \"event_id\": \"event_X49tL2WerT4WjxcmH16lS\", \"type\": \"response.audio_transcript.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"transcript\": \"你好呀！有什么我可以帮你的吗？\" }"
+                      - row "type string 事件类型，固定为 response.audio_transcript.done 。" [ref=e1225]:
+                        - cell "type string 事件类型，固定为 response.audio_transcript.done 。" [ref=e1226]:
+                          - paragraph [ref=e1227]:
+                            - text: type
+                            - code [ref=e1228]: string
+                          - paragraph [ref=e1229]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1230]: response.audio_transcript.done
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1231]:
+                        - cell "response_id string 响应的 ID。" [ref=e1232]:
+                          - paragraph [ref=e1233]:
+                            - text: response_id
+                            - code [ref=e1234]: string
+                          - paragraph [ref=e1235]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1236]:
+                        - cell "item_id string 消息项 ID。" [ref=e1237]:
+                          - paragraph [ref=e1238]:
+                            - text: item_id
+                            - code [ref=e1239]: string
+                          - paragraph [ref=e1240]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引。" [ref=e1241]:
+                        - cell "output_index integer 响应输出项的索引。" [ref=e1242]:
+                          - paragraph [ref=e1243]:
+                            - text: output_index
+                            - code [ref=e1244]: integer
+                          - paragraph [ref=e1245]: 响应输出项的索引。
+                      - row "content_index integer 响应输出项的索引。" [ref=e1246]:
+                        - cell "content_index integer 响应输出项的索引。" [ref=e1247]:
+                          - paragraph [ref=e1248]:
+                            - text: content_index
+                            - code [ref=e1249]: integer
+                          - paragraph [ref=e1250]: 响应输出项的索引。
+                      - row "transcript string 完整文本。" [ref=e1251]:
+                        - cell "transcript string 完整文本。" [ref=e1252]:
+                          - paragraph [ref=e1253]:
+                            - text: transcript
+                            - code [ref=e1254]: string
+                          - paragraph [ref=e1255]: 完整文本。
+                - generic [ref=e1256]:
+                  - heading "response.function_call_arguments.delta" [level=2] [ref=e1257]
+                  - paragraph [ref=e1258]:
+                    - text: 当模型以流式方式生成函数调用的参数字符串时，每产生一段新内容，服务端推送一次本事件。客户端应按接收顺序将各事件中的
+                    - code [ref=e1259]: delta
+                    - text: 字段拼接，得到与当前进度一致的参数文本；完整内容以随后的
+                    - code [ref=e1260]: response.function_call_arguments.done
+                    - text: 为准。
+                  - table [ref=e1261]:
+                    - rowgroup [ref=e1262]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_SlKoJyEbPEqLq14DSM1u5\", \"type\": \"response.function_call_arguments.delta\", \"response_id\": \"resp_JnTOsWXlFhKcFohZbtfz6\", \"item_id\": \"item_Rhcms7CauTNsQprV5S4Hr\", \"output_index\": 0, \"call_id\": \"call_2be200f4cafe419b9530dd\", \"delta\": \" {\\\"location\\\": \\\"北京\\\"}\" }" [ref=e1263]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1264]:
+                          - paragraph [ref=e1265]:
+                            - text: event_id
+                            - code [ref=e1266]: string
+                          - paragraph [ref=e1267]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_SlKoJyEbPEqLq14DSM1u5\", \"type\": \"response.function_call_arguments.delta\", \"response_id\": \"resp_JnTOsWXlFhKcFohZbtfz6\", \"item_id\": \"item_Rhcms7CauTNsQprV5S4Hr\", \"output_index\": 0, \"call_id\": \"call_2be200f4cafe419b9530dd\", \"delta\": \" {\\\"location\\\": \\\"北京\\\"}\" }" [ref=e1268]':
+                          - generic [ref=e1270]:
+                            - generic [ref=e1272]:
+                              - generic "更改代码主题" [ref=e1273] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1274] [cursor=pointer]: 
+                            - code [ref=e1276]: "{ \"event_id\": \"event_SlKoJyEbPEqLq14DSM1u5\", \"type\": \"response.function_call_arguments.delta\", \"response_id\": \"resp_JnTOsWXlFhKcFohZbtfz6\", \"item_id\": \"item_Rhcms7CauTNsQprV5S4Hr\", \"output_index\": 0, \"call_id\": \"call_2be200f4cafe419b9530dd\", \"delta\": \" {\\\"location\\\": \\\"北京\\\"}\" }"
+                      - row "type string 事件类型，固定为 response.function_call_arguments.delta 。" [ref=e1277]:
+                        - cell "type string 事件类型，固定为 response.function_call_arguments.delta 。" [ref=e1278]:
+                          - paragraph [ref=e1279]:
+                            - text: type
+                            - code [ref=e1280]: string
+                          - paragraph [ref=e1281]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1282]: response.function_call_arguments.delta
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1283]:
+                        - cell "response_id string 响应的 ID。" [ref=e1284]:
+                          - paragraph [ref=e1285]:
+                            - text: response_id
+                            - code [ref=e1286]: string
+                          - paragraph [ref=e1287]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1288]:
+                        - cell "item_id string 消息项 ID。" [ref=e1289]:
+                          - paragraph [ref=e1290]:
+                            - text: item_id
+                            - code [ref=e1291]: string
+                          - paragraph [ref=e1292]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 该响应中输出项的索引。" [ref=e1293]:
+                        - cell "output_index integer 该响应中输出项的索引。" [ref=e1294]:
+                          - paragraph [ref=e1295]:
+                            - text: output_index
+                            - code [ref=e1296]: integer
+                          - paragraph [ref=e1297]: 该响应中输出项的索引。
+                      - row "call_id string 本次函数调用的唯一 ID，与同一轮中的 done 事件保持一致。" [ref=e1298]:
+                        - cell "call_id string 本次函数调用的唯一 ID，与同一轮中的 done 事件保持一致。" [ref=e1299]:
+                          - paragraph [ref=e1300]:
+                            - text: call_id
+                            - code [ref=e1301]: string
+                          - paragraph [ref=e1302]:
+                            - text: 本次函数调用的唯一 ID，与同一轮中的
+                            - code [ref=e1303]: done
+                            - text: 事件保持一致。
+                      - row "delta string 本段新增的参数字符串片段（增量）。需按顺序拼接。" [ref=e1304]:
+                        - cell "delta string 本段新增的参数字符串片段（增量）。需按顺序拼接。" [ref=e1305]:
+                          - paragraph [ref=e1306]:
+                            - text: delta
+                            - code [ref=e1307]: string
+                          - paragraph [ref=e1308]: 本段新增的参数字符串片段（增量）。需按顺序拼接。
+                - generic [ref=e1309]:
+                  - heading "response.function_call_arguments.done" [level=2] [ref=e1310]
+                  - paragraph [ref=e1311]:
+                    - text: 函数调用参数已全部生成完毕。本事件中的
+                    - code [ref=e1312]: arguments
+                    - text: 为完整的参数字符串。客户端可在收到本事件后解析参数并调用本地工具函数；应以本事件中的完整
+                    - code [ref=e1313]: arguments
+                    - text: 为准，而非
+                    - code [ref=e1314]: delta
+                    - text: 拼接结果。
+                  - table [ref=e1315]:
+                    - rowgroup [ref=e1316]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_X6suLyuL5agdH7r6koesM\", \"type\": \"response.function_call_arguments.done\", \"response_id\": \"resp_JnTOsWXlFhKcFohZbtfz6\", \"item_id\": \"item_Rhcms7CauTNsQprV5S4Hr\", \"output_index\": 0, \"name\": \"get_current_weather\", \"call_id\": \"call_2be200f4cafe419b9530dd\", \"arguments\": \" {\\\"location\\\": \\\"北京\\\"}\" }" [ref=e1317]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1318]:
+                          - paragraph [ref=e1319]:
+                            - text: event_id
+                            - code [ref=e1320]: string
+                          - paragraph [ref=e1321]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_X6suLyuL5agdH7r6koesM\", \"type\": \"response.function_call_arguments.done\", \"response_id\": \"resp_JnTOsWXlFhKcFohZbtfz6\", \"item_id\": \"item_Rhcms7CauTNsQprV5S4Hr\", \"output_index\": 0, \"name\": \"get_current_weather\", \"call_id\": \"call_2be200f4cafe419b9530dd\", \"arguments\": \" {\\\"location\\\": \\\"北京\\\"}\" }" [ref=e1322]':
+                          - generic [ref=e1324]:
+                            - generic [ref=e1326]:
+                              - generic "更改代码主题" [ref=e1327] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1328] [cursor=pointer]: 
+                            - code [ref=e1330]: "{ \"event_id\": \"event_X6suLyuL5agdH7r6koesM\", \"type\": \"response.function_call_arguments.done\", \"response_id\": \"resp_JnTOsWXlFhKcFohZbtfz6\", \"item_id\": \"item_Rhcms7CauTNsQprV5S4Hr\", \"output_index\": 0, \"name\": \"get_current_weather\", \"call_id\": \"call_2be200f4cafe419b9530dd\", \"arguments\": \" {\\\"location\\\": \\\"北京\\\"}\" }"
+                      - row "type string 事件类型，固定为 response.function_call_arguments.done 。" [ref=e1331]:
+                        - cell "type string 事件类型，固定为 response.function_call_arguments.done 。" [ref=e1332]:
+                          - paragraph [ref=e1333]:
+                            - text: type
+                            - code [ref=e1334]: string
+                          - paragraph [ref=e1335]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1336]: response.function_call_arguments.done
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1337]:
+                        - cell "response_id string 响应的 ID。" [ref=e1338]:
+                          - paragraph [ref=e1339]:
+                            - text: response_id
+                            - code [ref=e1340]: string
+                          - paragraph [ref=e1341]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1342]:
+                        - cell "item_id string 消息项 ID。" [ref=e1343]:
+                          - paragraph [ref=e1344]:
+                            - text: item_id
+                            - code [ref=e1345]: string
+                          - paragraph [ref=e1346]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 该响应中输出项的索引。" [ref=e1347]:
+                        - cell "output_index integer 该响应中输出项的索引。" [ref=e1348]:
+                          - paragraph [ref=e1349]:
+                            - text: output_index
+                            - code [ref=e1350]: integer
+                          - paragraph [ref=e1351]: 该响应中输出项的索引。
+                      - row "call_id string 本次函数调用的唯一 ID。" [ref=e1352]:
+                        - cell "call_id string 本次函数调用的唯一 ID。" [ref=e1353]:
+                          - paragraph [ref=e1354]:
+                            - text: call_id
+                            - code [ref=e1355]: string
+                          - paragraph [ref=e1356]: 本次函数调用的唯一 ID。
+                      - row "name string 被调用的函数名称。" [ref=e1357]:
+                        - cell "name string 被调用的函数名称。" [ref=e1358]:
+                          - paragraph [ref=e1359]:
+                            - text: name
+                            - code [ref=e1360]: string
+                          - paragraph [ref=e1361]: 被调用的函数名称。
+                      - row "arguments string 函数调用的完整参数，一般以 JSON 字符串形式表示。" [ref=e1362]:
+                        - cell "arguments string 函数调用的完整参数，一般以 JSON 字符串形式表示。" [ref=e1363]:
+                          - paragraph [ref=e1364]:
+                            - text: arguments
+                            - code [ref=e1365]: string
+                          - paragraph [ref=e1366]: 函数调用的完整参数，一般以 JSON 字符串形式表示。
+                - generic [ref=e1367]:
+                  - heading "response.output_item.added" [level=2] [ref=e1368]
+                  - paragraph [ref=e1369]:
+                    - text: 在响应生成过程中创建新项目时，服务端返回此事件。项目类型可以是
+                    - code [ref=e1370]: message
+                    - text: （常规消息）或
+                    - code [ref=e1371]: function_call
+                    - text: （工具调用）。
+                  - table [ref=e1372]:
+                    - rowgroup [ref=e1373]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_DsCO341DEVtiATtCB6BUY\", \"type\": \"response.output_item.added\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"output_index\": 0, \"item\": { \"id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"in_progress\", \"role\": \"assistant\", \"content\": [] } } // 工具调用场景 { \"event_id\": \"event_HXmKt5pGoiRtXx7Hq7zpN\", \"type\": \"response.output_item.added\", \"response_id\": \"resp_TucN5QgymL5MA8vkJvFlS\", \"output_index\": 0, \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"in_progress\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \"\" } }" [ref=e1374]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1375]:
+                          - paragraph [ref=e1376]:
+                            - text: event_id
+                            - code [ref=e1377]: string
+                          - paragraph [ref=e1378]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_DsCO341DEVtiATtCB6BUY\", \"type\": \"response.output_item.added\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"output_index\": 0, \"item\": { \"id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"in_progress\", \"role\": \"assistant\", \"content\": [] } } // 工具调用场景 { \"event_id\": \"event_HXmKt5pGoiRtXx7Hq7zpN\", \"type\": \"response.output_item.added\", \"response_id\": \"resp_TucN5QgymL5MA8vkJvFlS\", \"output_index\": 0, \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"in_progress\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \"\" } }" [ref=e1379]':
+                          - generic [ref=e1381]:
+                            - generic [ref=e1383]:
+                              - generic "更改代码主题" [ref=e1384] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1385] [cursor=pointer]: 
+                            - code [ref=e1387]: "{ \"event_id\": \"event_DsCO341DEVtiATtCB6BUY\", \"type\": \"response.output_item.added\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"output_index\": 0, \"item\": { \"id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"in_progress\", \"role\": \"assistant\", \"content\": [] } } // 工具调用场景 { \"event_id\": \"event_HXmKt5pGoiRtXx7Hq7zpN\", \"type\": \"response.output_item.added\", \"response_id\": \"resp_TucN5QgymL5MA8vkJvFlS\", \"output_index\": 0, \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"in_progress\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \"\" } }"
+                      - row "type string 事件类型，固定为 response.output_item.added 。" [ref=e1388]:
+                        - cell "type string 事件类型，固定为 response.output_item.added 。" [ref=e1389]:
+                          - paragraph [ref=e1390]:
+                            - text: type
+                            - code [ref=e1391]: string
+                          - paragraph [ref=e1392]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1393]: response.output_item.added
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1394]:
+                        - cell "response_id string 响应的 ID。" [ref=e1395]:
+                          - paragraph [ref=e1396]:
+                            - text: response_id
+                            - code [ref=e1397]: string
+                          - paragraph [ref=e1398]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引。" [ref=e1399]:
+                        - cell "output_index integer 响应输出项的索引。" [ref=e1400]:
+                          - paragraph [ref=e1401]:
+                            - text: output_index
+                            - code [ref=e1402]: integer
+                          - paragraph [ref=e1403]: 响应输出项的索引。
+                      - row "item object 输出项信息。 属性  id string 输出项的唯一 ID。 object string 始终为 realtime.item 。 status string 输出项的状态。 role string 发送消息的角色。 content string 消息的内容。当 type 为 message 时存在。 type string 输出项的类型。可选值为 message （常规消息）或 function_call （工具调用）。 name string 当 type 为 function_call 时，被调用的函数名称。 call_id string 当 type 为 function_call 时，本次函数调用的唯一 ID。 arguments string 当 type 为 function_call 时，函数调用的参数（JSON 字符串）。在 added 事件中初始为空字符串。" [ref=e1404]:
+                        - cell "item object 输出项信息。 属性  id string 输出项的唯一 ID。 object string 始终为 realtime.item 。 status string 输出项的状态。 role string 发送消息的角色。 content string 消息的内容。当 type 为 message 时存在。 type string 输出项的类型。可选值为 message （常规消息）或 function_call （工具调用）。 name string 当 type 为 function_call 时，被调用的函数名称。 call_id string 当 type 为 function_call 时，本次函数调用的唯一 ID。 arguments string 当 type 为 function_call 时，函数调用的参数（JSON 字符串）。在 added 事件中初始为空字符串。" [ref=e1405]:
+                          - paragraph [ref=e1406]:
+                            - text: item
+                            - code [ref=e1407]: object
+                          - paragraph [ref=e1408]: 输出项信息。
+                          - generic [ref=e1409]:
+                            - generic [ref=e1410]:
+                              - paragraph [ref=e1412]: 属性
+                              - generic [ref=e1413]: 
+                            - generic [ref=e1414]:
+                              - generic [ref=e1415]:
+                                - paragraph [ref=e1416]:
+                                  - text: id
+                                  - code [ref=e1417]: string
+                                - paragraph [ref=e1418]:
+                                  - text: 输出项的唯一
+                                  - text: ID。
+                              - generic [ref=e1419]:
+                                - paragraph [ref=e1420]:
+                                  - text: object
+                                  - code [ref=e1421]: string
+                                - paragraph [ref=e1422]:
+                                  - text: 始终为
+                                  - code [ref=e1423]: realtime.item
+                                  - text: 。
+                              - generic [ref=e1424]:
+                                - paragraph [ref=e1425]:
+                                  - text: status
+                                  - code [ref=e1426]: string
+                                - paragraph [ref=e1427]: 输出项的状态。
+                              - generic [ref=e1428]:
+                                - paragraph [ref=e1429]:
+                                  - text: role
+                                  - code [ref=e1430]: string
+                                - paragraph [ref=e1431]: 发送消息的角色。
+                              - generic [ref=e1432]:
+                                - paragraph [ref=e1433]:
+                                  - text: content
+                                  - code [ref=e1434]: string
+                                - paragraph [ref=e1435]:
+                                  - text: 消息的内容。当 type 为
+                                  - code [ref=e1436]: message
+                                  - text: 时存在。
+                              - generic [ref=e1437]:
+                                - paragraph [ref=e1438]:
+                                  - text: type
+                                  - code [ref=e1439]: string
+                                - paragraph [ref=e1440]:
+                                  - text: 输出项的类型。可选值为
+                                  - code [ref=e1441]: message
+                                  - text: （常规消息）或
+                                  - code [ref=e1442]: function_call
+                                  - text: （工具调用）。
+                              - generic [ref=e1443]:
+                                - paragraph [ref=e1444]:
+                                  - text: name
+                                  - code [ref=e1445]: string
+                                - paragraph [ref=e1446]:
+                                  - text: 当 type 为
+                                  - code [ref=e1447]: function_call
+                                  - text: 时，被调用的函数名称。
+                              - generic [ref=e1448]:
+                                - paragraph [ref=e1449]:
+                                  - text: call_id
+                                  - code [ref=e1450]: string
+                                - paragraph [ref=e1451]:
+                                  - text: 当 type 为
+                                  - code [ref=e1452]: function_call
+                                  - text: 时，本次函数调用的唯一 ID。
+                              - generic [ref=e1453]:
+                                - paragraph [ref=e1454]:
+                                  - text: arguments
+                                  - code [ref=e1455]: string
+                                - paragraph [ref=e1456]:
+                                  - text: 当 type 为
+                                  - code [ref=e1457]: function_call
+                                  - text: 时，函数调用的参数（JSON 字符串）。在 added 事件中初始为空字符串。
+                - generic [ref=e1458]:
+                  - heading "response.output_item.done" [level=2] [ref=e1459]
+                  - paragraph [ref=e1460]: 当新的项目输出完成时，服务端返回此事件。
+                  - table [ref=e1461]:
+                    - rowgroup [ref=e1462]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_MEu5nlLw1LsOguHiehIP8\", \"type\": \"response.output_item.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"output_index\": 0, \"item\": { \"id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"completed\", \"role\": \"assistant\", \"content\": [ { \"type\": \"audio\", \"text\": \"你好呀！有什么我可以帮你的吗？\" } ] } } // 工具调用场景 { \"event_id\": \"event_FHspdfAnCyjuME3mmAwSY\", \"type\": \"response.output_item.done\", \"response_id\": \"resp_TucN5QgymL5MA8vkJvFlS\", \"output_index\": 0, \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"completed\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \" {\\\"location\\\": \\\"杭州\\\"}\" } }" [ref=e1463]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1464]:
+                          - paragraph [ref=e1465]:
+                            - text: event_id
+                            - code [ref=e1466]: string
+                          - paragraph [ref=e1467]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_MEu5nlLw1LsOguHiehIP8\", \"type\": \"response.output_item.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"output_index\": 0, \"item\": { \"id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"completed\", \"role\": \"assistant\", \"content\": [ { \"type\": \"audio\", \"text\": \"你好呀！有什么我可以帮你的吗？\" } ] } } // 工具调用场景 { \"event_id\": \"event_FHspdfAnCyjuME3mmAwSY\", \"type\": \"response.output_item.done\", \"response_id\": \"resp_TucN5QgymL5MA8vkJvFlS\", \"output_index\": 0, \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"completed\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \" {\\\"location\\\": \\\"杭州\\\"}\" } }" [ref=e1468]':
+                          - generic [ref=e1470]:
+                            - generic [ref=e1472]:
+                              - generic "更改代码主题" [ref=e1473] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1474] [cursor=pointer]: 
+                            - code [ref=e1476]: "{ \"event_id\": \"event_MEu5nlLw1LsOguHiehIP8\", \"type\": \"response.output_item.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"output_index\": 0, \"item\": { \"id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"object\": \"realtime.item\", \"type\": \"message\", \"status\": \"completed\", \"role\": \"assistant\", \"content\": [ { \"type\": \"audio\", \"text\": \"你好呀！有什么我可以帮你的吗？\" } ] } } // 工具调用场景 { \"event_id\": \"event_FHspdfAnCyjuME3mmAwSY\", \"type\": \"response.output_item.done\", \"response_id\": \"resp_TucN5QgymL5MA8vkJvFlS\", \"output_index\": 0, \"item\": { \"id\": \"item_FEG9qJGNkPcdf4et3p7BV\", \"object\": \"realtime.item\", \"type\": \"function_call\", \"status\": \"completed\", \"call_id\": \"call_bc0a7fb7235840f69ecfe4\", \"name\": \"get_current_weather\", \"arguments\": \" {\\\"location\\\": \\\"杭州\\\"}\" } }"
+                      - row "type string 事件类型，固定为 response.output_item.done 。" [ref=e1477]:
+                        - cell "type string 事件类型，固定为 response.output_item.done 。" [ref=e1478]:
+                          - paragraph [ref=e1479]:
+                            - text: type
+                            - code [ref=e1480]: string
+                          - paragraph [ref=e1481]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1482]: response.output_item.done
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1483]:
+                        - cell "response_id string 响应的 ID。" [ref=e1484]:
+                          - paragraph [ref=e1485]:
+                            - text: response_id
+                            - code [ref=e1486]: string
+                          - paragraph [ref=e1487]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引。" [ref=e1488]:
+                        - cell "output_index integer 响应输出项的索引。" [ref=e1489]:
+                          - paragraph [ref=e1490]:
+                            - text: output_index
+                            - code [ref=e1491]: integer
+                          - paragraph [ref=e1492]: 响应输出项的索引。
+                      - row "item object 输出项信息。 属性  id string 输出项的唯一 ID。 object string 始终为 realtime.item 。 status string 输出项的状态。 role string 发送消息的角色。 content string 消息的内容。当 type 为 message 时存在。 type string 输出项的类型。可选值为 message （常规消息）或 function_call （工具调用）。 name string 当 type 为 function_call 时，被调用的函数名称。 call_id string 当 type 为 function_call 时，本次函数调用的唯一 ID。 arguments string 当 type 为 function_call 时，函数调用的完整参数（JSON 字符串）。" [ref=e1493]:
+                        - cell "item object 输出项信息。 属性  id string 输出项的唯一 ID。 object string 始终为 realtime.item 。 status string 输出项的状态。 role string 发送消息的角色。 content string 消息的内容。当 type 为 message 时存在。 type string 输出项的类型。可选值为 message （常规消息）或 function_call （工具调用）。 name string 当 type 为 function_call 时，被调用的函数名称。 call_id string 当 type 为 function_call 时，本次函数调用的唯一 ID。 arguments string 当 type 为 function_call 时，函数调用的完整参数（JSON 字符串）。" [ref=e1494]:
+                          - paragraph [ref=e1495]:
+                            - text: item
+                            - code [ref=e1496]: object
+                          - paragraph [ref=e1497]: 输出项信息。
+                          - generic [ref=e1498]:
+                            - generic [ref=e1499]:
+                              - paragraph [ref=e1501]: 属性
+                              - generic [ref=e1502]: 
+                            - generic [ref=e1503]:
+                              - generic [ref=e1504]:
+                                - paragraph [ref=e1505]:
+                                  - text: id
+                                  - code [ref=e1506]: string
+                                - paragraph [ref=e1507]:
+                                  - text: 输出项的唯一
+                                  - text: ID。
+                              - generic [ref=e1508]:
+                                - paragraph [ref=e1509]:
+                                  - text: object
+                                  - code [ref=e1510]: string
+                                - paragraph [ref=e1511]:
+                                  - text: 始终为
+                                  - code [ref=e1512]: realtime.item
+                                  - text: 。
+                              - generic [ref=e1513]:
+                                - paragraph [ref=e1514]:
+                                  - text: status
+                                  - code [ref=e1515]: string
+                                - paragraph [ref=e1516]: 输出项的状态。
+                              - generic [ref=e1517]:
+                                - paragraph [ref=e1518]:
+                                  - text: role
+                                  - code [ref=e1519]: string
+                                - paragraph [ref=e1520]: 发送消息的角色。
+                              - generic [ref=e1521]:
+                                - paragraph [ref=e1522]:
+                                  - text: content
+                                  - code [ref=e1523]: string
+                                - paragraph [ref=e1524]:
+                                  - text: 消息的内容。当 type 为
+                                  - code [ref=e1525]: message
+                                  - text: 时存在。
+                              - generic [ref=e1526]:
+                                - paragraph [ref=e1527]:
+                                  - text: type
+                                  - code [ref=e1528]: string
+                                - paragraph [ref=e1529]:
+                                  - text: 输出项的类型。可选值为
+                                  - code [ref=e1530]: message
+                                  - text: （常规消息）或
+                                  - code [ref=e1531]: function_call
+                                  - text: （工具调用）。
+                              - generic [ref=e1532]:
+                                - paragraph [ref=e1533]:
+                                  - text: name
+                                  - code [ref=e1534]: string
+                                - paragraph [ref=e1535]:
+                                  - text: 当 type 为
+                                  - code [ref=e1536]: function_call
+                                  - text: 时，被调用的函数名称。
+                              - generic [ref=e1537]:
+                                - paragraph [ref=e1538]:
+                                  - text: call_id
+                                  - code [ref=e1539]: string
+                                - paragraph [ref=e1540]:
+                                  - text: 当 type 为
+                                  - code [ref=e1541]: function_call
+                                  - text: 时，本次函数调用的唯一 ID。
+                              - generic [ref=e1542]:
+                                - paragraph [ref=e1543]:
+                                  - text: arguments
+                                  - code [ref=e1544]: string
+                                - paragraph [ref=e1545]:
+                                  - text: 当 type 为
+                                  - code [ref=e1546]: function_call
+                                  - text: 时，函数调用的完整参数（JSON 字符串）。
+                - generic [ref=e1547]:
+                  - heading "response.content_part.added" [level=2] [ref=e1548]
+                  - paragraph [ref=e1549]: 在响应生成过程中，向助手消息项中添加新内容部分时，服务端返回此事件。
+                  - table [ref=e1550]:
+                    - rowgroup [ref=e1551]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_AVBOmrgY3C8bjlRajfSUT\", \"type\": \"response.content_part.added\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"part\": { \"type\": \"audio\", \"text\": \"\" } }" [ref=e1552]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1553]:
+                          - paragraph [ref=e1554]:
+                            - text: event_id
+                            - code [ref=e1555]: string
+                          - paragraph [ref=e1556]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_AVBOmrgY3C8bjlRajfSUT\", \"type\": \"response.content_part.added\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"part\": { \"type\": \"audio\", \"text\": \"\" } }" [ref=e1557]':
+                          - generic [ref=e1559]:
+                            - generic [ref=e1561]:
+                              - generic "更改代码主题" [ref=e1562] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1563] [cursor=pointer]: 
+                            - code [ref=e1565]: "{ \"event_id\": \"event_AVBOmrgY3C8bjlRajfSUT\", \"type\": \"response.content_part.added\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"part\": { \"type\": \"audio\", \"text\": \"\" } }"
+                      - row "type string 事件类型，固定为 response.content_part.added 。" [ref=e1566]:
+                        - cell "type string 事件类型，固定为 response.content_part.added 。" [ref=e1567]:
+                          - paragraph [ref=e1568]:
+                            - text: type
+                            - code [ref=e1569]: string
+                          - paragraph [ref=e1570]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1571]: response.content_part.added
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1572]:
+                        - cell "response_id string 响应的 ID。" [ref=e1573]:
+                          - paragraph [ref=e1574]:
+                            - text: response_id
+                            - code [ref=e1575]: string
+                          - paragraph [ref=e1576]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1577]:
+                        - cell "item_id string 消息项 ID。" [ref=e1578]:
+                          - paragraph [ref=e1579]:
+                            - text: item_id
+                            - code [ref=e1580]: string
+                          - paragraph [ref=e1581]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引，目前固定为 0。" [ref=e1582]:
+                        - cell "output_index integer 响应输出项的索引，目前固定为 0。" [ref=e1583]:
+                          - paragraph [ref=e1584]:
+                            - text: output_index
+                            - code [ref=e1585]: integer
+                          - paragraph [ref=e1586]: 响应输出项的索引，目前固定为 0。
+                      - row "content_index integer 响应输出项中内部部分的索引, 目前固定为 0。" [ref=e1587]:
+                        - cell "content_index integer 响应输出项中内部部分的索引, 目前固定为 0。" [ref=e1588]:
+                          - paragraph [ref=e1589]:
+                            - text: content_index
+                            - code [ref=e1590]: integer
+                          - paragraph [ref=e1591]: 响应输出项中内部部分的索引, 目前固定为 0。
+                      - row "part object 输出项信息。 属性  type string 内容部分的类型。 text string 内容部分的文本。" [ref=e1592]:
+                        - cell "part object 输出项信息。 属性  type string 内容部分的类型。 text string 内容部分的文本。" [ref=e1593]:
+                          - paragraph [ref=e1594]:
+                            - text: part
+                            - code [ref=e1595]: object
+                          - paragraph [ref=e1596]: 输出项信息。
+                          - generic [ref=e1597]:
+                            - generic [ref=e1598]:
+                              - paragraph [ref=e1600]: 属性
+                              - generic [ref=e1601]: 
+                            - generic [ref=e1602]:
+                              - generic [ref=e1603]:
+                                - paragraph [ref=e1604]:
+                                  - text: type
+                                  - code [ref=e1605]: string
+                                - paragraph [ref=e1606]: 内容部分的类型。
+                              - generic [ref=e1607]:
+                                - paragraph [ref=e1608]:
+                                  - text: text
+                                  - code [ref=e1609]: string
+                                - paragraph [ref=e1610]: 内容部分的文本。
+                - generic [ref=e1611]:
+                  - heading "response.content_part.done" [level=2] [ref=e1612]
+                  - paragraph [ref=e1613]: 在助手消息项中的内容部分完成流式传输时，服务端返回此事件。
+                  - table [ref=e1614]:
+                    - rowgroup [ref=e1615]:
+                      - 'row "event_id string 本次事件唯一标识符。   { \"event_id\": \"event_Il8HD19v58Qr5IBkw7LtN\", \"type\": \"response.content_part.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"part\": { \"type\": \"audio\", \"text\": \"你好呀！有什么我可以帮你的吗？\" } }" [ref=e1616]':
+                        - cell "event_id string 本次事件唯一标识符。" [ref=e1617]:
+                          - paragraph [ref=e1618]:
+                            - text: event_id
+                            - code [ref=e1619]: string
+                          - paragraph [ref=e1620]: 本次事件唯一标识符。
+                        - 'cell "  { \"event_id\": \"event_Il8HD19v58Qr5IBkw7LtN\", \"type\": \"response.content_part.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"part\": { \"type\": \"audio\", \"text\": \"你好呀！有什么我可以帮你的吗？\" } }" [ref=e1621]':
+                          - generic [ref=e1623]:
+                            - generic [ref=e1625]:
+                              - generic "更改代码主题" [ref=e1626] [cursor=pointer]: 
+                              - generic "复制代码" [ref=e1627] [cursor=pointer]: 
+                            - code [ref=e1629]: "{ \"event_id\": \"event_Il8HD19v58Qr5IBkw7LtN\", \"type\": \"response.content_part.done\", \"response_id\": \"resp_HaVOPdbmX6vifiV5pAfJY\", \"item_id\": \"item_Ls6MtCUWO7LM4E59QziNv\", \"output_index\": 0, \"content_index\": 0, \"part\": { \"type\": \"audio\", \"text\": \"你好呀！有什么我可以帮你的吗？\" } }"
+                      - row "type string 事件类型，固定为 response.content_part.done 。" [ref=e1630]:
+                        - cell "type string 事件类型，固定为 response.content_part.done 。" [ref=e1631]:
+                          - paragraph [ref=e1632]:
+                            - text: type
+                            - code [ref=e1633]: string
+                          - paragraph [ref=e1634]:
+                            - text: 事件类型，固定为
+                            - code [ref=e1635]: response.content_part.done
+                            - text: 。
+                      - row "response_id string 响应的 ID。" [ref=e1636]:
+                        - cell "response_id string 响应的 ID。" [ref=e1637]:
+                          - paragraph [ref=e1638]:
+                            - text: response_id
+                            - code [ref=e1639]: string
+                          - paragraph [ref=e1640]:
+                            - text: 响应的
+                            - text: ID。
+                      - row "item_id string 消息项 ID。" [ref=e1641]:
+                        - cell "item_id string 消息项 ID。" [ref=e1642]:
+                          - paragraph [ref=e1643]:
+                            - text: item_id
+                            - code [ref=e1644]: string
+                          - paragraph [ref=e1645]:
+                            - text: 消息项
+                            - text: ID。
+                      - row "output_index integer 响应输出项的索引，目前固定为 0。" [ref=e1646]:
+                        - cell "output_index integer 响应输出项的索引，目前固定为 0。" [ref=e1647]:
+                          - paragraph [ref=e1648]:
+                            - text: output_index
+                            - code [ref=e1649]: integer
+                          - paragraph [ref=e1650]: 响应输出项的索引，目前固定为 0。
+                      - row "content_index integer 该项内容数组中内容部分的索引，目前固定为 0。" [ref=e1651]:
+                        - cell "content_index integer 该项内容数组中内容部分的索引，目前固定为 0。" [ref=e1652]:
+                          - paragraph [ref=e1653]:
+                            - text: content_index
+                            - code [ref=e1654]: integer
+                          - paragraph [ref=e1655]: 该项内容数组中内容部分的索引，目前固定为 0。
+                      - row "part object 输出项信息。 属性  type string 内容部分的类型。 text string 内容部分的文本。" [ref=e1656]:
+                        - cell "part object 输出项信息。 属性  type string 内容部分的类型。 text string 内容部分的文本。" [ref=e1657]:
+                          - paragraph [ref=e1658]:
+                            - text: part
+                            - code [ref=e1659]: object
+                          - paragraph [ref=e1660]: 输出项信息。
+                          - generic [ref=e1661]:
+                            - generic [ref=e1662]:
+                              - paragraph [ref=e1664]: 属性
+                              - generic [ref=e1665]: 
+                            - generic [ref=e1666]:
+                              - generic [ref=e1667]:
+                                - paragraph [ref=e1668]:
+                                  - text: type
+                                  - code [ref=e1669]: string
+                                - paragraph [ref=e1670]: 内容部分的类型。
+                              - generic [ref=e1671]:
+                                - paragraph [ref=e1672]:
+                                  - text: text
+                                  - code [ref=e1673]: string
+                                - paragraph [ref=e1674]: 内容部分的文本。
+            - generic [ref=e1676]:
+              - link "上一篇：客户端事件" [ref=e1678] [cursor=pointer]:
+                - /url: /zh/model-studio/client-events
+              - link "下一篇：Python SDK" [ref=e1680] [cursor=pointer]:
+                - /url: /zh/model-studio/omni-realtime-python-sdk
+          - generic [ref=e1681]:
+            - generic [ref=e1682]: 该文章对您有帮助吗？
+            - generic [ref=e1684]:
+              - button "" [ref=e1685] [cursor=pointer]:
+                - generic [ref=e1686]: 
+              - button "" [ref=e1687] [cursor=pointer]:
+                - generic [ref=e1688]: 
+              - button "反馈" [ref=e1689] [cursor=pointer]:
+                - generic [ref=e1690]: 
+                - text: 反馈
+  - contentinfo [ref=e1691]:
+    - contentinfo "移动端页尾" [ref=e1694]:
+      - generic [ref=e1695]:
+        - generic [ref=e1698]:
+          - generic [ref=e1699]: 关注我们：
+          - link "新浪微博" [ref=e1700] [cursor=pointer]:
+            - /url: https://weibo.com/u/1644971875
+            - text: 新浪微博
+        - link "联系我们" [ref=e1702] [cursor=pointer]:
+          - /url: https://www.aliyun.com/contact
+        - generic [ref=e1703]:
+          - link "文档" [ref=e1704] [cursor=pointer]:
+            - /url: https://help.aliyun.com/
+          - text: "|"
+          - link "开发者社区" [ref=e1705] [cursor=pointer]:
+            - /url: https://developer.aliyun.com/
+          - text: "|"
+          - link "天池大赛" [ref=e1706] [cursor=pointer]:
+            - /url: https://tianchi.aliyun.com/
+          - text: "|"
+          - link "培训与认证" [ref=e1707] [cursor=pointer]:
+            - /url: https://edu.aliyun.com/
+        - img "阿里云" [ref=e1708]
+        - generic [ref=e1709]:
+          - link "法律声明及隐私权政策" [ref=e1710] [cursor=pointer]:
+            - /url: http://terms.aliyun.com/legal-agreement/terms/suit_bu1_ali_cloud/suit_bu1_ali_cloud201902141711_54837.html
+          - text: "|"
+          - link "Cookies政策" [ref=e1711] [cursor=pointer]:
+            - /url: https://terms.alicdn.com/legal-agreement/terms/platform_service/20220906101446934/20220906101446934.html
+        - generic [ref=e1712]:
+          - text: © 2009-现在 Aliyun.com 版权所有
+          - text: 增值电信业务经营许可证：
+          - link "浙B2-20080101" [ref=e1713] [cursor=pointer]:
+            - /url: http://beian.miit.gov.cn/
+          - text: 域名注册服务机构许可：
+          - link "浙D3-20210002" [ref=e1714] [cursor=pointer]:
+            - /url: "https://domain.miit.gov.cn/域名注册服务机构/互联网域名/阿里云计算有限公司 "
+        - generic [ref=e1715]:
+          - link [ref=e1716] [cursor=pointer]:
+            - /url: https://zzlz.gsxt.gov.cn/businessCheck/verifKey.do?showType=p&serial=91330106673959654P-SAIC_SHOW_10000091330106673959654P1710919400712&signData=MEUCIQDEkCd8cK7/yqe6BNMWvoMPtAnsgKa7FZetfPkjZMsvhAIgOX1G9YC6FKyndE7o7hL0KaBVn4f+V/iof3iAgpsV09o=
+            - img [ref=e1717]
+          - link "浙公网安备 33010602009975号" [ref=e1718] [cursor=pointer]:
+            - /url: http://www.beian.gov.cn/portal/registerSystemInfo
+            - img [ref=e1719]
+            - text: 浙公网安备 33010602009975号
+          - link "浙B2-20080101-4" [ref=e1720] [cursor=pointer]:
+            - /url: https://beian.miit.gov.cn/
+  - iframe [ref=e1721]:
+    
+  - iframe [ref=e1722]:
+    
+  - iframe [ref=e1723]:
+    
