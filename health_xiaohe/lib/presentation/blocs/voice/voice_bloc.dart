@@ -27,6 +27,7 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
     on<VoiceSendAudioChunk>(_onSendAudioChunk);
     on<VoiceCommitAudio>(_onCommitAudio);
     on<VoiceSendImageChunk>(_onSendImageChunk);
+    on<VoiceInterrupt>(_onInterrupt);
     on<VoiceReceiveMessage>(_onReceiveMessage);
     on<VoiceReceiveBinary>(_onReceiveBinary);
     on<VoiceError>(_onError);
@@ -89,6 +90,14 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
       'type': 'image',
       'data': event.base64Jpeg,
     });
+  }
+
+  void _onInterrupt(VoiceInterrupt event, Emitter<VoiceState> emit) {
+    debugPrint('[VOICE_BLOC] user interrupt — cancelling AI response');
+    _interrupted = true;
+    _accumulatedText = '';
+    _webSocketClient.send({'type': 'interrupt'});
+    emit(VoiceListening());
   }
 
   void _onReceiveMessage(VoiceReceiveMessage event, Emitter<VoiceState> emit) {

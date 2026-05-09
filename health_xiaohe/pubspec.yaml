@@ -35,6 +35,12 @@ dependencies:
   get_it: ^7.6.4
   flutter_markdown: ^0.7.6
 
+  # Camera (Android)
+  camera: ^0.10.5
+
+  # File system
+  path_provider: ^2.1.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

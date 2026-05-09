@@ -1,9 +1,14 @@
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 class ApiEndpoints {
   ApiEndpoints._();
 
-  // Base URL - use localhost for web, 10.0.2.2 for Android emulator
   static String get baseUrl {
-    return 'http://localhost:8002';
+    if (kIsWeb) {
+      return 'http://localhost:8002';
+    }
+    // Mumu 模拟器通过 WiFi 连接，使用宿主机局域网 IP
+    return 'http://192.168.1.84:8002';
   }
 
   // Auth

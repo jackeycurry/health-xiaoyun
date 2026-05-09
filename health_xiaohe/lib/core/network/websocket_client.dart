@@ -29,20 +29,26 @@ class WebSocketClient {
 
     _channel!.stream.listen(
       (data) {
-        if (data is String) {
-          final decoded = json.decode(data);
-          _messageController?.add(decoded as Map<String, dynamic>);
-        } else if (data is Uint8List) {
-          _binaryController?.add(data);
+        try {
+          if (data is String) {
+            final decoded = json.decode(data);
+            _messageController?.add(decoded as Map<String, dynamic>);
+          } else if (data is Uint8List) {
+            _binaryController?.add(data);
+          }
+        } catch (_) {
+          // Controller already closed
         }
       },
       onError: (error) {
-        _messageController?.addError(error);
+        try {
+          _messageController?.addError(error);
+        } catch (_) {}
       },
       onDone: () {
         _isConnected = false;
-        _messageController?.close();
-        _binaryController?.close();
+        try { _messageController?.close(); } catch (_) {}
+        try { _binaryController?.close(); } catch (_) {}
       },
     );
 
@@ -123,9 +129,13 @@ class WebSocketClient {
   }
 
   void _startPingTimer() {
-    _pingTimer = Timer.periodic(const Duration(seconds: 30), (_) {
+    _pingTimer = Timer.periodic(const Duration(seconds: 15), (_) {
       if (_isConnected) {
-        send({'type': 'ping'});
+        try {
+          _channel?.sink.add(json.encode({'type': 'ping'}));
+        } catch (_) {
+          // WebSocket disconnected silently, will reconnect via onDone
+        }
       }
     });
   }

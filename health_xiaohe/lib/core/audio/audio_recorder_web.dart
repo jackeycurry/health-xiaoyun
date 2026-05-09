@@ -49,7 +49,7 @@ class AudioRecorder extends AudioRecorderBase {
     js.context.callMethod('eval', ['''
 (async function() {
   try {
-    var stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    var stream = await navigator.mediaDevices.getUserMedia({audio: {echoCancellation: true, noiseSuppression: true, autoGainControl: true}});
     console.log('[AudioRecorder] stream acquired, tracks:', stream.getAudioTracks().length);
     stream.getTracks().forEach(function(t) {
       t.enabled = true;
