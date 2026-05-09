@@ -48,7 +48,12 @@ app/
 │   ├── main.py            # FastAPI入口
 │   ├── database.py        # 数据库配置 (SessionLocal, engine, Base)
 │   └── config.py          # pydantic-settings, 从.env读取
-└── docs/                  # 设计文档
+└── docs/                  # 项目文档
+    ├── README.md           # 快速上手和常用命令
+    ├── 架构说明.md         # Clean Architecture 分层详解
+    ├── 语音通话实现.md     # DashScope Realtime 集成细节
+    ├── 部署打包.md         # 构建、部署、测试
+    └── design/             # 设计规范和原型
 ```
 
 ## 常用命令
