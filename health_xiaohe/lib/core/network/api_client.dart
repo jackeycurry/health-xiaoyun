@@ -79,7 +79,7 @@ class ApiClient {
   }
 
   // Chat endpoints
-  Future<Response> chat(List<Map<String, String>> messages, {bool stream = false}) async {
+  Future<Response> chat(List<Map<String, dynamic>> messages, {bool stream = false}) async {
     return _dio.post(ApiEndpoints.chat, data: {
       'messages': messages,
       'stream': stream,

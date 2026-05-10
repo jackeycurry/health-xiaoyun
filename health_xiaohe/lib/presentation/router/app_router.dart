@@ -10,6 +10,7 @@ import 'package:health_xiaohe/presentation/pages/health/health_records_page.dart
 import 'package:health_xiaohe/presentation/pages/history/chat_history_page.dart';
 import 'package:health_xiaohe/presentation/pages/history/conversation_detail_page.dart';
 import 'package:health_xiaohe/presentation/pages/profile/personal_center_page.dart';
+import 'package:health_xiaohe/presentation/pages/profile/user_profile_page.dart';
 import 'package:health_xiaohe/core/constants/app_colors.dart';
 
 class AppRouter {
@@ -53,7 +54,7 @@ class AppRouter {
           ),
           GoRoute(
             path: healthRecords,
-            builder: (context, state) => const HealthRecordsPage(),
+            builder: (context, state) => const UserProfilePage(),
           ),
           GoRoute(
             path: chatHistory,
@@ -252,7 +253,7 @@ class MainShell extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_outline),
             activeIcon: Icon(Icons.favorite),
-            label: '记录',
+            label: '画像',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),

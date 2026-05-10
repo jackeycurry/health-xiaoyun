@@ -169,7 +169,8 @@ class UserMessageBubble extends StatelessWidget {
           const SizedBox(width: 8),
           Flexible(
             child: Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(8),
+              constraints: const BoxConstraints(maxWidth: 280),
               decoration: BoxDecoration(
                 color: AppColors.userBubbleBg,
                 borderRadius: const BorderRadius.only(
@@ -179,13 +180,30 @@ class UserMessageBubble extends StatelessWidget {
                   bottomRight: Radius.circular(16),
                 ),
               ),
-              child: Text(
-                message.content,
-                style: const TextStyle(
-                  color: AppColors.userBubbleText,
-                  fontSize: 16,
-                  height: 1.4,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (message.hasImage)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.memory(
+                        message.imageBytes!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                      ),
+                    ),
+                  if (message.hasImage && message.content.isNotEmpty)
+                    const SizedBox(height: 8),
+                  if (message.content.isNotEmpty)
+                    Text(
+                      message.content,
+                      style: const TextStyle(
+                        color: AppColors.userBubbleText,
+                        fontSize: 16,
+                        height: 1.4,
+                      ),
+                    ),
+                ],
               ),
             ),
           ),

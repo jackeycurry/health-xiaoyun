@@ -88,7 +88,8 @@
       "Bash(cp \"/d/projects/health_xiaohe/lib/core/audio/audio_recorder_android.dart\" \"/d/study/科目/Harmony_1/app/app/health_xiaohe/lib/core/audio/audio_recorder_android.dart\")",
       "Bash(cp \"/d/projects/health_xiaohe/lib/core/audio/audio_recorder_base.dart\" \"/d/study/科目/Harmony_1/app/app/health_xiaohe/lib/core/audio/audio_recorder_base.dart\")",
       "Bash(cp \"/d/projects/health_xiaohe/lib/presentation/pages/chat/call_page.dart\" \"/d/study/科目/Harmony_1/app/app/health_xiaohe/lib/presentation/pages/chat/call_page.dart\")",
-      "Bash(cp \"/d/projects/health_xiaohe/pubspec.yaml\" \"/d/study/科目/Harmony_1/app/app/health_xiaohe/pubspec.yaml\")"
+      "Bash(cp \"/d/projects/health_xiaohe/pubspec.yaml\" \"/d/study/科目/Harmony_1/app/app/health_xiaohe/pubspec.yaml\")",
+      "Bash(taskkill //F //IM chrome.exe)"
     ]
   }
 }

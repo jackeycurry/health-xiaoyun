@@ -10,11 +10,12 @@ abstract class ChatEvent extends Equatable {
 
 class ChatSendMessage extends ChatEvent {
   final String message;
+  final List<int>? imageBytes;
 
-  const ChatSendMessage(this.message);
+  const ChatSendMessage(this.message, {this.imageBytes});
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [message, imageBytes];
 }
 
 class ChatReceiveStreamChunk extends ChatEvent {

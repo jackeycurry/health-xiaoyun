@@ -189,6 +189,9 @@ class _ChatHomePageState extends State<ChatHomePage> {
                 onSendMessage: (message) {
                   context.read<ChatBloc>().add(ChatSendMessage(message));
                 },
+                onSendImage: (bytes) {
+                  context.read<ChatBloc>().add(ChatSendMessage('', imageBytes: bytes));
+                },
                 onVoicePressed: () {
                   if (authState is AuthAuthenticated) {
                     _startVoiceCall();

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:health_xiaohe/data/models/chat_message_model.dart';
 import 'package:health_xiaohe/data/models/sse_chunk.dart';
@@ -34,7 +35,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     ChatSendMessage event,
     Emitter<ChatState> emit,
   ) async {
-    final userMsg = ChatMessageModel.user(event.message);
+    final imageBytes = event.imageBytes != null ? Uint8List.fromList(event.imageBytes!) : null;
+    final userMsg = ChatMessageModel.user(event.message, imageBytes: imageBytes);
     final updatedMessages = [...state.messages, userMsg];
     emit(state.copyWith(messages: updatedMessages, isLoading: true, error: null));
 
