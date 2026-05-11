@@ -45,14 +45,13 @@ class _CallPageState extends State<CallPage> {
   void initState() {
     super.initState();
     _voiceBloc = context.read<VoiceBloc>();
-    _initRecording(); // 必须在用户手势有效时初始化 AudioContext
-    _startCall();
+    _initRecording();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _startCall());
   }
 
   void _startCall() {
     final token = GetIt.instance<LocalStorage>().getJwtToken() ?? '';
-    final routerState = GoRouterState.of(context);
-    final convId = routerState.uri.queryParameters['conversationId'];
+    final convId = GoRouterState.of(context).uri.queryParameters['conversationId'];
     _voiceBloc?.add(VoiceConnect(token, conversationId: convId));
   }
 

@@ -29,18 +29,15 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
-  <title>health_xiaohe</title>
+  <title>健康小荷</title>
   <link rel="manifest" href="manifest.json">
+
+  <script>
+    // 使用 HTML 渲染器，避免加载 Google CDN 的 CanvasKit（中国大陆无法访问）
+    window.flutterWebRenderer = "html";
+  </script>
 </head>
 <body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
-
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>
