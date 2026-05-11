@@ -22,7 +22,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   final _weightCtrl = TextEditingController();
 
   static const _genderMap = {'male': '男', 'female': '女'};
-  static const _catNames = {'health': '健康相关', 'habit': '生活习惯', 'preference': '偏好', 'note': '备注'};
+  static const _catNames = {'personal': '个人信息', 'health': '健康相关', 'habit': '生活习惯', 'preference': '偏好', 'note': '备注'};
 
   @override
   void initState() {
