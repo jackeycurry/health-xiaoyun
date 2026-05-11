@@ -33,6 +33,7 @@ class _CallPageState extends State<CallPage> {
   bool _isSpeakerOn = false;
   bool _videoEnabled = false;
   bool _callStarted = false;
+  bool _audioFlowing = false; // 至少发送过一次音频后才允许发送图像
   int _callDuration = 0;
   Timer? _timer;
   String _aiText = '';
@@ -90,6 +91,10 @@ class _CallPageState extends State<CallPage> {
         // 只在 WebSocket 就绪后发送，避免 AudioContext 在 suspended 状态下产生零值
         if (_callStarted && !_isMuted) {
           _voiceBloc?.add(VoiceSendAudioChunk(base64));
+          if (!_audioFlowing) {
+            _audioFlowing = true;
+            debugPrint('[CALL] audio flowing, images now allowed');
+          }
         }
       });
       debugPrint('[CALL] startRecording completed');
@@ -110,7 +115,10 @@ class _CallPageState extends State<CallPage> {
         return;
       }
       await _cameraCapture.startCapture((base64Jpeg) {
-        _voiceBloc?.add(VoiceSendImageChunk(base64Jpeg));
+        // 必须在音频开始发送后才允许发送图像（DashScope要求）
+        if (_audioFlowing) {
+          _voiceBloc?.add(VoiceSendImageChunk(base64Jpeg));
+        }
       });
       debugPrint('[CALL] video capture started');
     } catch (e) {
