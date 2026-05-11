@@ -214,7 +214,13 @@ class _ChatHomePageState extends State<ChatHomePage> {
   }
 
   void _startVoiceCall() {
-    context.go(AppRouter.call);
+    final state = context.read<ChatBloc>().state;
+    final convId = state.conversationId;
+    if (convId != null) {
+      context.go('/call?conversationId=$convId');
+    } else {
+      context.go(AppRouter.call);
+    }
   }
 
   Widget _buildSideDrawer(BuildContext context) {

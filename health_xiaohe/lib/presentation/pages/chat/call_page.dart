@@ -51,7 +51,9 @@ class _CallPageState extends State<CallPage> {
 
   void _startCall() {
     final token = GetIt.instance<LocalStorage>().getJwtToken() ?? '';
-    _voiceBloc?.add(VoiceConnect(token));
+    final routerState = GoRouterState.of(context);
+    final convId = routerState.uri.queryParameters['conversationId'];
+    _voiceBloc?.add(VoiceConnect(token, conversationId: convId));
   }
 
   void _startTimer() {

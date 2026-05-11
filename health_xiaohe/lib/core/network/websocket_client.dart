@@ -19,12 +19,12 @@ class WebSocketClient {
   Stream<Uint8List>? get binaryMessages => _binaryController?.stream;
   bool get isConnected => _isConnected;
 
-  void connect(String token) {
+  void connect(String token, {String? conversationId}) {
     _token = token;
     _messageController = StreamController<Map<String, dynamic>>.broadcast();
     _binaryController = StreamController<Uint8List>.broadcast();
 
-    final wsUrl = _buildWsUrl();
+    final wsUrl = _buildWsUrl(conversationId: conversationId);
     _channel = WebSocketChannel.connect(Uri.parse(wsUrl));
 
     _channel!.stream.listen(
@@ -56,17 +56,18 @@ class WebSocketClient {
     _startPingTimer();
   }
 
-  String _buildWsUrl() {
+  String _buildWsUrl({String? conversationId}) {
     final baseUrl = ApiEndpoints.baseUrl;
-    // Convert http:// to ws:// or https:// to wss://
     String wsUrl;
     if (baseUrl.startsWith('https://')) {
       wsUrl = baseUrl.replaceFirst('https://', _wssScheme);
     } else {
       wsUrl = baseUrl.replaceFirst('http://', _wsScheme);
     }
-    // Remove port if default, then add ws path
     wsUrl = '$wsUrl${ApiEndpoints.voiceWs}?token=$_token';
+    if (conversationId != null && conversationId.isNotEmpty) {
+      wsUrl = '$wsUrl&conversation_id=$conversationId';
+    }
     return wsUrl;
   }
 

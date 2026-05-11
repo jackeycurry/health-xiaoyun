@@ -37,7 +37,7 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
     debugPrint('[VOICE_BLOC] connecting...');
     _accumulatedText = '';
 
-    _webSocketClient.connect(event.token);
+    _webSocketClient.connect(event.token, conversationId: event.conversationId);
 
     _messageSubscription?.cancel();
     _messageSubscription = _webSocketClient.messages?.listen(

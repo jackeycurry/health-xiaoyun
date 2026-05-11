@@ -9,11 +9,12 @@ abstract class VoiceEvent extends Equatable {
 
 class VoiceConnect extends VoiceEvent {
   final String token;
+  final String? conversationId; // 续接之前的文字对话
 
-  const VoiceConnect(this.token);
+  const VoiceConnect(this.token, {this.conversationId});
 
   @override
-  List<Object?> get props => [token];
+  List<Object?> get props => [token, conversationId];
 }
 
 class VoiceDisconnect extends VoiceEvent {}
