@@ -191,7 +191,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
                     child: Opacity(
                       opacity: _fadeAnimation.value,
                       child: const Text(
-                        '健康小荷',
+                        '健康小云',
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,

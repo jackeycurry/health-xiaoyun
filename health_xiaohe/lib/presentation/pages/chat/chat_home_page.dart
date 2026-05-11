@@ -424,7 +424,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '你好！我是健康小荷',
+                      '你好！我是健康小云',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,

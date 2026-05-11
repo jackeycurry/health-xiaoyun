@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-健康小荷是一个AI健康助手应用，包含Flutter移动端和Python FastAPI后端。
+健康小云是一个AI健康助手应用，包含Flutter移动端和Python FastAPI后端。
 
 ## 技术栈
 
@@ -216,7 +216,7 @@ Flutter使用 `go_router` 和 `ShellRoute` 实现底部导航栏:
 
 ## 设计规范
 
-参考 `docs/design/健康小荷App原型.html`:
+参考 `docs/design/健康小云App原型.html`:
 - 品牌色: `#4ECDC4` (蓝绿)
 - 辅助色: `#2D9CDB` (深蓝)
 - 背景渐变: `#E8F8F7` → `#FFFFFF`

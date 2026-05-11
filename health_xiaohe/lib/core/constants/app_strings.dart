@@ -2,7 +2,7 @@ class AppStrings {
   AppStrings._();
 
   // App
-  static const String appName = '健康小荷';
+  static const String appName = '健康小云';
   static const String appSlogan = '你的AI健康管家';
 
   // Auth
@@ -18,9 +18,9 @@ class AppStrings {
 
   // Chat
   static const String chatInputHint = '请输入您的健康问题...';
-  static const String chatHomeTitle = '健康小荷';
-  static const String welcomeMessage = '你好！我是健康小荷，你的健康管家~ 有什么健康问题可以问我哦！';
-  static const String thinking = '健康小荷正在思考...';
+  static const String chatHomeTitle = '健康小云';
+  static const String welcomeMessage = '你好！我是健康小云，你的健康管家~ 有什么健康问题可以问我哦！';
+  static const String thinking = '健康小云正在思考...';
 
   // Health Records
   static const String healthRecords = '健康记录';

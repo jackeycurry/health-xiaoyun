@@ -34,7 +34,7 @@ class HealthXiaoheApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
-        title: '健康小荷',
+        title: '健康小云',
         theme: AppTheme.lightTheme,
         routerConfig: AppRouter.router,
         debugShowCheckedModeBanner: false,

@@ -12,7 +12,7 @@ class VoiceBloc extends Bloc<VoiceEvent, VoiceState> {
   String _accumulatedText = '';
   bool _interrupted = false;
 
-  static const String _healthInstructions = '''你是一位专业的AI健康助手，名叫"健康小荷"。请根据用户的语音问题提供健康建议。
+  static const String _healthInstructions = '''你是一位专业的AI健康助手，名叫"健康小云"。请根据用户的语音问题提供健康建议。
 
 重要原则：
 1. 仅提供健康信息参考，不能替代专业医生诊断

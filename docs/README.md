@@ -1,8 +1,8 @@
-# 健康小荷 — 项目文档
+# 健康小云 — 项目文档
 
 ## 项目概述
 
-健康小荷是一个 AI 健康助手应用，支持文字对话和实时语音/视频通话。包含 Flutter 移动端（Android/Web）和 Python FastAPI 后端，AI 能力由阿里云百炼 DashScope 提供。
+健康小云是一个 AI 健康助手应用，支持文字对话和实时语音/视频通话。包含 Flutter 移动端（Android/Web）和 Python FastAPI 后端，AI 能力由阿里云百炼 DashScope 提供。
 
 **快速链接：**
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>健康小荷 - AI健康管家</title>
+    <title>健康小云 - AI健康管家</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -1328,7 +1328,7 @@
 <body>
     <!-- SVG 图标定义 -->
     <svg style="display:none">
-        <!-- 小荷 Logo (荷叶) -->
+        <!-- 小云 Logo (荷叶) -->
         <symbol id="icon-lotus" viewBox="0 0 64 64">
             <path d="M32 8c-8 0-16 8-16 20 0 8 4 14 8 18 2-6 6-12 12-16 4-2 8-4 12-4-4 4-8 10-8 18 4-2 8-6 12-10 4-4 8-10 8-16 0-12-8-20-16-20-4 8-8 16-12 16V8z"/>
             <circle cx="32" cy="32" r="8" fill-opacity="0.3"/>
@@ -1442,7 +1442,7 @@
             <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
         </symbol>
 
-        <!-- 小荷 (叶子形状) -->
+        <!-- 小云 (叶子形状) -->
         <symbol id="icon-leaf" viewBox="0 0 48 48">
             <path fill="#4ECDC4" d="M24 4C14 4 6 14 6 26c0 8 4 14 10 18l8-12 8 12c6-4 10-10 10-18 0-12-8-22-18-22z"/>
             <path fill="#3DBDB5" d="M24 12c-6 0-12 6-12 14 0 4 2 8 6 10l6-9 6 9c4-2 6-6 6-10 0-8-6-14-12-14z"/>
@@ -1457,7 +1457,7 @@
                 <div class="splash-logo">
                     <svg class="icon-lg"><use href="#icon-lotus"/></svg>
                 </div>
-                <h1 class="splash-title">健康小荷</h1>
+                <h1 class="splash-title">健康小云</h1>
                 <p class="splash-subtitle">您的 AI 健康管家</p>
             </div>
 
@@ -1467,7 +1467,7 @@
                     <div class="login-logo">
                         <svg class="icon"><use href="#icon-lotus"/></svg>
                     </div>
-                    <h1 class="login-title">健康小荷</h1>
+                    <h1 class="login-title">健康小云</h1>
                 </div>
                 <div class="login-form">
                     <div class="input-group">
@@ -1490,7 +1490,7 @@
                         <div class="nav-logo">
                             <svg class="icon"><use href="#icon-lotus"/></svg>
                         </div>
-                        <span class="nav-title">健康小荷</span>
+                        <span class="nav-title">健康小云</span>
                     </div>
                     <button class="nav-menu-btn" onclick="toggleMenu()">
                         <svg class="icon"><use href="#icon-menu"/></svg>
@@ -1504,7 +1504,7 @@
                                 <svg class="icon"><use href="#icon-lotus"/></svg>
                             </div>
                             <div class="welcome-info">
-                                <h3>你好！我是健康小荷</h3>
+                                <h3>你好！我是健康小云</h3>
                                 <p>您的专属 AI 健康管家</p>
                             </div>
                         </div>
@@ -1518,7 +1518,7 @@
                             <svg class="icon"><use href="#icon-lotus"/></svg>
                         </div>
                         <div class="message-content">
-                            <div class="message-bubble">你好！我是健康小荷，你的专属 AI 健康管家~ 有什么健康问题可以问我哦！</div>
+                            <div class="message-bubble">你好！我是健康小云，你的专属 AI 健康管家~ 有什么健康问题可以问我哦！</div>
                             <div class="message-time">10:30</div>
                         </div>
                     </div>
@@ -1606,7 +1606,7 @@
                     <div class="call-avatar">
                         <svg class="icon-lg"><use href="#icon-lotus"/></svg>
                     </div>
-                    <div class="call-name">健康小荷</div>
+                    <div class="call-name">健康小云</div>
                     <div class="call-info" id="callInfo">等待接听...</div>
                 </div>
                 <div class="call-timer" id="callTimer" style="display:none;">00:00</div>
@@ -2173,7 +2173,7 @@
                             voice: 'akura',
                             input_audio_format: 'pcm',
                             output_audio_format: 'pcm',
-                            instructions: '你是健康小荷，你的职责是提供健康建议。请用简短温暖的语言回复，每次不超过50字。',
+                            instructions: '你是健康小云，你的职责是提供健康建议。请用简短温暖的语言回复，每次不超过50字。',
                             turn_detection: {
                                 type: 'semantic_vad',
                                 threshold: 0.5,
@@ -2207,7 +2207,7 @@
                             // 显示 AI 说的话
                             const text = data.data || data.transcript || '';
                             if (text) {
-                                document.getElementById('callInfo').textContent = '健康小荷: ' + text;
+                                document.getElementById('callInfo').textContent = '健康小云: ' + text;
                             }
                         } else if (data.type === 'audio' || data.type === 'response.audio.delta') {
                             // 播放音频

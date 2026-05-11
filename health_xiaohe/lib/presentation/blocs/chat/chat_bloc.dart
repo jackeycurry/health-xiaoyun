@@ -25,7 +25,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   void _onInitialize(ChatInitialize event, Emitter<ChatState> emit) {
     if (state.messages.isEmpty) {
       final welcomeMessage = ChatMessageModel.assistant(
-        '你好！我是健康小荷，你的健康管家~ 有什么健康问题可以问我哦！',
+        '你好！我是健康小云，你的健康管家~ 有什么健康问题可以问我哦！',
       );
       emit(state.copyWith(messages: [welcomeMessage]));
     }
@@ -114,14 +114,14 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   void _onClearMessages(ChatClearMessages event, Emitter<ChatState> emit) {
     final welcomeMessage = ChatMessageModel.assistant(
-      '你好！我是健康小荷，你的健康管家~ 有什么健康问题可以问我哦！',
+      '你好！我是健康小云，你的健康管家~ 有什么健康问题可以问我哦！',
     );
     emit(ChatState(messages: [welcomeMessage]));
   }
 
   void _onNewConversation(ChatNewConversation event, Emitter<ChatState> emit) {
     final welcomeMessage = ChatMessageModel.assistant(
-      '你好！我是健康小荷，你的健康管家~ 有什么健康问题可以问我哦！',
+      '你好！我是健康小云，你的健康管家~ 有什么健康问题可以问我哦！',
     );
     emit(ChatState(messages: [welcomeMessage], suggestions: []));
   }

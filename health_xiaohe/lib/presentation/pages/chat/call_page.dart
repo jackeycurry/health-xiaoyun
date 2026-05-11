@@ -249,7 +249,7 @@ class _CallPageState extends State<CallPage> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('小荷：',
+                            const Text('小云：',
                                 style: TextStyle(color: AppColors.primaryLight, fontSize: 12)),
                             const SizedBox(height: 4),
                             Text(_aiText,
@@ -321,7 +321,7 @@ class _CallPageState extends State<CallPage> {
         ),
         const SizedBox(height: 24),
         const Text(
-          '健康小荷',
+          '健康小云',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,

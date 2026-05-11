@@ -244,7 +244,7 @@ class PersonalCenterPage extends StatelessWidget {
           children: [
             Text('🌿', style: TextStyle(fontSize: 28)),
             SizedBox(width: 12),
-            Text('健康小荷'),
+            Text('健康小云'),
           ],
         ),
         content: const Column(
@@ -254,7 +254,7 @@ class PersonalCenterPage extends StatelessWidget {
             Text('版本: 1.0.0'),
             SizedBox(height: 12),
             Text(
-              '健康小荷是一款 AI 健康助手应用，'
+              '健康小云是一款 AI 健康助手应用，'
               '为您提供专业的健康咨询服务。',
               style: TextStyle(
                 color: AppColors.textSecondary,

@@ -122,7 +122,7 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
                     ),
                     const SizedBox(height: 8),
                     const Text(
-                      '与健康小荷的对话将显示在这里',
+                      '与健康小云的对话将显示在这里',
                       style: TextStyle(
                         color: AppColors.textTertiary,
                         fontSize: 14,
