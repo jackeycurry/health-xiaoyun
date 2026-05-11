@@ -159,59 +159,67 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
 
   Widget _buildConversationCard(dynamic conv) {
     final dateStr = DateFormat('MM/dd HH:mm').format(conv.createdAt);
+    final id = conv.id as String;
 
-    return Card(
-      elevation: 0,
-      color: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: const BorderSide(color: AppColors.divider, width: 0.5),
+    return Dismissible(
+      key: Key(id),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 20),
+        decoration: BoxDecoration(
+          color: AppColors.danger,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Icon(Icons.delete, color: Colors.white),
       ),
-      child: ListTile(
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        leading: Container(
-          width: 44,
-          height: 44,
-          decoration: BoxDecoration(
-            color: AppColors.primaryLight,
-            borderRadius: BorderRadius.circular(12),
+      confirmDismiss: (_) async {
+        return await showDialog<bool>(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('确认删除'),
+            content: const Text('删除后无法恢复，确定要删除这个对话吗？'),
+            actions: [
+              TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
+              TextButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('删除', style: TextStyle(color: AppColors.danger))),
+            ],
           ),
-          child: const Center(
-            child: Text('🌿', style: TextStyle(fontSize: 20)),
-          ),
+        ) ?? false;
+      },
+      onDismissed: (_) {
+        context.read<ChatHistoryBloc>().add(ChatHistoryDeleteConversation(id));
+      },
+      child: Card(
+        elevation: 0,
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: const BorderSide(color: AppColors.divider, width: 0.5),
         ),
-        title: Text(
-          conv.title,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.w500,
-            color: AppColors.textPrimary,
+        child: ListTile(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          leading: Container(
+            width: 44, height: 44,
+            decoration: BoxDecoration(
+              color: AppColors.primaryLight,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Center(child: Text('🌿', style: TextStyle(fontSize: 20))),
           ),
-        ),
-        subtitle: Text(
-          dateStr,
-          style: const TextStyle(
-            fontSize: 12,
-            color: AppColors.textTertiary,
+          title: Text(
+            conv.title,
+            maxLines: 1, overflow: TextOverflow.ellipsis,
+            style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
           ),
-        ),
-        trailing: TextButton.icon(
-          onPressed: () {
-            context.go('/chat?conversationId=${conv.id}');
-          },
-          icon: const Icon(Icons.chat_outlined, size: 16),
-          label: const Text('继续', style: TextStyle(fontSize: 13)),
-          style: TextButton.styleFrom(
-            foregroundColor: AppColors.primary,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+          subtitle: Text(dateStr, style: const TextStyle(fontSize: 12, color: AppColors.textTertiary)),
+          trailing: TextButton.icon(
+            onPressed: () => context.go('/chat?conversationId=$id'),
+            icon: const Icon(Icons.chat_outlined, size: 16),
+            label: const Text('继续', style: TextStyle(fontSize: 13)),
+            style: TextButton.styleFrom(foregroundColor: AppColors.primary, padding: const EdgeInsets.symmetric(horizontal: 8)),
           ),
+          onTap: () => context.push('/chat-history/$id'),
         ),
-        onTap: () {
-          context.push('/chat-history/${conv.id}');
-        },
       ),
     );
   }

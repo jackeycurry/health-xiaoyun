@@ -17,3 +17,12 @@ class ChatHistoryLoadConversationDetail extends ChatHistoryEvent {
   @override
   List<Object?> get props => [conversationId];
 }
+
+class ChatHistoryDeleteConversation extends ChatHistoryEvent {
+  final String conversationId;
+
+  const ChatHistoryDeleteConversation(this.conversationId);
+
+  @override
+  List<Object?> get props => [conversationId];
+}

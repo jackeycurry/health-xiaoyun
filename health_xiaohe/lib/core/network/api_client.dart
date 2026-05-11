@@ -95,6 +95,10 @@ class ApiClient {
     return _dio.get(ApiEndpoints.conversationDetail(id));
   }
 
+  Future<Response> deleteConversation(String id) async {
+    return _dio.delete(ApiEndpoints.conversationDetail(id));
+  }
+
   // Voice chat (base64 audio)
   Future<Response> voiceChat(String base64Audio) async {
     return _dio.post(ApiEndpoints.voiceChat, data: {

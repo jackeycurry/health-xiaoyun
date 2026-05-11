@@ -8,6 +8,7 @@ abstract class ChatRepository {
   Future<ChatResult<ChatMessageModel>> sendMessage(List<ChatMessageModel> messages);
   Future<ChatResult<List<ConversationItemModel>>> getConversations();
   Future<ChatResult<ConversationDetailModel>> getConversationDetail(String id);
+  Future<ChatResult<void>> deleteConversation(String id);
 }
 
 class ChatResult<T> {

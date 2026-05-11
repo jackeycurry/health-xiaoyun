@@ -9,6 +9,7 @@ class ChatHistoryBloc extends Bloc<ChatHistoryEvent, ChatHistoryState> {
   ChatHistoryBloc(this._chatRepository) : super(const ChatHistoryState()) {
     on<ChatHistoryLoadConversations>(_onLoadConversations);
     on<ChatHistoryLoadConversationDetail>(_onLoadConversationDetail);
+    on<ChatHistoryDeleteConversation>(_onDeleteConversation);
   }
 
   Future<void> _onLoadConversations(
@@ -46,6 +47,17 @@ class ChatHistoryBloc extends Bloc<ChatHistoryEvent, ChatHistoryState> {
         status: ChatHistoryStatus.error,
         error: result.error,
       ));
+    }
+  }
+
+  Future<void> _onDeleteConversation(
+    ChatHistoryDeleteConversation event,
+    Emitter<ChatHistoryState> emit,
+  ) async {
+    final result = await _chatRepository.deleteConversation(event.conversationId);
+    if (result.success) {
+      final updated = state.conversations.where((c) => c.id != event.conversationId).toList();
+      emit(state.copyWith(conversations: updated));
     }
   }
 }

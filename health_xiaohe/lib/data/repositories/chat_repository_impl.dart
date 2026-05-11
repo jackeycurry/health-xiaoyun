@@ -81,4 +81,17 @@ class ChatRepositoryImpl implements ChatRepository {
       return ChatResult.failure('发送消息失败: $e');
     }
   }
+
+  @override
+  Future<ChatResult<void>> deleteConversation(String id) async {
+    try {
+      await _apiClient.deleteConversation(id);
+      return ChatResult.success(null);
+    } on DioException catch (e) {
+      final message = e.response?.data?['detail'] ?? '删除失败';
+      return ChatResult.failure(message.toString());
+    } catch (e) {
+      return ChatResult.failure('删除失败: $e');
+    }
+  }
 }
