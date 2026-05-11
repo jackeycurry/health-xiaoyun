@@ -38,7 +38,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final imageBytes = event.imageBytes != null ? Uint8List.fromList(event.imageBytes!) : null;
     final userMsg = ChatMessageModel.user(event.message, imageBytes: imageBytes);
     final updatedMessages = [...state.messages, userMsg];
-    emit(state.copyWith(messages: updatedMessages, isLoading: true, error: null));
+    emit(state.copyWith(messages: updatedMessages, isLoading: true, error: null, suggestions: []));
 
     final assistantMsg = ChatMessageModel.assistant('');
     final messagesWithAssistant = [...updatedMessages, assistantMsg];
@@ -73,6 +73,12 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   void _onReceiveChunk(ChatReceiveStreamChunk event, Emitter<ChatState> emit) {
     final chunk = event.chunk;
+
+    // 处理追问建议
+    if (chunk.hasSuggestions) {
+      emit(state.copyWith(suggestions: chunk.suggestions));
+      return;
+    }
 
     // 处理 conversation_id
     if (chunk.hasConversationId && chunk.conversationId != null) {
@@ -117,7 +123,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final welcomeMessage = ChatMessageModel.assistant(
       '你好！我是健康小荷，你的健康管家~ 有什么健康问题可以问我哦！',
     );
-    emit(ChatState(messages: [welcomeMessage]));
+    emit(ChatState(messages: [welcomeMessage], suggestions: []));
   }
 
   Future<void> _onLoadConversation(

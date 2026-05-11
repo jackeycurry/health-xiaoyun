@@ -153,6 +153,34 @@ class _ChatHomePageState extends State<ChatHomePage> {
               },
             ),
           ),
+          // 追问建议
+          BlocBuilder<ChatBloc, ChatState>(
+            builder: (context, state) {
+              if (state.suggestions.isNotEmpty) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Wrap(
+                    spacing: 8, runSpacing: 8,
+                    children: state.suggestions.map((s) => GestureDetector(
+                      onTap: () {
+                        context.read<ChatBloc>().add(ChatSendMessage(s));
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: AppColors.aiBubbleBg,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: AppColors.primary.withOpacity(0.3)),
+                        ),
+                        child: Text(s, style: const TextStyle(fontSize: 13, color: AppColors.primaryDark)),
+                      ),
+                    )).toList(),
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
           // Loading indicator
           BlocBuilder<ChatBloc, ChatState>(
             builder: (context, state) {

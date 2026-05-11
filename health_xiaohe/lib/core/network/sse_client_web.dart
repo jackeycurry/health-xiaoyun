@@ -44,6 +44,10 @@ Stream<SseChunk> fetchSseStream({
         final json = jsonDecode(data);
         final content = json['content'];
         final convId = json['conversation_id'];
+        final suggestions = json['suggestions'];
+        if (suggestions != null && suggestions is List) {
+          controller.add(SseChunk(suggestions: suggestions.cast<String>()));
+        }
         if (content != null && content.toString().isNotEmpty) {
           controller.add(SseChunk(content: content.toString()));
         }
@@ -72,6 +76,10 @@ Stream<SseChunk> fetchSseStream({
             final json = jsonDecode(data);
             final content = json['content'];
             final convId = json['conversation_id'];
+            final suggestions = json['suggestions'];
+            if (suggestions != null && suggestions is List) {
+              controller.add(SseChunk(suggestions: suggestions.cast<String>()));
+            }
             if (content != null && content.toString().isNotEmpty) {
               controller.add(SseChunk(content: content.toString()));
             }
