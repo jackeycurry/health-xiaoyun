@@ -68,6 +68,9 @@ flutter run -d chrome
 # 构建Web
 flutter build web
 
+# 代码分析
+flutter analyze
+
 # 运行测试
 flutter test
 
