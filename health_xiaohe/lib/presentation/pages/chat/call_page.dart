@@ -217,16 +217,27 @@ class _CallPageState extends State<CallPage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF0F2A3F),
-              Color(0xFF071521),
-            ],
-          ),
-        ),
+        decoration: _videoEnabled
+            ? BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.35),
+                    Colors.black.withOpacity(0.55),
+                  ],
+                ),
+              )
+            : const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF0F2A3F),
+                    Color(0xFF071521),
+                  ],
+                ),
+              ),
         child: SafeArea(
           child: BlocConsumer<VoiceBloc, VoiceState>(
             listener: (context, state) => _handleStateChange(state),
