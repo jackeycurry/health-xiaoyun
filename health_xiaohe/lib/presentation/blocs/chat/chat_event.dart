@@ -42,6 +42,8 @@ class ChatClearMessages extends ChatEvent {}
 
 class ChatInitialize extends ChatEvent {}
 
+class ChatLoadWelcomeSuggestions extends ChatEvent {}
+
 class ChatNewConversation extends ChatEvent {}
 
 class ChatLoadConversation extends ChatEvent {

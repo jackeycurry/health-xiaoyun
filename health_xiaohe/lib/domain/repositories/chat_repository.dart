@@ -9,6 +9,7 @@ abstract class ChatRepository {
   Future<ChatResult<List<ConversationItemModel>>> getConversations();
   Future<ChatResult<ConversationDetailModel>> getConversationDetail(String id);
   Future<ChatResult<void>> deleteConversation(String id);
+  Future<ChatResult<List<String>>> getWelcomeSuggestions();
 }
 
 class ChatResult<T> {

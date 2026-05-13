@@ -94,4 +94,18 @@ class ChatRepositoryImpl implements ChatRepository {
       return ChatResult.failure('删除失败: $e');
     }
   }
+
+  @override
+  Future<ChatResult<List<String>>> getWelcomeSuggestions() async {
+    try {
+      final response = await _apiClient.getWelcomeSuggestions();
+      final list = (response.data['suggestions'] as List?)
+              ?.map((e) => e.toString())
+              .toList() ??
+          [];
+      return ChatResult.success(list);
+    } catch (e) {
+      return ChatResult.failure(e.toString());
+    }
+  }
 }
