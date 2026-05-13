@@ -61,7 +61,7 @@ class PersonalCenterPage extends StatelessWidget {
                         iconBg: AppColors.primaryLight,
                         title: 'AI 印象',
                         subtitle: '查看和管理 AI 对你的认识',
-                        onTap: () => context.go(AppRouter.healthRecords),
+                        onTap: () => context.go(AppRouter.aiImpression),
                         showDivider: false,
                       ),
                     ]),

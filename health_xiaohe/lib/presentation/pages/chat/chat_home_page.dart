@@ -226,7 +226,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
                   }
                 },
                 onHealthRecordPressed: () {
-                  context.push(AppRouter.healthRecords);
+                  context.push(AppRouter.aiImpression);
                 },
                 onCallPressed: () {
                   if (authState is AuthAuthenticated) {
@@ -325,12 +325,12 @@ class _ChatHomePageState extends State<ChatHomePage> {
                     ),
                     _buildDrawerItem(
                       context,
-                      icon: Icons.favorite_outline,
-                      title: '健康记录',
+                      icon: Icons.psychology_outlined,
+                      title: 'AI 印象',
                       color: AppColors.primary,
                       onTap: () {
                         Navigator.pop(context);
-                        context.go(AppRouter.healthRecords);
+                        context.go(AppRouter.aiImpression);
                       },
                     ),
                     _buildDrawerItem(
