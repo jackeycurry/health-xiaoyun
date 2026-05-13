@@ -53,6 +53,19 @@ class PersonalCenterPage extends StatelessWidget {
                 child: ListView(
                   padding: const EdgeInsets.all(20),
                   children: [
+                    // AI 画像入口
+                    _buildMenuCard([
+                      _buildMenuItem(
+                        icon: Icons.psychology_outlined,
+                        iconColor: AppColors.primaryDark,
+                        iconBg: AppColors.primaryLight,
+                        title: 'AI 印象',
+                        subtitle: '查看和管理 AI 对你的认识',
+                        onTap: () => context.go(AppRouter.healthRecords),
+                        showDivider: false,
+                      ),
+                    ]),
+                    const SizedBox(height: 16),
                     // Settings card
                     _buildMenuCard([
                       _buildMenuItem(
@@ -184,6 +197,7 @@ class PersonalCenterPage extends StatelessWidget {
     required Color iconColor,
     required Color iconBg,
     required String title,
+    String? subtitle,
     required VoidCallback onTap,
     bool showDivider = true,
   }) {
@@ -207,12 +221,27 @@ class PersonalCenterPage extends StatelessWidget {
                 ),
                 const SizedBox(width: 14),
                 Expanded(
-                  child: Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      color: AppColors.textPrimary,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                      if (subtitle != null) ...[
+                        const SizedBox(height: 2),
+                        Text(
+                          subtitle,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: AppColors.textTertiary,
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
                 ),
                 const Icon(

@@ -69,6 +69,27 @@ class _UserProfilePageState extends State<UserProfilePage> {
     }
   }
 
+  Future<void> _deleteMemory(String memoryId) async {
+    try {
+      final api = ApiClient();
+      final token = GetIt.instance<LocalStorage>().getJwtToken() ?? '';
+      api.dio.options.headers['Authorization'] = 'Bearer $token';
+      await api.dio.delete('/api/user/memories/$memoryId');
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('已忘记'), backgroundColor: AppColors.success),
+        );
+        _load();
+      }
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('删除失败'), backgroundColor: AppColors.danger),
+        );
+      }
+    }
+  }
+
   @override
   void dispose() {
     _genderCtrl.dispose();
@@ -154,7 +175,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
       byCat.putIfAbsent(cat, () => []).add(m);
     }
     return _card([
-      _header(Icons.psychology, AppColors.primaryDark, '长期记忆'),
+      Row(children: [
+        Icon(Icons.psychology, color: AppColors.primaryDark, size: 22),
+        const SizedBox(width: 8),
+        const Expanded(child: Text('长期记忆', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600))),
+        if (_memories.isNotEmpty)
+          Text('左滑可删除', style: TextStyle(fontSize: 12, color: AppColors.textTertiary)),
+      ]),
       if (_memories.isEmpty)
         const Padding(padding: EdgeInsets.only(top: 8), child: Text('开始对话后，AI 会自动提取并记住与你相关的重要信息', style: TextStyle(fontSize: 14, color: AppColors.textTertiary)))
       else
@@ -162,11 +189,70 @@ class _UserProfilePageState extends State<UserProfilePage> {
               padding: const EdgeInsets.only(top: 12),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(_catNames[e.key] ?? e.key, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
-                const SizedBox(height: 4),
-                ...(e.value as List).map((m) => Padding(padding: const EdgeInsets.only(left: 8, top: 4), child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [const Text('• ', style: TextStyle(color: AppColors.textTertiary)), Expanded(child: Text((m['fact'] as String?) ?? '', style: const TextStyle(fontSize: 14, color: AppColors.textPrimary)))]))),
+                const SizedBox(height: 6),
+                ...e.value.map<Widget>((m) => _buildMemoryRow(m)),
               ]),
             )),
     ], () {});
+  }
+
+  Widget _buildMemoryRow(dynamic m) {
+    final id = (m['id'] as String?) ?? '';
+    final fact = (m['fact'] as String?) ?? '';
+    return Dismissible(
+      key: ValueKey('mem-$id'),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 16),
+        margin: const EdgeInsets.only(left: 8, top: 4),
+        decoration: BoxDecoration(
+          color: AppColors.danger.withOpacity(0.85),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Icon(Icons.delete_outline, color: Colors.white, size: 18),
+            SizedBox(width: 4),
+            Text('忘记', style: TextStyle(color: Colors.white, fontSize: 13)),
+          ],
+        ),
+      ),
+      confirmDismiss: (_) async {
+        return await showDialog<bool>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text('让 AI 忘记？'),
+                content: Text('“$fact”'),
+                actions: [
+                  TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('取消')),
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, true),
+                    child: const Text('确认忘记', style: TextStyle(color: AppColors.danger)),
+                  ),
+                ],
+              ),
+            ) ??
+            false;
+      },
+      onDismissed: (_) => _deleteMemory(id),
+      child: Container(
+        margin: const EdgeInsets.only(left: 8, top: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.aiBubbleBg.withOpacity(0.6),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('• ', style: TextStyle(color: AppColors.primaryDark)),
+            Expanded(child: Text(fact, style: const TextStyle(fontSize: 14, color: AppColors.textPrimary, height: 1.5))),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _card(List<Widget> children, VoidCallback onTap) {
@@ -200,30 +286,66 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
     showDialog(
       context: context,
-      builder: (ctx) => SimpleDialog(
-        title: const Text('编辑基本信息'),
-        children: [
-          _editField('性别 (male/female)', _genderCtrl),
-          _editField('年龄', _ageCtrl, number: true),
-          _editField('身高 (cm)', _heightCtrl, number: true),
-          _editField('体重 (kg)', _weightCtrl, number: true),
-          Padding(
-            padding: const EdgeInsets.only(right: 16, top: 12, bottom: 8),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('取消')),
-              const SizedBox(width: 8),
-              ElevatedButton(onPressed: () { Navigator.pop(ctx); _save(); }, child: const Text('保存')),
-            ]),
+      builder: (ctx) => StatefulBuilder(
+        builder: (ctx, setLocal) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text('编辑基本信息'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text('性别', style: TextStyle(fontSize: 13, color: AppColors.textTertiary)),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 8,
+                  children: [
+                    _genderChip('male', '男', setLocal),
+                    _genderChip('female', '女', setLocal),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                _editField('年龄', _ageCtrl, suffix: '岁'),
+                _editField('身高', _heightCtrl, suffix: 'cm'),
+                _editField('体重', _weightCtrl, suffix: 'kg'),
+              ],
+            ),
           ),
-        ],
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('取消')),
+            ElevatedButton(
+              onPressed: () { Navigator.pop(ctx); _save(); },
+              child: const Text('保存'),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _editField(String label, TextEditingController ctrl, {bool number = false}) {
+  Widget _genderChip(String value, String label, StateSetter setLocal) {
+    final selected = _genderCtrl.text == value;
+    return ChoiceChip(
+      label: Text(label),
+      selected: selected,
+      selectedColor: AppColors.primary.withOpacity(0.2),
+      onSelected: (_) => setLocal(() => _genderCtrl.text = value),
+    );
+  }
+
+  Widget _editField(String label, TextEditingController ctrl, {String? suffix}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
-      child: TextField(controller: ctrl, decoration: InputDecoration(labelText: label), keyboardType: number ? TextInputType.number : null),
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: TextField(
+        controller: ctrl,
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          labelText: label,
+          suffixText: suffix,
+          border: const OutlineInputBorder(),
+          isDense: true,
+        ),
+      ),
     );
   }
 }
