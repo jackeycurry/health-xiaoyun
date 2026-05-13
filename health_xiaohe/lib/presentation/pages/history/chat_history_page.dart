@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:health_xiaohe/core/constants/app_colors.dart';
+import 'package:health_xiaohe/core/network/api_client.dart';
 import 'package:health_xiaohe/presentation/blocs/chat_history/chat_history_bloc.dart';
 import 'package:health_xiaohe/presentation/blocs/chat_history/chat_history_event.dart';
 import 'package:health_xiaohe/presentation/blocs/chat_history/chat_history_state.dart';
@@ -157,6 +159,30 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
     );
   }
 
+  Future<void> _regenerateTitle(String conversationId) async {
+    final messenger = ScaffoldMessenger.of(context);
+    messenger.showSnackBar(
+      const SnackBar(content: Text('正在重新生成标题…'), duration: Duration(seconds: 2)),
+    );
+    try {
+      final api = GetIt.instance<ApiClient>();
+      await api.dio.post('/api/consult/conversations/$conversationId/regenerate-title');
+      if (!mounted) return;
+      messenger.hideCurrentSnackBar();
+      messenger.showSnackBar(
+        const SnackBar(content: Text('标题已更新'), backgroundColor: AppColors.success),
+      );
+      // ignore: use_build_context_synchronously
+      context.read<ChatHistoryBloc>().add(ChatHistoryLoadConversations());
+    } catch (e) {
+      if (!mounted) return;
+      messenger.hideCurrentSnackBar();
+      messenger.showSnackBar(
+        SnackBar(content: Text('生成失败：$e'), backgroundColor: AppColors.danger),
+      );
+    }
+  }
+
   Widget _buildConversationCard(dynamic conv) {
     final dateStr = DateFormat('MM/dd HH:mm').format(conv.createdAt);
     final id = conv.id as String;
@@ -212,11 +238,34 @@ class _ChatHistoryPageState extends State<ChatHistoryPage> {
             style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: AppColors.textPrimary),
           ),
           subtitle: Text(dateStr, style: const TextStyle(fontSize: 12, color: AppColors.textTertiary)),
-          trailing: TextButton.icon(
-            onPressed: () => context.go('/chat?conversationId=$id'),
-            icon: const Icon(Icons.chat_outlined, size: 16),
-            label: const Text('继续', style: TextStyle(fontSize: 13)),
-            style: TextButton.styleFrom(foregroundColor: AppColors.primary, padding: const EdgeInsets.symmetric(horizontal: 8)),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                tooltip: '继续对话',
+                icon: const Icon(Icons.chat_outlined, size: 18, color: AppColors.primary),
+                onPressed: () => context.go('/chat?conversationId=$id'),
+              ),
+              PopupMenuButton<String>(
+                tooltip: '更多',
+                icon: const Icon(Icons.more_vert, size: 18, color: AppColors.textTertiary),
+                onSelected: (action) {
+                  if (action == 'regenerate') {
+                    _regenerateTitle(id);
+                  }
+                },
+                itemBuilder: (_) => const [
+                  PopupMenuItem(
+                    value: 'regenerate',
+                    child: Row(children: [
+                      Icon(Icons.auto_awesome, size: 18, color: AppColors.primary),
+                      SizedBox(width: 8),
+                      Text('重新生成标题'),
+                    ]),
+                  ),
+                ],
+              ),
+            ],
           ),
           onTap: () => context.push('/chat-history/$id'),
         ),
