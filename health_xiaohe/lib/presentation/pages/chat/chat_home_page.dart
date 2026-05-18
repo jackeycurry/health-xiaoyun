@@ -46,15 +46,15 @@ class _ChatHomePageState extends State<ChatHomePage> {
   }
 
   void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
-      });
-    }
+    if (!_scrollController.hasClients) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!_scrollController.hasClients) return;
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 220),
+        curve: Curves.easeOutCubic,
+      );
+    });
   }
 
   @override
@@ -147,7 +147,13 @@ class _ChatHomePageState extends State<ChatHomePage> {
                     if (index == 0) {
                       return _buildWelcomeCard();
                     }
-                    return MessageBubble(message: state.messages[index - 1]);
+                    final msgIndex = index - 1;
+                    final msg = state.messages[msgIndex];
+                    final isLast = msgIndex == state.messages.length - 1;
+                    return MessageBubble(
+                      message: msg,
+                      isStreaming: isLast && state.isStreaming && msg.isAssistant,
+                    );
                   },
                 );
               },
@@ -226,7 +232,7 @@ class _ChatHomePageState extends State<ChatHomePage> {
                   }
                 },
                 onHealthRecordPressed: () {
-                  context.push(AppRouter.healthRecords);
+                  context.push(AppRouter.aiImpression);
                 },
                 onCallPressed: () {
                   if (authState is AuthAuthenticated) {
@@ -325,12 +331,12 @@ class _ChatHomePageState extends State<ChatHomePage> {
                     ),
                     _buildDrawerItem(
                       context,
-                      icon: Icons.favorite_outline,
-                      title: '健康记录',
+                      icon: Icons.psychology_outlined,
+                      title: 'AI 印象',
                       color: AppColors.primary,
                       onTap: () {
                         Navigator.pop(context);
-                        context.go(AppRouter.healthRecords);
+                        context.go(AppRouter.aiImpression);
                       },
                     ),
                     _buildDrawerItem(
@@ -460,15 +466,19 @@ class _ChatHomePageState extends State<ChatHomePage> {
             ),
           ),
           const SizedBox(height: 12),
-          // Quick tips
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _buildQuickTip('失眠怎么办'),
-              _buildQuickTip('血压正常值'),
-              _buildQuickTip('春季养生'),
-            ],
+          // Quick tips — 优先用 AI 基于画像生成的建议
+          BlocBuilder<ChatBloc, ChatState>(
+            buildWhen: (prev, cur) => prev.welcomeSuggestions != cur.welcomeSuggestions,
+            builder: (context, state) {
+              final tips = state.welcomeSuggestions.isNotEmpty
+                  ? state.welcomeSuggestions
+                  : const ['失眠怎么办', '血压正常值', '春季养生'];
+              return Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: tips.map(_buildQuickTip).toList(),
+              );
+            },
           ),
         ],
       ),

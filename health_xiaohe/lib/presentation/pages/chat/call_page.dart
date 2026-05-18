@@ -17,6 +17,8 @@ import 'package:health_xiaohe/core/storage/local_storage.dart';
 import 'package:health_xiaohe/presentation/blocs/voice/voice_bloc.dart';
 import 'package:health_xiaohe/presentation/blocs/voice/voice_event.dart';
 import 'package:health_xiaohe/presentation/blocs/voice/voice_state.dart';
+import 'package:health_xiaohe/presentation/widgets/voice/transcript_card.dart';
+import 'package:health_xiaohe/presentation/widgets/voice/voice_avatar.dart';
 
 class CallPage extends StatefulWidget {
   const CallPage({super.key});
@@ -40,6 +42,7 @@ class _CallPageState extends State<CallPage> {
   String _userText = '';
   String? _conversationId;
   VoiceBloc? _voiceBloc;
+  VoiceAvatarMode _avatarMode = VoiceAvatarMode.connecting;
 
   @override
   void initState() {
@@ -89,7 +92,6 @@ class _CallPageState extends State<CallPage> {
       await _audioRecorder.startRecording((base64) {
         chunkCount++;
         if (chunkCount <= 5) debugPrint('[CALL] audio chunk #$chunkCount len=${base64.length}');
-        // 只在 WebSocket 就绪后发送，避免 AudioContext 在 suspended 状态下产生零值
         if (_callStarted && !_isMuted) {
           _voiceBloc?.add(VoiceSendAudioChunk(base64));
           if (!_audioFlowing) {
@@ -116,7 +118,6 @@ class _CallPageState extends State<CallPage> {
         return;
       }
       await _cameraCapture.startCapture((base64Jpeg) {
-        // 必须在音频开始发送后才允许发送图像（DashScope要求）
         if (_audioFlowing) {
           _voiceBloc?.add(VoiceSendImageChunk(base64Jpeg));
         }
@@ -147,278 +148,272 @@ class _CallPageState extends State<CallPage> {
     super.dispose();
   }
 
+  void _handleStateChange(VoiceState state) {
+    if (state is VoiceConnected && !_callStarted) {
+      _callStarted = true;
+      _startTimer();
+      _audioRecorder.gateOn();
+      setState(() => _avatarMode = VoiceAvatarMode.idle);
+    } else if (state is VoiceConnected) {
+      _audioRecorder.unmute();
+      _audioRecorder.gateOn();
+      setState(() => _avatarMode = VoiceAvatarMode.idle);
+    } else if (state is VoiceListening) {
+      _audioRecorder.unmute();
+      _audioRecorder.gateOff();
+      _audioPlayer.stop();
+      setState(() {
+        _aiText = '';
+        _avatarMode = VoiceAvatarMode.listening;
+      });
+    } else if (state is VoiceConversationCreated) {
+      _conversationId = state.conversationId;
+    } else if (state is VoiceUserText) {
+      setState(() => _userText = state.text);
+    } else if (state is VoiceReceivingText) {
+      setState(() {
+        _aiText = state.text;
+        _avatarMode = VoiceAvatarMode.speaking;
+      });
+    } else if (state is VoiceReceivingAudio) {
+      _audioRecorder.mute();
+      _audioPlayer.play(state.audioData);
+      setState(() => _avatarMode = VoiceAvatarMode.speaking);
+    } else if (state is VoiceProcessingInput) {
+      _audioRecorder.mute();
+      setState(() => _avatarMode = VoiceAvatarMode.processing);
+    } else if (state is VoiceConnecting) {
+      setState(() => _avatarMode = VoiceAvatarMode.connecting);
+    } else if (state is VoiceDone) {
+      _endCall();
+    } else if (state is VoiceDisconnected) {
+      if (_callStarted) _endCall();
+    } else if (state is VoiceErrorState) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(state.message),
+          backgroundColor: AppColors.danger,
+        ),
+      );
+      _endCall();
+    }
+  }
+
+  String _statusTextFor(VoiceState state) {
+    if (state is VoiceConnecting) return '正在连接...';
+    if (state is VoiceProcessingInput) return '正在理解...';
+    if (state is VoiceListening) return '正在聆听...';
+    if (state is VoiceReceivingText || state is VoiceReceivingAudio) {
+      return '正在回复';
+    }
+    if (state is VoiceConnected) {
+      return _aiText.isNotEmpty ? '请继续提问' : '已接通，请说话';
+    }
+    return '准备中...';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: _videoEnabled ? Colors.transparent : null,
-      body: SizedBox(
-        width: double.infinity,
-        height: double.infinity,
-        child: Container(
-          decoration: _videoEnabled
-              ? const BoxDecoration()
-              : const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0xFF1A2A3A),
-                      Color(0xFF0d1520),
-                    ],
+      backgroundColor: Colors.transparent,
+      body: Container(
+        decoration: _videoEnabled
+            ? BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.35),
+                    Colors.black.withOpacity(0.55),
+                  ],
+                ),
+              )
+            : const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFF0F2A3F),
+                    Color(0xFF071521),
+                  ],
+                ),
+              ),
+        child: SafeArea(
+          child: BlocConsumer<VoiceBloc, VoiceState>(
+            listener: (context, state) => _handleStateChange(state),
+            builder: (context, state) {
+              return Column(
+                children: [
+                  _buildTopBar(),
+                  const SizedBox(height: 8),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        VoiceAvatar(mode: _avatarMode, size: 132),
+                        const SizedBox(height: 28),
+                        const Text(
+                          '健康小云',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        _buildAnimatedStatus(state),
+                        const SizedBox(height: 24),
+                        if (_userText.isNotEmpty)
+                          TranscriptCard(
+                            role: TranscriptRole.user,
+                            text: _userText,
+                          ),
+                        if (_userText.isNotEmpty && _aiText.isNotEmpty)
+                          const SizedBox(height: 10),
+                        if (_aiText.isNotEmpty)
+                          TranscriptCard(
+                            role: TranscriptRole.ai,
+                            text: _aiText,
+                          ),
+                      ],
+                    ),
+                  ),
+                  _buildControlButtons(state),
+                  const SizedBox(height: 32),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTopBar() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white.withOpacity(0.12)),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primary,
+                    shape: BoxShape.circle,
                   ),
                 ),
-          child: SafeArea(
-            child: BlocConsumer<VoiceBloc, VoiceState>(
-              listener: (context, state) {
-                if (state is VoiceConnected && !_callStarted) {
-                  _callStarted = true;
-                  _startTimer();
-                  // 初始状态：噪声门过滤，等待用户大声说话
-                  _audioRecorder.gateOn();
-                } else if (state is VoiceConnected) {
-                  // AI说完一轮 → 噪声门过滤残余回声，等待用户说话
-                  _audioRecorder.unmute();
-                  _audioRecorder.gateOn();
-                } else if (state is VoiceListening) {
-                  // 用户打断AI，全量收音
-                  _audioRecorder.unmute();
-                  _audioRecorder.gateOff();
-                  _audioPlayer.stop();
-                  setState(() => _aiText = '');
-                } else if (state is VoiceConversationCreated) {
-                  _conversationId = state.conversationId;
-                } else if (state is VoiceUserText) {
-                  setState(() => _userText = state.text);
-                } else if (state is VoiceReceivingText) {
-                  setState(() => _aiText = state.text);
-                } else if (state is VoiceReceivingAudio) {
-                  // AI开始说话 → 完全静音麦克风，防止模拟器回声循环
-                  _audioRecorder.mute();
-                  _audioPlayer.play(state.audioData);
-                } else if (state is VoiceProcessingInput) {
-                  // AI正在处理用户输入，完全静音等待
-                  _audioRecorder.mute();
-                } else if (state is VoiceDone) {
-                  _endCall();
-                } else if (state is VoiceDisconnected) {
-                  if (_callStarted) _endCall();
-                } else if (state is VoiceErrorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(state.message),
-                      backgroundColor: AppColors.danger,
-                    ),
-                  );
-                  _endCall();
-                }
-              },
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    const Spacer(),
-                    _buildCallStatus(state),
-                    const SizedBox(height: 24),
-                    if (_userText.isNotEmpty)
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 32),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(0.15),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('你说：',
-                                style: TextStyle(color: AppColors.primary, fontSize: 12)),
-                            const SizedBox(height: 4),
-                            Text(_userText,
-                                style: const TextStyle(color: Colors.white, fontSize: 14)),
-                          ],
-                        ),
-                      ),
-                    if (_userText.isNotEmpty) const SizedBox(height: 8),
-                    if (_aiText.isNotEmpty)
-                      Container(
-                        margin: const EdgeInsets.symmetric(horizontal: 32),
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text('小云：',
-                                style: TextStyle(color: AppColors.primaryLight, fontSize: 12)),
-                            const SizedBox(height: 4),
-                            Text(_aiText,
-                                style: const TextStyle(color: Colors.white70, fontSize: 14)),
-                          ],
-                        ),
-                      ),
-                    const SizedBox(height: 16),
-                    if (state is VoiceConnected)
-                      Text(
-                        _formatDuration(_callDuration),
-                        style: const TextStyle(
-                          fontSize: 48,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.white,
-                        ),
-                      ),
-                    const Spacer(),
-                    _buildControlButtons(context, state),
-                    const SizedBox(height: 40),
-                  ],
-                );
-              },
+                const SizedBox(width: 8),
+                Text(
+                  _callStarted ? _formatDuration(_callDuration) : '00:00',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    fontFeatures: [FontFeature.tabularFigures()],
+                  ),
+                ),
+              ],
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildCallStatus(VoiceState state) {
-    String statusText = '正在连接...';
-
-    if (state is VoiceConnected) {
-      statusText = _aiText.isNotEmpty ? '已接听' : '已接通，请说话...';
-    } else if (state is VoiceReceivingText || state is VoiceReceivingAudio) {
-      statusText = '正在回复...';
-    } else if (state is VoiceListening) {
-      statusText = '正在聆听...';
-    } else if (state is VoiceProcessingInput) {
-      statusText = '正在理解...';
-    } else if (state is VoiceConnecting) {
-      statusText = '正在连接...';
-    }
-
-    return Column(
-      children: [
-        Container(
-          width: 120,
-          height: 120,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [AppColors.primary, AppColors.primaryDark],
+  Widget _buildAnimatedStatus(VoiceState state) {
+    final text = _statusTextFor(state);
+    final showDots = state is VoiceReceivingText ||
+        state is VoiceReceivingAudio ||
+        state is VoiceProcessingInput ||
+        state is VoiceConnecting;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 280),
+      transitionBuilder: (child, animation) => FadeTransition(
+        opacity: animation,
+        child: child,
+      ),
+      child: Row(
+        key: ValueKey(text),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.white.withOpacity(0.65),
+              letterSpacing: 0.3,
             ),
-            shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withOpacity(0.4),
-                blurRadius: 20,
-                spreadRadius: 0,
-              ),
-            ],
           ),
-          child: const Center(
-            child: Text('🌿', style: TextStyle(fontSize: 60)),
-          ),
-        ),
-        const SizedBox(height: 24),
-        const Text(
-          '健康小云',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          statusText,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.white.withOpacity(0.6),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildControlButtons(BuildContext context, VoiceState state) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: FittedBox(
-        fit: BoxFit.scaleDown,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _buildControlButton(
-              icon: _isMuted ? Icons.mic_off : Icons.mic,
-              backgroundColor: _isMuted
-                  ? AppColors.danger.withOpacity(0.8)
-                  : Colors.white.withOpacity(0.15),
-              onTap: () {
-                setState(() => _isMuted = !_isMuted);
-              },
-            ),
-            const SizedBox(width: 24),
-            _buildControlButton(
-              icon: _videoEnabled ? Icons.videocam : Icons.videocam_off,
-              backgroundColor: _videoEnabled
-                  ? AppColors.primary.withOpacity(0.8)
-                  : Colors.white.withOpacity(0.15),
-              onTap: () {
-                setState(() {
-                  _videoEnabled = !_videoEnabled;
-                  if (_videoEnabled) {
-                    _startVideo();
-                  } else {
-                    _stopVideo();
-                  }
-                });
-              },
-            ),
-            const SizedBox(width: 24),
-            _buildControlButton(
-              icon: Icons.call_end,
-              backgroundColor: AppColors.danger,
-              size: 64,
-              iconSize: 28,
-              onTap: _endCall,
-            ),
-            const SizedBox(width: 30),
-            _buildControlButton(
-              icon: _isSpeakerOn ? Icons.volume_up : Icons.volume_down,
-              backgroundColor: _isSpeakerOn
-                  ? AppColors.primary.withOpacity(0.8)
-                  : Colors.white.withOpacity(0.15),
-              onTap: () {
-                setState(() => _isSpeakerOn = !_isSpeakerOn);
-              },
-            ),
+          if (showDots) ...[
+            const SizedBox(width: 6),
+            const _TypingDots(),
           ],
-        ),
+        ],
       ),
     );
   }
 
-  Widget _buildControlButton({
-    required IconData icon,
-    required Color backgroundColor,
-    double size = 60,
-    double iconSize = 28,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          shape: BoxShape.circle,
-        ),
-        child: Icon(
-          icon,
-          color: Colors.white,
-          size: iconSize,
-        ),
+  Widget _buildControlButtons(VoiceState state) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _CtrlButton(
+            icon: _isMuted ? Icons.mic_off : Icons.mic,
+            label: _isMuted ? '已静音' : '麦克风',
+            background: _isMuted
+                ? AppColors.danger.withOpacity(0.85)
+                : Colors.white.withOpacity(0.12),
+            onTap: () => setState(() => _isMuted = !_isMuted),
+          ),
+          _CtrlButton(
+            icon: _videoEnabled ? Icons.videocam : Icons.videocam_off,
+            label: _videoEnabled ? '视频中' : '视频',
+            background: _videoEnabled
+                ? AppColors.primary.withOpacity(0.85)
+                : Colors.white.withOpacity(0.12),
+            onTap: () {
+              setState(() {
+                _videoEnabled = !_videoEnabled;
+                if (_videoEnabled) {
+                  _startVideo();
+                } else {
+                  _stopVideo();
+                }
+              });
+            },
+          ),
+          _CtrlButton(
+            icon: _isSpeakerOn ? Icons.volume_up : Icons.volume_down,
+            label: '扬声器',
+            background: _isSpeakerOn
+                ? AppColors.primary.withOpacity(0.85)
+                : Colors.white.withOpacity(0.12),
+            onTap: () => setState(() => _isSpeakerOn = !_isSpeakerOn),
+          ),
+          _CtrlButton(
+            icon: Icons.call_end,
+            label: '挂断',
+            background: AppColors.danger,
+            size: 64,
+            iconSize: 28,
+            elevated: true,
+            onTap: _endCall,
+          ),
+        ],
       ),
     );
   }
@@ -437,5 +432,134 @@ class _CallPageState extends State<CallPage> {
         context.go('/chat');
       }
     }
+  }
+}
+
+class _CtrlButton extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final Color background;
+  final double size;
+  final double iconSize;
+  final bool elevated;
+  final VoidCallback onTap;
+
+  const _CtrlButton({
+    required this.icon,
+    required this.label,
+    required this.background,
+    required this.onTap,
+    this.size = 56,
+    this.iconSize = 24,
+    this.elevated = false,
+  });
+
+  @override
+  State<_CtrlButton> createState() => _CtrlButtonState();
+}
+
+class _CtrlButtonState extends State<_CtrlButton> {
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        GestureDetector(
+          onTapDown: (_) => setState(() => _pressed = true),
+          onTapUp: (_) => setState(() => _pressed = false),
+          onTapCancel: () => setState(() => _pressed = false),
+          onTap: widget.onTap,
+          child: AnimatedScale(
+            scale: _pressed ? 0.92 : 1.0,
+            duration: const Duration(milliseconds: 120),
+            child: Container(
+              width: widget.size,
+              height: widget.size,
+              decoration: BoxDecoration(
+                color: widget.background,
+                shape: BoxShape.circle,
+                boxShadow: widget.elevated
+                    ? [
+                        BoxShadow(
+                          color: widget.background.withOpacity(0.4),
+                          blurRadius: 16,
+                          spreadRadius: 2,
+                        ),
+                      ]
+                    : null,
+              ),
+              child: Icon(
+                widget.icon,
+                color: Colors.white,
+                size: widget.iconSize,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          widget.label,
+          style: TextStyle(
+            color: Colors.white.withOpacity(0.6),
+            fontSize: 11,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _TypingDots extends StatefulWidget {
+  const _TypingDots();
+
+  @override
+  State<_TypingDots> createState() => _TypingDotsState();
+}
+
+class _TypingDotsState extends State<_TypingDots>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, _) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(3, (i) {
+            final offset = i / 3;
+            final t = ((_controller.value + offset) % 1.0);
+            final opacity = (1.0 - (t - 0.5).abs() * 2).clamp(0.2, 1.0);
+            return Container(
+              margin: const EdgeInsets.symmetric(horizontal: 1.5),
+              width: 4,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(opacity * 0.8),
+                shape: BoxShape.circle,
+              ),
+            );
+          }),
+        );
+      },
+    );
   }
 }

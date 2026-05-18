@@ -105,4 +105,9 @@ class ApiClient {
       'audio': base64Audio,
     });
   }
+
+  // Welcome suggestions
+  Future<Response> getWelcomeSuggestions() async {
+    return _dio.get('/api/consult/welcome-suggestions');
+  }
 }

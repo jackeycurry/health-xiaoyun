@@ -6,7 +6,6 @@ import 'package:health_xiaohe/presentation/blocs/auth/auth_state.dart';
 import 'package:health_xiaohe/presentation/pages/auth/login_page.dart';
 import 'package:health_xiaohe/presentation/pages/chat/call_page.dart';
 import 'package:health_xiaohe/presentation/pages/chat/chat_home_page.dart';
-import 'package:health_xiaohe/presentation/pages/health/health_records_page.dart';
 import 'package:health_xiaohe/presentation/pages/history/chat_history_page.dart';
 import 'package:health_xiaohe/presentation/pages/history/conversation_detail_page.dart';
 import 'package:health_xiaohe/presentation/pages/profile/personal_center_page.dart';
@@ -18,7 +17,7 @@ class AppRouter {
   static const String login = '/login';
   static const String chatHome = '/chat';
   static String chatWithConversation(String id) => '/chat?conversationId=$id';
-  static const String healthRecords = '/health-records';
+  static const String aiImpression = '/ai-impression';
   static const String chatHistory = '/chat-history';
   static const String personalCenter = '/profile';
   static const String call = '/call';
@@ -53,7 +52,7 @@ class AppRouter {
             builder: (context, state) => const ChatHomePage(),
           ),
           GoRoute(
-            path: healthRecords,
+            path: aiImpression,
             builder: (context, state) => const UserProfilePage(),
           ),
           GoRoute(
@@ -273,7 +272,7 @@ class MainShell extends StatelessWidget {
   int _calculateSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.toString();
     if (location.startsWith(AppRouter.chatHome)) return 0;
-    if (location.startsWith(AppRouter.healthRecords)) return 1;
+    if (location.startsWith(AppRouter.aiImpression)) return 1;
     if (location.startsWith(AppRouter.chatHistory)) return 2;
     if (location.startsWith(AppRouter.personalCenter)) return 3;
     return 0;
@@ -285,7 +284,7 @@ class MainShell extends StatelessWidget {
         context.go(AppRouter.chatHome);
         break;
       case 1:
-        context.go(AppRouter.healthRecords);
+        context.go(AppRouter.aiImpression);
         break;
       case 2:
         context.go(AppRouter.chatHistory);

@@ -13,6 +13,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   ChatBloc(this._chatRepository) : super(const ChatState()) {
     on<ChatInitialize>(_onInitialize);
+    on<ChatLoadWelcomeSuggestions>(_onLoadWelcomeSuggestions);
     on<ChatSendMessage>(_onSendMessage);
     on<ChatReceiveStreamChunk>(_onReceiveChunk);
     on<ChatStreamCompleted>(_onStreamCompleted);
@@ -29,6 +30,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
       );
       emit(state.copyWith(messages: [welcomeMessage]));
     }
+    add(ChatLoadWelcomeSuggestions());
+  }
+
+  Future<void> _onLoadWelcomeSuggestions(
+    ChatLoadWelcomeSuggestions event,
+    Emitter<ChatState> emit,
+  ) async {
+    final result = await _chatRepository.getWelcomeSuggestions();
+    if (result.success && result.data != null && result.data!.isNotEmpty) {
+      emit(state.copyWith(welcomeSuggestions: result.data));
+    }
   }
 
   Future<void> _onSendMessage(
@@ -38,7 +50,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     final imageBytes = event.imageBytes != null ? Uint8List.fromList(event.imageBytes!) : null;
     final userMsg = ChatMessageModel.user(event.message, imageBytes: imageBytes);
     final updatedMessages = [...state.messages, userMsg];
-    emit(state.copyWith(messages: updatedMessages, isLoading: true, error: null, suggestions: []));
+    emit(state.copyWith(messages: updatedMessages, isLoading: true, isStreaming: true, error: null, suggestions: []));
 
     final assistantMsg = ChatMessageModel.assistant('');
     final messagesWithAssistant = [...updatedMessages, assistantMsg];
@@ -101,7 +113,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
 
   void _onStreamCompleted(ChatStreamCompleted event, Emitter<ChatState> emit) {
-    emit(state.copyWith(isLoading: false));
+    emit(state.copyWith(isLoading: false, isStreaming: false));
   }
 
   void _onStreamError(ChatStreamError event, Emitter<ChatState> emit) {
@@ -109,7 +121,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     if (messages.isNotEmpty && messages.last.isAssistant && messages.last.content.isEmpty) {
       messages.removeLast();
     }
-    emit(state.copyWith(messages: messages, isLoading: false, error: event.error));
+    emit(state.copyWith(messages: messages, isLoading: false, isStreaming: false, error: event.error));
   }
 
   void _onClearMessages(ChatClearMessages event, Emitter<ChatState> emit) {

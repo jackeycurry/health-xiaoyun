@@ -6,23 +6,38 @@ import 'package:health_xiaohe/data/models/chat_message_model.dart';
 
 class MessageBubble extends StatelessWidget {
   final ChatMessageModel message;
+  final bool isStreaming;
 
-  const MessageBubble({super.key, required this.message});
+  const MessageBubble({super.key, required this.message, this.isStreaming = false});
 
   @override
   Widget build(BuildContext context) {
-    if (message.isUser) {
-      return UserMessageBubble(message: message);
-    } else {
-      return AiMessageBubble(message: message);
-    }
+    final child = message.isUser
+        ? UserMessageBubble(message: message)
+        : AiMessageBubble(message: message, isStreaming: isStreaming);
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOutCubic,
+      builder: (context, t, c) {
+        return Opacity(
+          opacity: t,
+          child: Transform.translate(
+            offset: Offset(0, (1 - t) * 10),
+            child: c,
+          ),
+        );
+      },
+      child: child,
+    );
   }
 }
 
 class AiMessageBubble extends StatelessWidget {
   final ChatMessageModel message;
+  final bool isStreaming;
 
-  const AiMessageBubble({super.key, required this.message});
+  const AiMessageBubble({super.key, required this.message, this.isStreaming = false});
 
   static final _styleSheet = MarkdownStyleSheet(
     h1: const TextStyle(
@@ -117,10 +132,21 @@ class AiMessageBubble extends StatelessWidget {
                 ),
                 border: Border.all(color: AppColors.aiBubbleBorder),
               ),
-              child: MarkdownBody(
-                data: message.content,
-                styleSheet: _styleSheet,
-                selectable: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (message.content.isNotEmpty)
+                    MarkdownBody(
+                      data: message.content,
+                      styleSheet: _styleSheet,
+                      selectable: true,
+                    ),
+                  if (isStreaming)
+                    Padding(
+                      padding: EdgeInsets.only(top: message.content.isEmpty ? 4 : 2),
+                      child: const _BlinkingCursor(),
+                    ),
+                ],
               ),
             ),
           ),
@@ -137,6 +163,48 @@ class AiMessageBubble extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _BlinkingCursor extends StatefulWidget {
+  const _BlinkingCursor();
+
+  @override
+  State<_BlinkingCursor> createState() => _BlinkingCursorState();
+}
+
+class _BlinkingCursorState extends State<_BlinkingCursor>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FadeTransition(
+      opacity: _controller,
+      child: Container(
+        width: 8,
+        height: 16,
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(2),
+        ),
       ),
     );
   }

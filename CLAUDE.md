@@ -58,6 +58,22 @@ app/
 
 ## 常用命令
 
+### 一键启动（Windows）
+
+```powershell
+# 启动全部（后端 + Flutter）
+.\start_dev.ps1
+
+# 仅启动后端
+.\start_dev.ps1 -Backend
+
+# 仅启动前端
+.\start_dev.ps1 -Frontend
+
+# 启动前先安装依赖
+.\start_dev.ps1 -Build
+```
+
 ### Flutter
 ```bash
 cd health_xiaohe
@@ -78,7 +94,10 @@ flutter test
 flutter test test/widget_test.dart
 ```
 
-### Backend
+### Backend（独立 git 仓库）
+
+backend 是独立 submodule，需在 backend/ 目录内单独管理 git 操作。
+
 ```bash
 cd backend
 
@@ -96,6 +115,9 @@ pytest tests/ -v
 
 # 运行单测试文件
 pytest tests/test_auth.py -v
+
+# 查看 git 历史
+git log --oneline -3
 ```
 
 ## 环境配置
