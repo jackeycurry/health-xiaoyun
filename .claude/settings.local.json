@@ -91,7 +91,12 @@
       "Bash(cp \"/d/projects/health_xiaohe/pubspec.yaml\" \"/d/study/科目/Harmony_1/app/app/health_xiaohe/pubspec.yaml\")",
       "Bash(taskkill //F //IM chrome.exe)",
       "Bash(findstr backup *)",
-      "Bash(uvicorn main:app --reload --host 0.0.0.0 --port 8002)"
+      "Bash(uvicorn main:app --reload --host 0.0.0.0 --port 8002)",
+      "PowerShell(Get-Process *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "PowerShell($ErrorActionPreference = 'Stop'; try { $ast = [System.Management.Automation.Language.Parser]::ParseFile\\('D:\\\\study\\\\科目\\\\Harmony_1\\\\app\\\\app\\\\start_dev.ps1', [ref]$null, [ref]$null\\); if \\($ast\\) { Write-Host \"syntax ok\" } } catch { Write-Host \"error: $_\" })",
+      "WebFetch(domain:api.github.com)",
+      "Bash(grep -E '\\\\.\\(db|env|log\\)$|node_modules|build')"
     ]
   }
 }
