@@ -1,0 +1,48 @@
+:root {
+  /* ━━ color: a soft morning, cream + sage + apricot ━━ */
+  --ink:        #2A3D35;  /* forest ink, primary text */
+  --ink-soft:   #4F635A;  /* secondary text */
+  --ink-quiet:  #8FA39A;  /* tertiary / labels */
+  --ink-whisper:#B8C5BE;  /* divider / hint */
+
+  --bone:       #F8F4ED;  /* warm cream — main bg */
+  --bone-deep:  #F0EADD;  /* slightly toasted */
+  --bone-warm:  #FAEEDD;  /* peach-warm tint */
+
+  --sage:       #A8D8C5;  /* sage mint — primary blob */
+  --sage-soft:  #D2EAE0;  /* washed sage */
+  --sage-deep:  #6B8F7A;  /* moss, accent */
+
+  --apricot:    #F4C5B0;  /* secondary blob */
+  --apricot-soft:#F9DDCD;
+  --cream:      #F5E6C9;  /* warm yellow */
+  --rose:       #E8B8B0;  /* soft rose */
+
+  --shadow-soft:  0 30px 80px -40px rgba(42, 61, 53, 0.20);
+  --shadow-bloom: 0 40px 120px -30px rgba(168, 216, 197, 0.55);
+
+  /* ━━ type ━━ */
+  --font-display: 'Fraunces', 'Noto Serif SC', 'Songti SC', serif;
+  --font-body:    'Sora', 'Noto Sans SC', -apple-system, system-ui, sans-serif;
+  --font-mono:    ui-monospace, 'JetBrains Mono', monospace;
+
+  /* fluid type — clamp(min, vw, max) */
+  --t-display-xl: clamp(3.5rem, 9vw, 8.2rem);
+  --t-display-l:  clamp(2.6rem, 6vw, 5.4rem);
+  --t-display-m:  clamp(1.8rem, 3.4vw, 3rem);
+  --t-body-l:     clamp(1.05rem, 1.4vw, 1.25rem);
+  --t-body:       1rem;
+  --t-small:      0.875rem;
+  --t-micro:      0.72rem;
+
+  /* ━━ rhythm ━━ */
+  --gutter: clamp(1.5rem, 4vw, 5rem);
+  --rhythm: clamp(5rem, 12vh, 10rem);
+
+  /* ━━ curves (asymmetric organic radii) ━━ */
+  --bubble-1: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  --bubble-2: 41% 59% 38% 62% / 49% 35% 65% 51%;
+  --bubble-3: 72% 28% 56% 44% / 35% 58% 42% 65%;
+  --bubble-4: 49% 51% 64% 36% / 60% 43% 57% 40%;
+  --pebble:   58% 42% 62% 38% / 47% 52% 48% 53%;
+}
