@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目概述
 
-健康小云是一个AI健康助手应用，包含Flutter移动端和Python FastAPI后端。
+健康小云是一个AI健康助手应用，包含Flutter移动端、Vue 3 Web落地页和Python FastAPI后端。
 
 ## 技术栈
 
@@ -38,9 +38,9 @@ app/
 │       ├── app.dart        # 应用入口 widget (MultiBlocProvider)
 │       ├── injection.dart  # 依赖注入配置 (get_it)
 │       └── main.dart       # main函数
-├── backend/               # Python后端
-│   ├── models/            # SQLAlchemy模型 (User, HealthRecord, Conversation, Message)
-│   ├── routers/           # API路由 (auth, health, consult, voice)
+├── backend/               # Python后端 (git submodule，独立commit)
+│   ├── models/            # SQLAlchemy模型 (User, HealthRecord, Conversation, Message, UserProfile, Memory)
+│   ├── routers/           # API路由 (auth, health, consult, voice, user_profile)
 │   ├── schemas/           # Pydantic schemas
 │   ├── services/          # 业务逻辑 (auth_service, health_service, ai_service)
 │   ├── utils/             # 工具函数 (security, deps)
@@ -48,6 +48,7 @@ app/
 │   ├── main.py            # FastAPI入口
 │   ├── database.py        # 数据库配置 (SessionLocal, engine, Base)
 │   └── config.py          # pydantic-settings, 从.env读取
+├── xiaohe-web/            # Vue 3 Web落地页 (Vite + Vue 3 + TS + Pinia)
 └── docs/                  # 项目文档
     ├── README.md           # 快速上手和常用命令
     ├── 架构说明.md         # Clean Architecture 分层详解
@@ -230,14 +231,14 @@ Flutter使用 `go_router` 和 `ShellRoute` 实现底部导航栏:
 
 ```
 / (启动页) → /login (登录) → /chat (聊天首页)
-                             ├── /health-records (健康记录)
+                             ├── /ai-impression (AI画像+长期记忆，原/health-records)
                              ├── /chat-history (对话历史列表)
                              ├── /profile (个人中心)
                              ├── /call (语音通话)
                              └── /chat-history/:conversationId (对话详情)
 ```
 
-底部导航栏4个tab: 咨询、记录、历史、我的。
+底部导航栏4个tab: 咨询、画像、历史、我的。
 
 ## 设计规范
 
@@ -261,3 +262,27 @@ Flutter使用 `go_router` 和 `ShellRoute` 实现底部导航栏:
 ### API 端口
 - 开发环境: `http://localhost:8002` (Flutter `ApiEndpoints.baseUrl` 和 uvicorn 默认端口一致)
 - 模拟器环境: `http://192.168.1.84:8002` (Mumu模拟器通过WiFi连接宿主机局域网IP)
+
+### xiaohe-web (Vue 3 Web落地页)
+
+```bash
+cd xiaohe-web
+npm install
+npm run dev        # http://localhost:5180
+```
+
+**已知 bug（修过的，不要再踩）：**
+
+1. **reactive plain-object 闭包失效**：流式逐字更新时用 `const aiMsg = { content: "" }` push 后再闭包修改 `aiMsg.content += d` 不会触发 DOM 更新。必须用 `const aiMsg = reactive({...})` 包装后再 push。参考 `ChatPage.vue` 的 send()。
+
+2. **Pinia computed 短路求值导致依赖追踪丢失**：`const isAuthed = computed(() => !!getToken() && !!user.value)` 中 `&&` 短路会导致 user 不进入 deps。修法：`user.value !== null && !!getToken()` 或先独立访问一次 user.value。
+
+3. **Google Fonts variable axes 顺序**：必须是 `Fraunces:SOFT,ital,opsz,wght@...`，对，`ital,opsz,wght,SOFT@...` 返回 200 但 variable 轴静默失效。
+
+**SSE 流式后端协议**：`POST /api/consult/chat/stream` 需要 `Authorization` header，不能用 EventSource（无法带 header），xiaohe-web 用 `fetch + ReadableStream`。
+
+SSE 帧格式：`data: {json}\n\n`
+- `{ content: "delta" }` — chunk
+- `{ conversation_id: "..." }` — 持久化ID
+- `{ suggestions: [...] }` — 建议问题
+- 终止符：`data: [DONE]\n\n`
